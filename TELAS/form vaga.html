@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#727974",
+                    "surface-container": "#eceeed",
+                    "secondary-fixed": "#92f7c3",
+                    "primary-fixed-dim": "#abcfbb",
+                    "on-secondary-fixed": "#002113",
+                    "inverse-surface": "#2e3131",
+                    "surface": "#f8faf9",
+                    "on-surface-variant": "#414844",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eff1f0",
+                    "on-background": "#191c1c",
+                    "tertiary-fixed-dim": "#b2d414",
+                    "on-secondary-container": "#00734d",
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#d8dada",
+                    "background": "#f8faf9",
+                    "on-primary-fixed": "#002115",
+                    "surface-variant": "#e1e3e2",
+                    "secondary-fixed-dim": "#75daa8",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "primary-container": "#0e2f22",
+                    "on-primary-container": "#769886",
+                    "on-secondary-fixed-variant": "#005235",
+                    "outline-variant": "#c1c8c2",
+                    "tertiary-container": "#242d00",
+                    "surface-container-high": "#e6e9e8",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e1e3e2",
+                    "on-primary-fixed-variant": "#2d4d3f",
+                    "primary": "#00190f",
+                    "inverse-primary": "#abcfbb",
+                    "secondary": "#006c48",
+                    "on-tertiary-fixed-variant": "#3e4c00",
+                    "surface-container-low": "#f2f4f3",
+                    "on-tertiary-fixed": "#171e00",
+                    "tertiary": "#121700",
+                    "on-surface": "#191c1c",
+                    "on-tertiary-container": "#819b00",
+                    "surface-tint": "#456555",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#c7ebd7",
+                    "tertiary-fixed": "#cdf139",
+                    "on-tertiary": "#ffffff",
+                    "secondary-container": "#92f7c3",
+                    "surface-bright": "#f8faf9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(225, 227, 226, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c8c2;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-[#0E2F22] text-white shadow-lg dark:shadow-none flex justify-between items-center px-8 py-4">
+<div class="text-xl font-bold tracking-tighter text-white font-headline">USINA PAISA</div>
+<nav class="hidden md:flex items-center gap-6 font-['Space_Grotesk'] text-sm tracking-tight">
+<a class="text-white/80 hover:text-white transition-colors duration-200 ease-in-out" href="#">Sobre nós</a>
+<a class="text-white border-b-2 border-[#006C48] pb-1 duration-200 ease-in-out" href="#">Vagas</a>
+<a class="text-white/80 hover:text-white transition-colors duration-200 ease-in-out" href="#">Ações sociais</a>
+<a class="text-white/80 hover:text-white transition-colors duration-200 ease-in-out" href="#">Meio ambiente</a>
+<a class="text-white/80 hover:text-white transition-colors duration-200 ease-in-out" href="#">Jovem Aprendiz</a>
+<a class="text-white/80 hover:text-white transition-colors duration-200 ease-in-out" href="#">Psicologia</a>
+<a class="text-white/80 hover:text-white transition-colors duration-200 ease-in-out" href="#">Notícias</a>
+</nav>
+<button class="bg-[#006C48] px-6 py-2 rounded-DEFAULT text-white font-medium hover:bg-[#00734D] transition-colors duration-200">
+            Entrar
+        </button>
+</header>
+<main class="pt-32 pb-24 px-4 min-h-screen">
+<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Narrative Section (Asymmetry) -->
+<div class="lg:col-span-4 space-y-6">
+<div class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-widest rounded-full mb-2">
+                    Carreiras
+                </div>
+<h1 class="font-headline text-5xl md:text-6xl font-extrabold text-primary leading-tight tracking-tighter">
+                    Cultive seu <span class="text-secondary">Futuro</span> Conosco.
+                </h1>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-md">
+                    Junte-se à USINA PAISA e faça parte de um ecossistema de precisão que une tecnologia industrial de ponta à sustentabilidade ambiental.
+                </p>
+<div class="relative overflow-hidden rounded-xl aspect-square lg:aspect-video mt-12 bg-primary-container">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" data-alt="Cinematic wide shot of a vast emerald green sugarcane field under a clear dawn sky with mist rolling over the hills" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH1dNzWlK3UzRVm96EKQE-PJX_1tkyfA1jgVEUHxOc3tsrldjwVUN8sEELUA18vMShXjmAIAjSGidM1eO8UZ5KLKLAA3KQV3AzXSS9w-5Lwn847MaaGCP5NY8Zv4ty_w-aRH_KWcoINOSdttto5vrgwPmIw2gfdQNDjUsigB7TxJ-btzdsvEKD91gP8zxAbc00trW5awPh-YbiR8TPWz7D6PNA6wExI-FCNc0WwBgCK-miv1Yu1GNg7_2oXlndVEkiN7geX5xl5iK7"/>
+<div class="absolute bottom-6 left-6 right-6 p-6 glass-panel rounded-lg">
+<span class="material-symbols-outlined text-secondary text-4xl mb-2" data-icon="energy_savings_leaf">energy_savings_leaf</span>
+<h3 class="font-headline text-primary font-bold text-xl">Sustentabilidade Real</h3>
+<p class="text-on-surface-variant text-sm">Operamos com 100% de energia renovável e processos de circularidade total.</p>
+</div>
+</div>
+</div>
+<!-- Application Form (Main Content Canvas) -->
+<div class="lg:col-span-8 bg-surface-container-lowest p-8 md:p-12 rounded-xl shadow-sm border border-outline-variant/10">
+<form class="space-y-10">
+<!-- Section: Personal Info -->
+<div class="space-y-6">
+<div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="person">person</span>
+<h2 class="font-headline text-2xl font-bold text-primary">Informações Pessoais</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Nome Completo</label>
+<input class="w-full bg-surface-container-low border-none focus:ring-0 focus:border-b-2 border-secondary p-3 text-on-surface transition-all" placeholder="Ex: João da Silva" type="text"/>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Idade</label>
+<input class="w-full bg-surface-container-low border-none focus:ring-0 p-3 text-on-surface" placeholder="00" type="number"/>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">CPF</label>
+<input class="w-full bg-surface-container-low border-none focus:ring-0 p-3 text-on-surface" placeholder="000.000.000-00" type="text"/>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Nível de Escolaridade</label>
+<select class="w-full bg-surface-container-low border-none focus:ring-0 p-3 text-on-surface appearance-none">
+<option>Ensino Médio</option>
+<option>Ensino Técnico</option>
+<option>Ensino Superior Incompleto</option>
+<option>Ensino Superior Completo</option>
+<option>Pós-Graduação</option>
+</select>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Estado Civil</label>
+<select class="w-full bg-surface-container-low border-none focus:ring-0 p-3 text-on-surface appearance-none">
+<option>Solteiro(a)</option>
+<option>Casado(a)</option>
+<option>Divorciado(a)</option>
+<option>Viúvo(a)</option>
+</select>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+</div>
+</div>
+<!-- Section: Contact & Media -->
+<div class="space-y-6">
+<div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="contact_page">contact_page</span>
+<h2 class="font-headline text-2xl font-bold text-primary">Contato e Documentação</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">E-mail</label>
+<input class="w-full bg-surface-container-low border-none focus:ring-0 p-3 text-on-surface" placeholder="email@exemplo.com" type="email"/>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Telefone</label>
+<input class="w-full bg-surface-container-low border-none focus:ring-0 p-3 text-on-surface" placeholder="(00) 00000-0000" type="tel"/>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+</div>
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Endereço Residencial</label>
+<input class="w-full bg-surface-container-low border-none focus:ring-0 p-3 text-on-surface" placeholder="Rua, Número, Bairro, Cidade - UF" type="text"/>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+<div class="group relative border-2 border-dashed border-outline-variant/40 rounded-lg p-6 hover:border-secondary transition-colors cursor-pointer text-center bg-surface-container-low/50">
+<input accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary mb-2" data-icon="add_a_photo">add_a_photo</span>
+<p class="text-sm font-medium">Foto de Perfil</p>
+<p class="text-[10px] text-on-surface-variant/60 uppercase">JPG ou PNG (Max 2MB)</p>
+</div>
+<div class="group relative border-2 border-dashed border-outline-variant/40 rounded-lg p-6 hover:border-secondary transition-colors cursor-pointer text-center bg-surface-container-low/50">
+<input accept=".pdf" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary mb-2" data-icon="upload_file">upload_file</span>
+<p class="text-sm font-medium">Currículo (CV)</p>
+<p class="text-[10px] text-on-surface-variant/60 uppercase">Somente PDF (Max 5MB)</p>
+</div>
+</div>
+</div>
+<!-- Section: Motivation -->
+<div class="space-y-4">
+<label class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Por que você deseja trabalhar na Usina Paisa?</label>
+<textarea class="w-full bg-surface-container-low border-none focus:ring-0 p-4 text-on-surface resize-none" placeholder="Conte-nos sobre suas motivações e como você pode agregar ao nosso ecossistema..." rows="4"></textarea>
+<div class="h-0.5 w-full bg-outline-variant/30"></div>
+</div>
+<!-- Actions -->
+<div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-2 text-on-surface-variant text-xs italic">
+<span class="material-symbols-outlined text-[16px]" data-icon="lock" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lock</span>
+                            Seus dados estão protegidos pela LGPD.
+                        </div>
+<button class="w-full md:w-auto px-12 py-4 bg-primary-container text-white font-headline font-bold uppercase tracking-widest text-sm rounded-DEFAULT hover:bg-secondary transition-all flex items-center justify-center gap-3 group" type="submit">
+                            Submit Application
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-[#F8FAF9] dark:bg-[#00190F] border-t border-[#C1C8C2]/20 flex flex-col md:flex-row justify-between items-center px-8 py-12 gap-6">
+<div class="text-lg font-black text-[#0E2F22] dark:text-white font-headline">USINA PAISA</div>
+<div class="flex flex-wrap justify-center gap-8 font-['Manrope'] text-xs uppercase tracking-widest text-[#414844] dark:text-[#ABCFBB]/70">
+<a class="hover:text-[#006C48] transition-colors" href="#">Política de Privacidade</a>
+<a class="hover:text-[#006C48] transition-colors" href="#">Termos de Uso</a>
+<a class="hover:text-[#006C48] transition-colors" href="#">Compliance</a>
+<a class="hover:text-[#006C48] transition-colors" href="#">Contato</a>
+</div>
+<div class="text-[10px] text-[#414844]/60 dark:text-[#ABCFBB]/40 max-w-xs text-center md:text-right font-body">
+            © 2024 Usina Paisa. Todos os direitos reservados. Compromisso com a Precisão e Sustentabilidade.
+        </div>
+</footer>
+</body></html>

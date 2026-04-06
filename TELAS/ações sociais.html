@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ações Sociais - USINA PAISA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f8faf9",
+                        "surface": "#f8faf9",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#2e3131",
+                        "surface-dim": "#d8dada",
+                        "primary": "#00190f",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#92f7c3",
+                        "outline-variant": "#c1c8c2",
+                        "on-secondary-container": "#00734d",
+                        "tertiary-fixed-dim": "#b2d414",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#002113",
+                        "on-primary-fixed": "#002115",
+                        "secondary": "#006c48",
+                        "inverse-primary": "#abcfbb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3e4c00",
+                        "on-secondary-fixed-variant": "#005235",
+                        "secondary-fixed-dim": "#75daa8",
+                        "surface-variant": "#e1e3e2",
+                        "surface-container-high": "#e6e9e8",
+                        "on-error": "#ffffff",
+                        "primary-container": "#0e2f22",
+                        "surface-container": "#eceeed",
+                        "primary-fixed-dim": "#abcfbb",
+                        "on-surface-variant": "#414844",
+                        "surface-container-low": "#f2f4f3",
+                        "on-secondary": "#ffffff",
+                        "outline": "#727974",
+                        "secondary-container": "#92f7c3",
+                        "inverse-on-surface": "#eff1f0",
+                        "on-primary-container": "#769886",
+                        "on-primary-fixed-variant": "#2d4d3f",
+                        "on-tertiary-fixed": "#171e00",
+                        "on-surface": "#191c1c",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1c",
+                        "tertiary-container": "#242d00",
+                        "surface-tint": "#456555",
+                        "on-tertiary-container": "#819b00",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#cdf139",
+                        "primary-fixed": "#c7ebd7",
+                        "tertiary": "#121700",
+                        "surface-container-highest": "#e1e3e2",
+                        "background": "#f8faf9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-text-shadow {
+            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .bento-card-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .impact-gradient {
+            background: radial-gradient(circle at top right, rgba(146, 247, 195, 0.08), transparent 40%),
+                        linear-gradient(to bottom right, #0e2f22, #00190f);
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopNavBar -->
+<nav class="bg-[#0E2F22] dark:bg-[#00190F] flex justify-between items-center w-full px-8 py-4 max-w-full docked full-width top-0 z-50 sticky shadow-lg dark:shadow-none">
+<div class="text-xl font-bold tracking-tighter text-white">USINA PAISA</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-['Space_Grotesk'] text-sm tracking-tight text-white/80 hover:text-white transition-colors" href="#">Sobre nós</a>
+<a class="font-['Space_Grotesk'] text-sm tracking-tight text-white/80 hover:text-white transition-colors" href="#">Vagas</a>
+<a class="font-['Space_Grotesk'] text-sm tracking-tight text-[#006C48] border-b-2 border-[#006C48] pb-1" href="#">Ações sociais</a>
+<a class="font-['Space_Grotesk'] text-sm tracking-tight text-white/80 hover:text-white transition-colors" href="#">Meio ambiente</a>
+<a class="font-['Space_Grotesk'] text-sm tracking-tight text-white/80 hover:text-white transition-colors" href="#">Jovem Aprendiz</a>
+<a class="font-['Space_Grotesk'] text-sm tracking-tight text-white/80 hover:text-white transition-colors" href="#">Psicologia</a>
+<a class="font-['Space_Grotesk'] text-sm tracking-tight text-white/80 hover:text-white transition-colors" href="#">Notícias</a>
+</div>
+<button class="bg-[#006C48] text-white px-6 py-2 text-sm font-medium hover:scale-[1.02] transition-all duration-300 cubic-bezier(0.2, 0.8, 0.2, 1)">Entrar</button>
+</nav>
+<!-- Hero Section -->
+<section class="relative w-full h-[90vh] min-h-[750px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover scale-105" data-alt="Sunlit organic sugarcane field with local community workers interacting warmly in a sustainable landscape under a soft golden hour glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiBDy_q4mMAlHTfeSVpKAC2_fakd5m7lKHZeC-kbD9I5Z1C2-sAyCSlpafXKuCRpVlA-gT48lMO008DZBcnLDd9u1JnyGWi1W-Cd8wgEa-8YfPRIXGh_AD23oVHk78Wmok4xtHXaZ28jVXmlPiGlJgDp5kRNhxJ7guHOQf9K6g4PPayxKCWZfiD4UMNTr2qHkOxyseJAgAEbAZioRg_TmaInzt2hIrQQLNjvlBdctdd9qppjfIN3imgn1j2j8aPYHwGVxAO6zSImpQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 via-primary-container/40 to-transparent"></div>
+<div class="absolute inset-0 bg-black/10"></div>
+</div>
+<div class="relative z-10 container mx-auto px-6 md:px-12">
+<div class="max-w-4xl backdrop-blur-md bg-white/10 p-12 md:p-20 rounded-2xl border border-white/20 shadow-2xl">
+<span class="inline-block px-4 py-1 rounded-full bg-secondary/20 text-secondary-fixed font-bold text-xs uppercase tracking-widest mb-6">Impacto Social</span>
+<h1 class="text-6xl md:text-8xl font-bold tracking-tighter text-white leading-[0.9] mb-8 hero-text-shadow">
+                Cultivando <br/><span class="text-secondary-fixed">o Amanhã</span>
+</h1>
+<p class="text-xl md:text-2xl text-white/90 font-body mb-10 leading-relaxed max-w-xl">
+                Mais do que produzir energia, cultivamos o desenvolvimento humano e a prosperidade compartilhada em cada região onde atuamos.
+            </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-secondary text-white px-10 py-5 font-bold text-sm tracking-widest uppercase hover:bg-on-secondary-container transition-all duration-300 rounded-lg flex items-center gap-3">
+                    CONHEÇA OS PROJETOS <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Nossos Pilares Sociais -->
+<section class="py-32 bg-surface px-6 md:px-12">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
+<div class="max-w-2xl">
+<span class="text-secondary font-bold uppercase tracking-widest text-xs mb-4 block">Estratégia ESG</span>
+<h2 class="text-5xl md:text-6xl font-bold text-primary tracking-tighter leading-none">Nossos Pilares Sociais</h2>
+</div>
+<p class="text-on-surface-variant text-lg max-w-md md:text-right">Ações integradas que visam o fortalecimento da cidadania e a melhoria da qualidade de vida local.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 h-auto md:h-[650px]">
+<!-- Educação do Futuro -->
+<div class="md:col-span-7 group bg-white border border-outline-variant/30 rounded-3xl p-10 flex flex-col justify-between overflow-hidden relative bento-card-transition hover:border-secondary hover:shadow-2xl hover:-translate-y-1">
+<div class="z-10 relative">
+<div class="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mb-8 group-hover:bg-secondary-container transition-colors duration-300">
+<span class="material-symbols-outlined text-secondary text-4xl">school</span>
+</div>
+<h3 class="text-4xl font-bold text-primary mb-6 tracking-tight">Educação do Futuro</h3>
+<p class="text-on-surface-variant text-xl leading-relaxed max-w-md">Foco em escolas locais, centros de treinamento técnico e capacitação de jovens aprendizes para o mercado agroindustrial.</p>
+</div>
+<div class="mt-12 flex flex-wrap gap-3 z-10">
+<span class="bg-surface-container-highest px-5 py-2.5 rounded-full text-xs font-bold text-primary tracking-wider uppercase">Centro Técnico</span>
+<span class="bg-surface-container-highest px-5 py-2.5 rounded-full text-xs font-bold text-primary tracking-wider uppercase">E-Learning</span>
+<span class="bg-surface-container-highest px-5 py-2.5 rounded-full text-xs font-bold text-primary tracking-wider uppercase">Bolsas</span>
+</div>
+<div class="absolute -right-16 -bottom-16 text-surface-container opacity-20 group-hover:scale-110 group-hover:text-secondary transition-all duration-700 pointer-events-none">
+<span class="material-symbols-outlined text-[400px]">auto_stories</span>
+</div>
+</div>
+<!-- Saúde e Bem-Estar -->
+<div class="md:col-span-5 group bg-primary-container rounded-3xl p-10 text-on-primary flex flex-col justify-between relative overflow-hidden bento-card-transition hover:shadow-2xl hover:-translate-y-1">
+<div class="z-10">
+<div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-4xl">health_and_safety</span>
+</div>
+<h3 class="text-4xl font-bold mb-6 tracking-tight">Saúde e <br/>Bem-Estar</h3>
+<p class="text-on-primary-container text-xl leading-relaxed">Programas de clínicas móveis e suporte preventivo especializado para colaboradores e suas famílias.</p>
+</div>
+<a class="z-10 flex items-center gap-3 text-secondary-fixed font-bold text-sm tracking-widest uppercase group/link" href="#">
+                    VER PROGRAMAS <span class="material-symbols-outlined group-hover/link:translate-x-2 transition-transform">arrow_forward</span>
+</a>
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-colors"></div>
+</div>
+<!-- Cultura e Esporte -->
+<div class="md:col-span-12 group bg-surface-container-low rounded-3xl p-10 flex flex-col lg:flex-row gap-16 items-center bento-card-transition hover:shadow-xl border border-transparent hover:border-outline-variant/50">
+<div class="flex-1">
+<div class="w-16 h-16 bg-surface-container-highest rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-secondary text-4xl">sports_soccer</span>
+</div>
+<h3 class="text-4xl font-bold text-primary mb-6 tracking-tight">Cultura e Esporte na Usina</h3>
+<p class="text-on-surface-variant text-xl leading-relaxed">Fomento às artes locais, eventos culturais regionais e incentivo a práticas esportivas como ferramenta de inclusão social e disciplina.</p>
+</div>
+<div class="flex-1 grid grid-cols-2 gap-6 w-full">
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-outline-variant/20 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+<span class="text-sm font-bold text-primary tracking-widest uppercase">Torneios Comunitários</span>
+</div>
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-outline-variant/20 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500 delay-75">
+<span class="text-sm font-bold text-primary tracking-widest uppercase">Oficinas de Arte</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Impacto em Números -->
+<section class="py-32 impact-gradient text-on-primary relative overflow-hidden">
+<div class="container mx-auto px-6 md:px-12 relative z-10">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-20 text-center">
+<div class="flex flex-col items-center group">
+<span class="text-7xl md:text-9xl font-bold font-headline mb-4 text-white group-hover:scale-110 transition-transform duration-500 block leading-none">15k<span class="text-secondary-fixed">+</span></span>
+<p class="text-secondary-fixed/80 text-sm font-label tracking-[0.3em] uppercase mb-8">Pessoas Beneficiadas</p>
+<div class="w-20 h-1 bg-gradient-to-r from-secondary-fixed to-transparent rounded-full"></div>
+</div>
+<div class="flex flex-col items-center group">
+<span class="text-7xl md:text-9xl font-bold font-headline mb-4 text-white group-hover:scale-110 transition-transform duration-500 block leading-none">42</span>
+<p class="text-secondary-fixed/80 text-sm font-label tracking-[0.3em] uppercase mb-8">Projetos Ativos</p>
+<div class="w-20 h-1 bg-gradient-to-r from-secondary-fixed to-transparent rounded-full"></div>
+</div>
+<div class="flex flex-col items-center group">
+<span class="text-7xl md:text-9xl font-bold font-headline mb-4 text-white group-hover:scale-110 transition-transform duration-500 block leading-none">120k</span>
+<p class="text-secondary-fixed/80 text-sm font-label tracking-[0.3em] uppercase mb-8">Horas de Treinamento</p>
+<div class="w-20 h-1 bg-gradient-to-r from-secondary-fixed to-transparent rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Galeria de Projetos -->
+<section class="py-32 bg-surface px-6 md:px-12">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+<div class="max-w-2xl">
+<h2 class="text-5xl font-bold text-primary tracking-tighter mb-4">Galeria de Projetos Recentes</h2>
+<p class="text-on-surface-variant text-xl">Momentos que definem nosso compromisso com o próximo e com o futuro da nossa região.</p>
+</div>
+<button class="hidden md:flex items-center gap-3 text-secondary font-bold text-sm tracking-widest uppercase hover:gap-5 transition-all">
+                VER TODOS <span class="material-symbols-outlined">east</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<!-- Project Card 1 -->
+<div class="group flex flex-col bg-white border border-outline-variant/20 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+<div class="h-80 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" data-alt="Group of diverse children and community members smiling during a charity event in a rural setting with festive decorations" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1xji4ufcVTjuZIGGQRkX3BWTx-6al1whw5EixiFbOvhTpZY7op_ANRtF9eeikiIaohNBE0LsRQCluLoOx4h3Vlc0pZirHjByTXBtVnT2j-j7sugHvGHP-1d13nylIi49Ykt4D3PBPDTY9HEUlZVj4Ss8oiYVkKDWrZjfwpV7-UbCUH6SWBzCLB1bwStwlqRKC0eIlTu7NcGbQdK39YhjOEeU3ni2eRKnjMfu_fvX-oak3F1ff2LHuoWuBQHkxfPc5G9n5KU7-RDfW"/>
+<div class="absolute top-6 left-6">
+<span class="bg-white/90 backdrop-blur px-4 py-2 rounded-full text-[10px] font-bold text-primary tracking-widest uppercase">Dezembro 2023</span>
+</div>
+</div>
+<div class="p-10 flex flex-col flex-grow">
+<h4 class="text-2xl font-bold text-primary mb-4 tracking-tight group-hover:text-secondary transition-colors">Natal Solidário</h4>
+<p class="text-on-surface-variant leading-relaxed mb-8 text-lg">Distribuição de cestas e brinquedos para mais de 500 famílias da zona rural e urbana da nossa região.</p>
+<div class="mt-auto">
+<button class="inline-flex items-center gap-2 text-primary font-bold text-xs tracking-widest uppercase hover:gap-4 transition-all">
+                            Ler Reportagem <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="group flex flex-col bg-white border border-outline-variant/20 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+<div class="h-80 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" data-alt="Young students in a technical workshop learning about modern agricultural machinery with a professional mentor in a bright facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiqRBp3WkZPOQEp2Eat0j1fzcL1dzpNyjfAKeojEFdEgyiSB82Ohc7ABjHglcTv6em6oDqNnIscx2EIx04lLzzwAKTJyEgv6_-O3Zl-tDKrkGFTNZsqi7oQUBF4aFgHegH5_9eByffoGz9DoVGLiajRD_o5QV7xT-VpRJoF8Jm1laE8HP_2xmPYVViRNOdes_UkkrTFPKCDGTLOakSwwgUrIlslAWmlZNXF6Umg7VlqdbAnwL5drBKzqfi-wK5oAsf2skc753t6uCy"/>
+<div class="absolute top-6 left-6">
+<span class="bg-white/90 backdrop-blur px-4 py-2 rounded-full text-[10px] font-bold text-primary tracking-widest uppercase">Outubro 2023</span>
+</div>
+</div>
+<div class="p-10 flex flex-col flex-grow">
+<h4 class="text-2xl font-bold text-primary mb-4 tracking-tight group-hover:text-secondary transition-colors">Dia de Campo</h4>
+<p class="text-on-surface-variant leading-relaxed mb-8 text-lg">Alunos de escolas públicas visitam nossas instalações para aprender sobre sustentabilidade e tecnologia de ponta.</p>
+<div class="mt-auto">
+<button class="inline-flex items-center gap-2 text-primary font-bold text-xs tracking-widest uppercase hover:gap-4 transition-all">
+                            Ler Reportagem <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Card 3 -->
+<div class="group flex flex-col bg-white border border-outline-variant/20 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+<div class="h-80 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" data-alt="Young athletes in a colorful soccer tournament on a professional-grade grass field with spectators cheering in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD1Ts31Bx4Lmshep7ftkQUnLlUMwdudMeNrLNiFE53HBl2lN_YJ-2yPqY2g6Uf3nZaAQd6GNtOkZo8xdZXxF0gKrmVjJQNDoKDqHFmo_zMw_AmzPzWrKxP95vxCtU2RbvntKRwyQWjz6-vpz4jj5oAglCleP-jWRzqb5Ue5c-pp5lQT_tZtf5ifPi2zrsuLChwdjYT0jRz1FXutFw4XEdsjguJarheSCxL93DxnhYKSHH_INbdhHSjKgL7rd5PLIMMJdl8cboRxoKt"/>
+<div class="absolute top-6 left-6">
+<span class="bg-white/90 backdrop-blur px-4 py-2 rounded-full text-[10px] font-bold text-primary tracking-widest uppercase">Junho 2023</span>
+</div>
+</div>
+<div class="p-10 flex flex-col flex-grow">
+<h4 class="text-2xl font-bold text-primary mb-4 tracking-tight group-hover:text-secondary transition-colors">Copa Usina Paisa</h4>
+<p class="text-on-surface-variant leading-relaxed mb-8 text-lg">Competição esportiva regional envolvendo times de 12 comunidades diferentes do entorno da usina.</p>
+<div class="mt-auto">
+<button class="inline-flex items-center gap-2 text-primary font-bold text-xs tracking-widest uppercase hover:gap-4 transition-all">
+                            Ler Reportagem <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Vozes da Comunidade -->
+<section class="py-32 bg-surface-container-low px-6 md:px-12">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-20">
+<span class="text-secondary font-bold uppercase tracking-widest text-xs mb-4 block">Testemunhos</span>
+<h2 class="text-5xl md:text-6xl font-bold text-primary tracking-tighter leading-none mb-6">Vozes da Comunidade</h2>
+<div class="w-24 h-1 bg-secondary mx-auto rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Testimonial 1 -->
+<div class="bg-white p-10 rounded-3xl border border-outline-variant/30 flex flex-col shadow-sm hover:shadow-xl transition-all duration-500 group">
+<div class="mb-8">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-5xl opacity-40">format_quote</span>
+</div>
+<p class="text-on-surface-variant text-lg leading-relaxed mb-10 flex-grow italic">
+                    "Graças ao Centro Técnico da Paisa, hoje tenho uma profissão e consigo sustentar minha família com dignidade. Foi a oportunidade que mudou minha vida."
+                </p>
+<div class="flex items-center gap-4 pt-6 border-t border-outline-variant/10">
+<img alt="Maria Silva" class="w-14 h-14 rounded-full object-cover border-2 border-secondary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1_TfNf6_U3P2W8x2M_N1k8_Z_X4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y"/>
+<div>
+<h5 class="font-headline font-bold text-primary">Maria Silva</h5>
+<p class="font-label text-xs text-on-surface-variant uppercase tracking-wider">Penedo, AL</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-white p-10 rounded-3xl border border-outline-variant/30 flex flex-col shadow-sm hover:shadow-xl transition-all duration-500 group">
+<div class="mb-8">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-5xl opacity-40">format_quote</span>
+</div>
+<p class="text-on-surface-variant text-lg leading-relaxed mb-10 flex-grow italic">
+                    "O projeto de esporte trouxe alegria e disciplina para as nossas crianças. É emocionante ver meu filho evoluindo no futebol e na escola ao mesmo tempo."
+                </p>
+<div class="flex items-center gap-4 pt-6 border-t border-outline-variant/10">
+<img alt="José Santos" class="w-14 h-14 rounded-full object-cover border-2 border-secondary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2_SgOg7_V4Q3X9L2N_O1j9_A_W3_X_Y3_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y"/>
+<div>
+<h5 class="font-headline font-bold text-primary">José Santos</h5>
+<p class="font-label text-xs text-on-surface-variant uppercase tracking-wider">Pai de Aluno</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-white p-10 rounded-3xl border border-outline-variant/30 flex flex-col shadow-sm hover:shadow-xl transition-all duration-500 group">
+<div class="mb-8">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-5xl opacity-40">format_quote</span>
+</div>
+<p class="text-on-surface-variant text-lg leading-relaxed mb-10 flex-grow italic">
+                    "As clínicas móveis são essenciais para nós que moramos mais longe. O atendimento é humanizado e faz toda a diferença na saúde da nossa comunidade."
+                </p>
+<div class="flex items-center gap-4 pt-6 border-t border-outline-variant/10">
+<img alt="Ana Oliveira" class="w-14 h-14 rounded-full object-cover border-2 border-secondary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuE3_RnP8_T5R2W7x1M_P2k0_B_V2_W_X2_Y3_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y_Z4_Y"/>
+<div>
+<h5 class="font-headline font-bold text-primary">Ana Oliveira</h5>
+<p class="font-label text-xs text-on-surface-variant uppercase tracking-wider">Comunidade Rural</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-40 bg-surface px-6 md:px-12 text-center overflow-hidden relative border-t border-outline-variant/30">
+<div class="max-w-4xl mx-auto relative z-10">
+<h2 class="text-6xl md:text-8xl font-bold text-primary mb-8 tracking-tighter leading-none">Quer fazer parte dessa transformação?</h2>
+<p class="text-2xl text-on-surface-variant mb-16 max-w-2xl mx-auto leading-relaxed">
+            Seja como voluntário, parceiro técnico ou fornecedor engajado, sua colaboração pode amplificar nosso impacto social.
+        </p>
+<div class="flex flex-col sm:flex-row gap-8 justify-center">
+<button class="bg-secondary text-white px-12 py-6 text-sm font-bold tracking-widest uppercase hover:bg-primary transition-all duration-500 shadow-2xl rounded-xl">
+                QUERO SER VOLUNTÁRIO
+            </button>
+<button class="bg-white border-2 border-primary-container text-primary-container px-12 py-6 text-sm font-bold tracking-widest uppercase hover:bg-surface-container transition-all duration-500 rounded-xl">
+                SEJA UM PARCEIRO
+            </button>
+</div>
+</div>
+<!-- Decorative organic shapes -->
+<div class="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-secondary-container/30 rounded-full blur-[120px]"></div>
+<div class="absolute -top-32 -right-32 w-[500px] h-[500px] bg-primary-fixed-dim/30 rounded-full blur-[120px]"></div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#F8FAF9] dark:bg-[#00190F] w-full px-12 py-16 flex flex-col items-center gap-8 tonal-transition via bg-[#F8FAF9] to bg-surface_container border-t border-outline-variant/10">
+<div class="font-['Space_Grotesk'] font-bold text-[#0E2F22] dark:text-white text-2xl tracking-tighter">USINA PAISA</div>
+<div class="flex flex-wrap justify-center gap-12">
+<a class="font-['Manrope'] text-xs uppercase tracking-widest text-[#414844] dark:text-[#C1C8C2] hover:text-[#006C48] transition-colors" href="#">Privacidade</a>
+<a class="font-['Manrope'] text-xs uppercase tracking-widest text-[#414844] dark:text-[#C1C8C2] hover:text-[#006C48] transition-colors" href="#">Termos de Uso</a>
+<a class="font-['Manrope'] text-xs uppercase tracking-widest text-[#414844] dark:text-[#C1C8C2] hover:text-[#006C48] transition-colors" href="#">Contato</a>
+<a class="font-['Manrope'] text-xs uppercase tracking-widest text-[#414844] dark:text-[#C1C8C2] hover:text-[#006C48] transition-colors" href="#">Trabalhe Conosco</a>
+</div>
+<div class="text-on-surface-variant text-[10px] font-['Manrope'] tracking-[0.2em] opacity-60">
+        © 2024 USINA PAISA. Todos os direitos reservados.
+    </div>
+</footer>
+</body></html>

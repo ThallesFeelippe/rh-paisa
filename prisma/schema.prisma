@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id              String   @id @default(cuid())
+  role            String   // ADMIN, SECRETARIA, PSICOLOGA
+  username        String   @unique
+  password        String
+  name            String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  messagesSent    Message[]
+}
+
+model Employee {
+  id              String   @id @default(cuid())
+  name            String
+  cpf             String   @unique
+  rg              String?
+  birthDate       DateTime?
+  sectorId        String
+  sector          Sector   @relation(fields: [sectorId], references: [id])
+  position        String   // Cargo
+  salary          Float?
+  startDate       DateTime
+  isApprentice    Boolean  @default(false)
+  contractEnd     DateTime? // For apprentices
+  photoUrl        String?
+  documentPdfUrl  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Sector {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  employees       Employee[]
+  createdAt       DateTime @default(now())
+}
+
+model ChatRoom {
+  id              String   @id @default(cuid())
+  name            String?
+  messages        Message[]
+  isActive        Boolean  @default(true)
+}
+
+model Message {
+  id              String   @id @default(cuid())
+  content         String
+  senderId        String
+  sender          User     @relation(fields: [senderId], references: [id])
+  roomId          String
+  room            ChatRoom @relation(fields: [roomId], references: [id])
+  createdAt       DateTime @default(now())
+}
+
+model Job {
+  id              String   @id @default(cuid())
+  title           String
+  area            String   // Operacional, Administrativo, Tecnologia, Engenharia
+  location        String
+  type            String   // CLT, Presencial, Híbrido, PJ
+  description     String
+  requirements    String?
+  benefits        String?
+  status          String   @default("PUBLICO") // PUBLICO, RASCUNHO, ENCERRADA
+  applications    Application[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Application {
+  id              String   @id @default(cuid())
+  name            String
+  age             Int
+  cpf             String
+  education       String
+  maritalStatus   String
+  email           String
+  phone           String
+  address         String
+  photoUrl        String?
+  resumeUrl       String?
+  motivation      String?
+  jobId           String?
+  job             Job?     @relation(fields: [jobId], references: [id])
+  createdAt       DateTime @default(now())
+}

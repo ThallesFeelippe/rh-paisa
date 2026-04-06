@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>USINA PAISA - SugarLink Admin Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#f8faf9",
+                      "surface-container-highest": "#e1e3e2",
+                      "on-tertiary-fixed-variant": "#3e4c00",
+                      "on-background": "#191c1c",
+                      "on-secondary-fixed-variant": "#005235",
+                      "surface-dim": "#d8dada",
+                      "surface-tint": "#456555",
+                      "inverse-primary": "#abcfbb",
+                      "primary-fixed": "#c7ebd7",
+                      "inverse-surface": "#2e3131",
+                      "tertiary-container": "#242d00",
+                      "secondary": "#006c48",
+                      "surface-container-low": "#f2f4f3",
+                      "surface-container": "#eceeed",
+                      "secondary-container": "#92f7c3",
+                      "outline": "#727974",
+                      "background": "#f8faf9",
+                      "on-tertiary-container": "#819b00",
+                      "on-error": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed": "#002115",
+                      "tertiary-fixed-dim": "#b2d414",
+                      "on-surface": "#191c1c",
+                      "secondary-fixed": "#92f7c3",
+                      "primary-container": "#0e2f22",
+                      "on-surface-variant": "#414844",
+                      "tertiary": "#121700",
+                      "surface-bright": "#f8faf9",
+                      "on-tertiary-fixed": "#171e00",
+                      "on-secondary-container": "#00734d",
+                      "on-primary-container": "#769886",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed": "#002113",
+                      "inverse-on-surface": "#eff1f0",
+                      "surface-variant": "#e1e3e2",
+                      "surface-container-high": "#e6e9e8",
+                      "primary": "#00190f",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#75daa8",
+                      "on-primary-fixed-variant": "#2d4d3f",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#abcfbb",
+                      "outline-variant": "#c1c8c2",
+                      "tertiary-fixed": "#cdf139",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "fontFamily": {
+                      "headline": ["Space Grotesk"],
+                      "body": ["Manrope"],
+                      "label": ["Manrope"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex items-center justify-center overflow-hidden">
+<!-- Split Screen Layout -->
+<main class="w-full min-h-screen flex flex-col md:flex-row">
+<!-- Branding/Imagery Section (Organic & Tech) -->
+<section class="relative w-full md:w-7/12 h-64 md:h-screen overflow-hidden">
+<img alt="Campo de cana-de-açúcar" class="absolute inset-0 w-full h-full object-cover" data-alt="Cinematic aerial view of vast sugarcane fields at sunset with high-tech agriculture drones scanning crops with digital light overlays" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnHhTfoMtPYM8WWTTugzzKtaukJWtBMA_7xyze2rpFljMUrJofucnAWKJMeB9n02qpfP3-KiGzTaBdCcJemVBE8goAsP7BJmPYSPXPU_BVmcgi89PXccnAkZVt3vQy2-FQDYDFIGIJirax4qxZROpScWRY8Qlvhw2BnbsfwgS6r_OFv6Dn1Cow3IknkJulNz2G_NyZ9Sw_XxlA9Fv5YnvyrD2oVofUzNrJFD34e5BOG0CGTaTZQJ6-sxMr_-Yz6L4cANsKUKkTVppk"/>
+<!-- Overlay Mask -->
+<div class="absolute inset-0 bg-primary-container/30 backdrop-none mix-blend-multiply"></div>
+<!-- Floating Data Card (Industrial Precision) -->
+<div class="absolute bottom-12 left-12 right-12 md:right-auto md:w-96 glass-panel rounded-xl p-8 border border-outline-variant/20 hidden md:block">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<span class="font-headline text-xs tracking-widest uppercase text-on-surface-variant font-bold">Monitoramento Ativo</span>
+</div>
+<h2 class="font-headline text-2xl font-bold text-primary mb-2 tracking-tight">Eco-Digital Usina Paisa</h2>
+<p class="text-sm text-on-surface-variant leading-relaxed">Integrando precisão industrial com sustentabilidade regenerativa para o futuro da produção sucroenergética.</p>
+<div class="mt-6 flex gap-4">
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant/60 font-medium">Extração</span>
+<span class="font-headline text-lg font-bold text-secondary">98.4%</span>
+</div>
+<div class="w-px h-8 bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant/60 font-medium">Umidade</span>
+<span class="font-headline text-lg font-bold text-secondary">12.1%</span>
+</div>
+</div>
+</div>
+<!-- Mobile Logo -->
+<div class="absolute top-8 left-8 md:hidden">
+<div class="flex items-center gap-2 bg-white/90 px-4 py-2 rounded-full shadow-lg">
+<span class="material-symbols-outlined text-secondary">precision_manufacturing</span>
+<span class="font-headline font-bold tracking-tighter text-primary">USINA PAISA</span>
+</div>
+</div>
+</section>
+<!-- Form Section -->
+<section class="w-full md:w-5/12 bg-surface-container-lowest flex flex-col items-center justify-center p-8 md:p-16 relative">
+<!-- Top Corner Decoration -->
+<div class="absolute top-0 right-0 w-32 h-32 opacity-10 pointer-events-none">
+<svg class="w-full h-full text-secondary fill-current" viewbox="0 0 100 100">
+<path d="M100 0 L100 100 L0 100 Z"></path>
+</svg>
+</div>
+<div class="w-full max-w-md">
+<!-- Brand Header -->
+<header class="mb-12">
+<div class="flex items-center gap-3 mb-6">
+<div class="bg-primary-container p-3 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary-fixed text-3xl" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+</div>
+<div>
+<h1 class="font-headline text-3xl font-extrabold text-primary tracking-tighter">USINA PAISA</h1>
+<p class="font-body text-xs uppercase tracking-[0.2em] text-on-surface-variant font-bold">SugarLink Admin Portal</p>
+</div>
+</div>
+<h2 class="font-headline text-2xl font-bold text-primary mb-2">Bem-vindo ao Ecossistema</h2>
+<p class="text-on-surface-variant text-sm">Acesse o painel de controle industrial para gerenciar sua operação.</p>
+</header>
+<!-- Login Form -->
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1" for="email">E-mail Corporativo</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-secondary transition-colors duration-300">mail</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-b-2 border-outline-variant focus:border-secondary focus:ring-0 transition-all duration-300 outline-none text-on-surface placeholder:text-outline/50 font-medium" id="email" placeholder="nome@usinapaisa.com.br" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant" for="password">Senha de Acesso</label>
+<a class="text-xs font-bold text-secondary hover:text-on-secondary-container transition-colors duration-300" href="#">Esqueci minha senha</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-secondary transition-colors duration-300">lock</span>
+<input class="w-full pl-12 pr-12 py-4 bg-surface-container-low border-b-2 border-outline-variant focus:border-secondary focus:ring-0 transition-all duration-300 outline-none text-on-surface placeholder:text-outline/50 font-medium" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-2 px-1">
+<input class="w-4 h-4 rounded-sm border-outline-variant text-secondary focus:ring-secondary/30 transition-all cursor-pointer" id="remember" type="checkbox"/>
+<label class="text-sm text-on-surface-variant cursor-pointer select-none" for="remember">Manter conectado neste dispositivo</label>
+</div>
+<button class="w-full bg-secondary text-on-secondary font-headline font-bold py-5 rounded-lg flex items-center justify-center gap-3 group hover:bg-on-secondary-container transition-all duration-300 shadow-lg shadow-secondary/20" type="submit">
+<span>ENTRAR NO SISTEMA</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<!-- Support Footer -->
+<footer class="mt-16 pt-8 border-t border-outline-variant/10">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2 text-on-surface-variant/40 hover:text-on-surface-variant transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-lg">support_agent</span>
+<span class="text-xs uppercase tracking-widest font-bold">Suporte Técnico Especializado</span>
+</div>
+<p class="text-[10px] text-on-surface-variant/40 leading-relaxed uppercase tracking-tighter">
+                            Acesso restrito a colaboradores autorizados da Usina Paisa e Precision Ecosystem Industrial. © 2024.
+                        </p>
+</div>
+</footer>
+</div>
+</section>
+</main>
+<!-- Global Footer Component (Suppressed per rule - Linear Task Focused Login) -->
+<!-- However, providing a minimal industrial watermark for brand consistency -->
+<div class="fixed bottom-4 right-8 pointer-events-none opacity-20 hidden md:block">
+<span class="font-headline text-[120px] font-extrabold text-primary select-none pointer-events-none tracking-tighter leading-none">PAISA</span>
+</div>
+</body></html>
