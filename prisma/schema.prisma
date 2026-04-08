@@ -93,3 +93,29 @@ model Application {
   job             Job?     @relation(fields: [jobId], references: [id])
   createdAt       DateTime @default(now())
 }
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  location    String
+  date        String
+  description String
+  images      String   // JSON stringified array of image URLs
+  
+  // New dynamic fields for the report page
+  status            String?  @default("Concluído")
+  category          String?  @default("Social")
+  responsible       String?  @default("RH Paisa")
+  impactTitle       String?  @default("Impacto Gerado")
+  impactDescription String?  @default("")
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

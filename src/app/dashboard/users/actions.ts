@@ -36,13 +36,22 @@ export async function createUser(formData: FormData) {
 
 export async function deleteUser(id: string) {
   try {
-    await prisma.user.delete({
-      where: { id },
-    });
+    await prisma.$transaction([
+      // Delete user messages first to avoid constraint errors
+      prisma.message.deleteMany({
+        where: { senderId: id }
+      }),
+      // Then delete the user
+      prisma.user.delete({
+        where: { id },
+      })
+    ]);
+    
     revalidatePath('/dashboard/users');
     return { success: true };
-  } catch (error) {
-    return { success: false, message: 'Erro ao excluir usuário.' };
+  } catch (error: any) {
+    console.error('Delete error:', error);
+    return { success: false, message: error.message || 'Erro ao excluir usuário.' };
   }
 }
 

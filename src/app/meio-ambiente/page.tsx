@@ -217,18 +217,71 @@ export default function MeioAmbiente() {
               />
             </div>
             <div className="relative z-10 px-12 py-20 text-center max-w-4xl mx-auto">
-              <h2 className="font-headline text-4xl md:text-5xl font-bold text-white mb-8">Transparência em Cada Colheita</h2>
+              <h2 className="font-headline text-4xl md:text-5xl font-bold text-white mb-8 uppercase italic tracking-tighter">Transparência em Cada Colheita</h2>
               <p className="text-on-primary-container text-xl mb-12">
                 Acompanhe em detalhes nossas métricas, metas e o impacto real gerado por nossas iniciativas ambientais no último ano.
               </p>
-              <button className="bg-secondary text-white px-10 py-5 rounded-lg font-bold text-lg hover:bg-on-secondary-container transition-all flex items-center gap-4 mx-auto group">
-                Acesse nosso Relatório de Sustentabilidade 2024
-                <span className="material-symbols-outlined group-hover:translate-y-1 transition-transform">download</span>
-              </button>
+              
+              <SustainabilityButton />
             </div>
           </div>
         </div>
       </section>
     </div>
+  );
+}
+
+function SustainabilityButton() {
+  const [reportUrl, setReportUrl] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch('/api/settings/sustentabilidade')
+      .then(res => res.json())
+      .then(data => {
+        setReportUrl(data.reportUrl);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center gap-3 text-white/50 text-sm font-bold uppercase tracking-widest">
+        <Loader2 className="animate-spin" size={20} />
+        Carregando Relatório...
+      </div>
+    );
+  }
+
+  if (!reportUrl) return null;
+
+  return (
+    <a 
+      href={reportUrl}
+      target="_blank"
+      className="bg-secondary text-white px-10 py-5 rounded-lg font-bold text-lg hover:bg-on-secondary-container transition-all flex items-center gap-4 mx-auto group w-fit"
+    >
+      Acesse nosso Relatório de Sustentabilidade 2024
+      <span className="material-symbols-outlined group-hover:translate-y-1 transition-transform">download</span>
+    </a>
+  );
+}
+
+function Loader2({ className, size }: { className?: string, size?: number }) {
+  return (
+    <svg 
+      className={className} 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
   );
 }

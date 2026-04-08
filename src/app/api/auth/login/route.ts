@@ -7,15 +7,15 @@ import { verifyPassword, createSession } from '@/lib/auth';
  */
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const { email: identifier, password } = await request.json();
     
-    if (!email || !password) {
-      return NextResponse.json({ message: 'E-mail e senha são obrigatórios.', success: false }, { status: 400 });
+    if (!identifier || !password) {
+      return NextResponse.json({ message: 'Credenciais (usuário/e-mail) e senha são obrigatórios.', success: false }, { status: 400 });
     }
 
-    // Find the user by username (matching the login form's "email")
+    // Find the user by username (matching the login form's "identifier")
     const user = await prisma.user.findUnique({
-      where: { username: email }
+      where: { username: identifier }
     });
 
     if (!user) {

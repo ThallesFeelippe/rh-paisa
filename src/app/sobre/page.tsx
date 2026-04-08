@@ -1,10 +1,21 @@
 'use client';
 
-import React from 'react';
-import { ArrowRight, Leaf, Settings, Users, Download, Info, Home, Factory, Mail, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, Leaf, Settings, Users, Download, Info, Home, Factory, Mail } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SobrePage() {
+  const [reportUrl, setReportUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch('/api/admin/report')
+      .then(res => res.json())
+      .then(data => {
+        if (data.report) setReportUrl(data.report.path);
+      })
+      .catch(err => console.error('Error fetching report:', err));
+  }, []);
+
   return (
     <div className="animate-fade">
       {/* Hero Section */}
@@ -43,43 +54,27 @@ export default function SobrePage() {
             <div className="h-1 w-24 bg-emerald-600"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-            {/* Timeline Line */}
             <div className="hidden md:block absolute top-10 left-0 w-full h-[1px] bg-slate-200 -z-0"></div>
             
-            {/* Year 1994 */}
             <div className="space-y-6 relative z-10">
               <div className="w-16 h-16 rounded-full bg-[#0e2f22] flex items-center justify-center text-emerald-100 font-headline font-black text-xl border-4 border-slate-50">1994</div>
               <h3 className="text-2xl font-headline font-bold text-emerald-950 italic">As Raízes</h3>
               <p className="text-slate-600 leading-relaxed text-sm">Fundação como uma unidade agrícola familiar, focada na pureza do cultivo e no respeito ao solo da região central.</p>
-              <img 
-                className="w-full h-48 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" 
-                alt="Histórico agrícola" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH2W39uNeFnrtIEBAvfTApdFslD2rzDZRRn11yUCaflIqgAIqxB1-ccniOT8RFJz5s-L1iPIgawSSzQhHlgeC5LnR12qhh43rcWH87oDHTZz1EBdgHFDkGzBv7kCAOtmepP5CpJrOF8W-IwdvOCfauPpCHwICAWXgdgECZVgfVeTE7nSL6Le4ab5lg5WOqD9zn_AIyfzco04qtax5_D7-WIYVq5eIFr24iAYH9A0cMjAzD9O-xpW886aP1kgkxMAWqsMn0CiKLmotu" 
-              />
+              <img className="w-full h-48 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" alt="Histórico" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH2W39uNeFnrtIEBAvfTApdFslD2rzDZRRn11yUCaflIqgAIqxB1-ccniOT8RFJz5s-L1iPIgawSSzQhHlgeC5LnR12qhh43rcWH87oDHTZz1EBdgHFDkGzBv7kCAOtmepP5CpJrOF8W-IwdvOCfauPpCHwICAWXgdgECZVgfVeTE7nSL6Le4ab5lg5WOqD9zn_AIyfzco04qtax5_D7-WIYVq5eIFr24iAYH9A0cMjAzD9O-xpW886aP1kgkxMAWqsMn0CiKLmotu" />
             </div>
 
-            {/* Year 2012 */}
             <div className="space-y-6 relative z-10">
               <div className="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center text-white font-headline font-black text-xl border-4 border-slate-50">2012</div>
               <h3 className="text-2xl font-headline font-bold text-emerald-950 italic">A Transição</h3>
               <p className="text-slate-600 leading-relaxed text-sm">Implementação da primeira fase de automação. Início da transição para o modelo de biorrefinaria de alta precisão.</p>
-              <img 
-                className="w-full h-48 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" 
-                alt="Expansão industrial" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIGhJ1OG-QyM6oFZqwn1gSzSFK5Y8PNK5-HnaC3rs2ZqFuYuTcKcTSojE753S19psblbYD9YDZyfgOFzzDnL6sEaV9FuDyzjdaxk1g42xHbYIsLwIMOrJzmcHQ_TEWpEpGnp8XO9Qndapqc9xPev2vwfp4LkIXQSNctethIBtkRiFJlLE_yzm791Zomgt0Qi9ydwtZ2mm1rj8q9yTUCQOqBz39UC4BaqJqqU3ElNdwUoKnEXP3h1U72aFuJR9coDM5pVA8bwOH3fd9" 
-              />
+              <img className="w-full h-48 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" alt="Industrial" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIGhJ1OG-QyM6oFZqwn1gSzSFK5Y8PNK5-HnaC3rs2ZqFuYuTcKcTSojE753S19psblbYD9YDZyfgOFzzDnL6sEaV9FuDyzjdaxk1g42xHbYIsLwIMOrJzmcHQ_TEWpEpGnp8XO9Qndapqc9xPev2vwfp4LkIXQSNctethIBtkRiFJlLE_yzm791Zomgt0Qi9ydwtZ2mm1rj8q9yTUCQOqBz39UC4BaqJqqU3ElNdwUoKnEXP3h1U72aFuJR9coDM5pVA8bwOH3fd9" />
             </div>
 
-            {/* Year 2024 */}
             <div className="space-y-6 relative z-10">
               <div className="w-16 h-16 rounded-full bg-emerald-950 flex items-center justify-center text-emerald-100 font-headline font-black text-xl border-4 border-slate-50">2024</div>
               <h3 className="text-2xl font-headline font-bold text-emerald-950 italic">Ecossistema PAISA</h3>
               <p className="text-slate-600 leading-relaxed text-sm">Referência global em agricultura regenerativa e IA industrial, operando com resíduo zero e impacto positivo.</p>
-              <img 
-                className="w-full h-48 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" 
-                alt="Tecnologia atual" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAmtSfr_ksc4hCvMJ-A2ndhmqxYM3X8xo1sdkZzYzmx4kg1gp2rPO2GBidH_n3GJbNX0m0cn9mhamM_lUUw4IGHAxp_TwfQUOcoHlh80EPC7dHSApRAxV5owR7Ig6YSaGYlV7-dAeVovrlP9PlHl7iJjnKYhek_DzMZmZiXuxXf8UexxS8UdcArTlNWLrFegbsFYjn3xZAV29O4bOS3-h1UIYAh-7HNH4NN4W1jvpfJcwLKknTKrdyR7jOBZx2ny3gJzgFu67fp_NW" 
-              />
+              <img className="w-full h-48 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" alt="Tecnologia" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAmtSfr_ksc4hCvMJ-A2ndhmqxYM3X8xo1sdkZzYzmx4kg1gp2rPO2GBidH_n3GJbNX0m0cn9mhamM_lUUw4IGHAxp_TwfQUOcoHlh80EPC7dHSApRAxV5owR7Ig6YSaGYlV7-dAeVovrlP9PlHl7iJjnKYhek_DzMZmZiXuxXf8UexxS8UdcArTlNWLrFegbsFYjn3xZAV29O4bOS3-h1UIYAh-7HNH4NN4W1jvpfJcwLKknTKrdyR7jOBZx2ny3gJzgFu67fp_NW" />
             </div>
           </div>
         </div>
@@ -90,11 +85,7 @@ export default function SobrePage() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-20">
           <div className="w-full md:w-1/2 relative">
             <div className="absolute -top-10 -left-10 w-64 h-64 bg-emerald-100/50 rounded-full blur-3xl -z-10"></div>
-            <img 
-              className="w-full aspect-[4/5] object-cover rounded-lg shadow-2xl skew-x-[-2deg]" 
-              alt="Natureza e Precisão" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJjh-Pvu1OGFqs5-0C-a6pNJIQWKGoX95QTK6CcfzRnlqWyb_rI7BdxgkYKl6Oqazfr4u8FYZpL5Qj2v-fRJ63lDQ_98mMXX-VV_RkPMcKhM9sJZtqQ42ZZYsvsvkRz7SKR-Q6KQQMajKivx-adv7G9S02xsK49CGZmv4kfMGkSgES5_o6qvp-bffX7EaBndTvzuHTZoHXxDbAZU8bSUy7IMGMVIcHk_yJFWimlhb9punFGMubRFTGO9ZWPEbLL3xV_ozMl6gpc9u1" 
-            />
+            <img className="w-full aspect-[4/5] object-cover rounded-lg shadow-2xl skew-x-[-2deg]" alt="Filosofia" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJjh-Pvu1OGFqs5-0C-a6pNJIQWKGoX95QTK6CcfzRnlqWyb_rI7BdxgkYKl6Oqazfr4u8FYZpL5Qj2v-fRJ63lDQ_98mMXX-VV_RkPMcKhM9sJZtqQ42ZZYsvsvkRz7SKR-Q6KQQMajKivx-adv7G9S02xsK49CGZmv4kfMGkSgES5_o6qvp-bffX7EaBndTvzuHTZoHXxDbAZU8bSUy7IMGMVIcHk_yJFWimlhb9punFGMubRFTGO9ZWPEbLL3xV_ozMl6gpc9u1" />
           </div>
           <div className="w-full md:w-1/2 space-y-12">
             <div className="space-y-4">
@@ -138,11 +129,7 @@ export default function SobrePage() {
               { name: 'Helena Costa', role: 'Diretora de Tecnologia', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDw-pmsuhoxdvZBll5T7iH8_-J0YYZETCCCp43pVEyT1qIXvhutKmjtcsqtUzF36L93XglDUKSVQhfElJlYOaw7MtrLdaIGEWCC7NNoaIaIgz1E_iBphbr94gIu9QXdgwek7PD-CGUTGkBqbnfpkwWt0ceNSSBh36T_CTUqVJCnUwbd7NM2-CK30QGtt1Tin4Kq6aTLRflkgLy14mH56V7MWR38RLr_bnMr6fLDOLMwFAF82_NTe6tmKsa4-3H4gJerH3gS9KLKM7oJ' },
             ].map((leader, idx) => (
               <div key={idx} className="group relative overflow-hidden bg-white rounded-xl shadow-sm hover:shadow-xl transition-all">
-                <img 
-                  className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" 
-                  alt={leader.name} 
-                  src={leader.img} 
-                />
+                <img className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt={leader.name} src={leader.img} />
                 <div className="p-6">
                   <h4 className="font-headline font-bold text-lg text-emerald-950 uppercase italic">{leader.name}</h4>
                   <p className="text-emerald-600 text-[10px] font-bold uppercase tracking-widest">{leader.role}</p>
@@ -163,13 +150,25 @@ export default function SobrePage() {
             Explore nossos relatórios de impacto ou junte-se ao time que está construindo o futuro da energia renovável no Brasil.
           </p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-            <button className="w-full md:w-auto bg-emerald-600 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-emerald-500 transition-all flex items-center justify-center gap-3">
-              Relatório ESG 2024
+            <button 
+              onClick={() => {
+                if (reportUrl) {
+                  window.open(reportUrl, '_blank');
+                } else {
+                  alert('O Relatório de Transparência ainda não foi disponibilizado.');
+                }
+              }}
+              className="w-full md:w-auto bg-emerald-600 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-emerald-500 transition-all flex items-center justify-center gap-3"
+            >
+              Relatório de Transparência
               <Download size={20} />
             </button>
-            <button className="w-full md:w-auto border border-white/20 px-10 py-5 font-bold uppercase tracking-widest hover:bg-white/10 transition-all">
+            <Link 
+              href="/vagas"
+              className="w-full md:w-auto border border-white/20 px-10 py-5 font-bold uppercase tracking-widest hover:bg-white/10 transition-all text-center flex items-center justify-center"
+            >
               Trabalhe Conosco
-            </button>
+            </Link>
           </div>
         </div>
       </section>

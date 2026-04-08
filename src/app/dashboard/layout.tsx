@@ -16,7 +16,8 @@ import {
   Bell, 
   LayoutGrid,
   Menu,
-  X
+  X,
+  GalleryVertical
 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -35,8 +36,8 @@ export default function DashboardLayout({
     { name: 'Usuários', icon: Users, href: '/dashboard/users' },
     { name: 'Vagas', icon: Briefcase, href: '/dashboard/vagas' },
     { name: 'Candidatos', icon: FileText, href: '/dashboard/candidatos' },
+    { name: 'Projetos Sociais', icon: GalleryVertical, href: '/dashboard/projetos' },
     { name: 'Notícias', icon: Newspaper, href: '/dashboard/noticias' },
-    { name: 'Sustentabilidade', icon: Leaf, href: '/dashboard/sustentabilidade' },
     { name: 'Configurações', icon: Settings, href: '/dashboard/configuracoes' },
   ];
 
