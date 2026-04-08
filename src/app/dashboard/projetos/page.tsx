@@ -29,9 +29,16 @@ export default function ProjectsDashboard() {
     try {
       const res = await fetch('/api/admin/projects');
       const data = await res.json();
-      setProjects(data);
+      // Ensure data is an array before setting state
+      if (Array.isArray(data)) {
+        setProjects(data);
+      } else {
+        console.error('Projects API returned non-array data:', data);
+        setProjects([]);
+      }
     } catch (err) {
       console.error('Error fetching projects:', err);
+      setProjects([]);
     } finally {
       setIsLoading(false);
     }
