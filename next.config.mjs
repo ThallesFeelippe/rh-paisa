@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  /* config options here */
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['*.app.github.dev', 'localhost:3000', 'localhost:3001']
+    }
+  }
 };
 
 export default nextConfig;

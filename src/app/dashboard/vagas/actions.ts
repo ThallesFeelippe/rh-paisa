@@ -30,9 +30,12 @@ export async function createJob(formData: FormData) {
     revalidatePath('/dashboard/vagas');
     revalidatePath('/vagas');
     return { success: true };
-  } catch (error) {
-    console.error('Erro ao criar vaga:', error);
-    return { success: false, message: 'Erro ao criar vaga.' };
+  } catch (error: any) {
+    console.error('Erro detalhado ao criar vaga:', error);
+    return { 
+      success: false, 
+      message: error.message || 'Erro ao criar vaga no banco de dados.' 
+    };
   }
 }
 
