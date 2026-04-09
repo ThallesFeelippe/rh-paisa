@@ -9,7 +9,7 @@ export async function GET() {
     });
 
     if (!admin) {
-      const hashedPassword = await hashPassword('paisa2024');
+      const hashedPassword = await hashPassword('Paisa@2024!Secure#Admin#Industrial');
       await prisma.user.create({
         data: {
           username: 'admin_paisa',
@@ -18,7 +18,7 @@ export async function GET() {
           role: 'ADMIN'
         }
       });
-      return NextResponse.json({ message: 'Master Admin created (admin_paisa / paisa2024)' });
+      return NextResponse.json({ message: 'Master Admin created (admin_paisa / Paisa@2024!Secure#Admin#Industrial)' });
     }
 
     return NextResponse.json({ message: 'Master Admin already exists' });
