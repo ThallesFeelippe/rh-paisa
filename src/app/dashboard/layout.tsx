@@ -17,8 +17,10 @@ import {
   LayoutGrid,
   Menu,
   X,
-  GalleryVertical
+  GalleryVertical,
+  User as UserIcon
 } from 'lucide-react';
+import { getCurrentUser } from './perfil/actions';
 
 export default function DashboardLayout({
   children,
@@ -30,6 +32,15 @@ export default function DashboardLayout({
   
   // Sidebar toggle state
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    async function loadUser() {
+      const data = await getCurrentUser();
+      if (data) setUser(data);
+    }
+    loadUser();
+  }, [pathname]); // Refresh when navigating to ensure data is updated
 
   const navItems = [
     { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
@@ -89,21 +100,28 @@ export default function DashboardLayout({
         </nav>
 
         <div className="p-6 border-t border-white/5 space-y-4">
-          <div className={`flex items-center ${!isSidebarOpen && 'justify-center'}`}>
-            <div className="w-10 h-10 rounded-lg bg-[#006C48] flex items-center justify-center text-white font-bold overflow-hidden border border-white/10">
-              <img 
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100" 
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
+          <Link 
+            href="/dashboard/perfil"
+            className={`flex items-center p-3 rounded-2xl transition-all duration-300 hover:bg-white/5 ${!isSidebarOpen && 'justify-center border-none'}`}
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#006C48] flex items-center justify-center text-white font-bold overflow-hidden border border-white/10 shrink-0">
+              {user?.avatarUrl ? (
+                <img 
+                  src={user.avatarUrl} 
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <UserIcon size={24} className="opacity-50" />
+              )}
             </div>
             {isSidebarOpen && (
-              <div className="ml-3">
-                <p className="text-white text-xs font-bold">Admin Console</p>
-                <p className="text-[#ABCFBB]/50 text-[10px]">Manager Access</p>
+              <div className="ml-4 truncate">
+                <p className="text-white text-xs font-black uppercase tracking-tight truncate">{user?.name || 'Carregando...'}</p>
+                <p className="text-[#ABCFBB]/50 text-[9px] font-bold uppercase tracking-widest">{user?.role || 'Acesso Restrito'}</p>
               </div>
             )}
-          </div>
+          </Link>
           
           <button 
             onClick={handleLogout}

@@ -13,6 +13,7 @@ model User {
   username        String   @unique
   password        String
   name            String
+  avatarUrl       String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   messagesSent    Message[]
@@ -119,3 +120,25 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model News {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String?  @unique
+  excerpt         String?
+  content         String
+  image           String?  // Main image
+  videoUrl        String?  // Embed URL or internal path
+  gallery         String?  // JSON stringified array of images
+  category        String?  @default("Geral")
+  tags            String?  // Comma-separated tags
+  status          String   @default("PUBLICO") // PUBLICO, RASCUNHO
+  authorName      String?  @default("Comunicação Paisa")
+  authorAvatar    String?
+  metaTitle       String?
+  metaDescription String?
+  publishedAt     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
