@@ -13,6 +13,18 @@ export async function createJob(formData: FormData) {
   const benefits = formData.get('benefits') as string;
   const status = formData.get('status') as string || 'PUBLICO';
 
+  // --- GERENCIAMENTO DE ERROS PRÉ-CRIAÇÃO ---
+  if (!title || title.length < 5) {
+    return { success: false, message: 'O título da vaga deve ter pelo menos 5 caracteres.' };
+  }
+  if (!area) {
+    return { success: false, message: 'A área de atuação é obrigatória.' };
+  }
+  if (!description || description.length < 20) {
+    return { success: false, message: 'A descrição da vaga está muito curta.' };
+  }
+  // ------------------------------------------
+
   try {
     await prisma.job.create({
       data: {

@@ -60,8 +60,19 @@ export default async function NewsDetailPage({ params }: NewsPageProps) {
     notFound();
   }
 
-  const gallery = news.gallery ? JSON.parse(news.gallery) : [];
+  // --- PROCESSAMENTO SEGURO DE DADOS ---
+  let gallery = [];
+  try {
+    if (news.gallery && news.gallery.trim() !== '') {
+      gallery = JSON.parse(news.gallery);
+    }
+  } catch (e) {
+    console.error('Erro ao processar galeria:', e);
+    gallery = [];
+  }
+
   const tags = news.tags ? news.tags.split(',').map(t => t.trim()) : [];
+  // -------------------------------------
 
   const isYoutube = (url: string) => url.includes('youtube.com') || url.includes('youtu.be');
   const getYoutubeEmbed = (url: string) => {
