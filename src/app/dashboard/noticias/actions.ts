@@ -33,6 +33,12 @@ export async function createNews(formData: FormData) {
   const publishedAt = publishedAtStr ? new Date(publishedAtStr) : new Date();
 
   try {
+    // Verificamos se o Slug já existe antes de tentar criar
+    const existing = await prisma.news.findUnique({ where: { slug } });
+    if (existing) {
+      return { success: false, error: 'Este link (slug) já está sendo usado em outra notícia. Mude o título ou o slug manual.' };
+    }
+
     await prisma.news.create({
       data: {
         title,

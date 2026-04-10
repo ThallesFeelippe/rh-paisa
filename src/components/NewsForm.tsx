@@ -153,6 +153,33 @@ export default function NewsForm({ initialData, onSuccess, onCancel }: NewsFormP
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // --- GERENCIAMENTO DE ERROS PRÉ-CRIAÇÃO ---
+    if (!formData.title || formData.title.length < 5) {
+      setError('O título é obrigatório e deve ter pelo menos 5 caracteres.');
+      setActiveTab('GERAL');
+      return;
+    }
+
+    if (!formData.excerpt || formData.excerpt.length < 10) {
+      setError('O resumo é obrigatório para prender a atenção do leitor.');
+      setActiveTab('GERAL');
+      return;
+    }
+
+    if (!formData.content || formData.content.length < 20) {
+      setError('O conteúdo da matéria está muito curto.');
+      setActiveTab('GERAL');
+      return;
+    }
+
+    if (!formData.image && !formData.videoUrl) {
+      setError('Adicione pelo menos uma imagem de capa ou um link de vídeo.');
+      setActiveTab('MIDIA');
+      return;
+    }
+    // ------------------------------------------
+
     setIsSubmitting(true);
     setError(null);
 

@@ -34,11 +34,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# prisma
-/prisma/*.db
-/prisma/*.db-journal
-/prisma/migrations
-
 # manual e documentos de estudo (caso movidos para cá)
 CAPITULO_*.md
 INDICE_*.md
