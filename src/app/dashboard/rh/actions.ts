@@ -202,10 +202,6 @@ export async function updateEmployee(id: string, data: any) {
       ...simpleFields 
     } = data;
 
-    // Deep update is complex in Prisma without knowing exactly what changed.
-    // For simplicity in a dashboard, we'll replace documents/courses if provided,
-    // or handle them individually. Let's do a basic update here.
-
     await prisma.employee.update({
       where: { id },
       data: {
@@ -218,7 +214,6 @@ export async function updateEmployee(id: string, data: any) {
       }
     });
 
-    // Handle documents/courses separately if they are sent in full list (replace logic)
     if (documents) {
       await prisma.employeeDocument.deleteMany({ where: { employeeId: id } });
       await prisma.employeeDocument.createMany({
@@ -245,6 +240,7 @@ export async function updateEmployee(id: string, data: any) {
 
     revalidatePath('/dashboard/rh/aprendizes');
     revalidatePath('/dashboard/rh/funcionarios');
+    revalidatePath('/dashboard/rh/unidades');
     return { success: true };
   } catch (error: any) {
     console.error('updateEmployee error:', error);

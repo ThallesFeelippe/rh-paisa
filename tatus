@@ -1,0 +1,18 @@
+[33mcommit d7eadd0af215272b2f96b57e11d0b2562936239c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Thalles Felippe <thalleskillkiller@gmail.com>
+Date:   Sun Apr 12 03:21:20 2026 -0300
+
+    feat: finalizando modulo RH e removendo lixo
+
+TELAS/Detalhe vaga.html
+TELAS/Sobre.html
+TELAS/Tela inicial.html
+"TELAS/a\303\247\303\265es sociais.html"
+TELAS/form vaga.html
+TELAS/jovem aprendiz.html
+TELAS/login.html
+TELAS/meio ambiente.html
+TELAS/noticias.html
+TELAS/psicologia.html
+TELAS/tela adm.html
+TELAS/vagas.html
