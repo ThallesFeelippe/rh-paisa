@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id              String   @id @default(cuid())
-  role            String   // ADMIN, SECRETARIA, PSICOLOGA
+  role            String   // ADMIN, SECRETARIA, PSICOLOGA, GESTOR_RH
   username        String   @unique
   password        String
   name            String
@@ -20,22 +20,74 @@ model User {
 }
 
 model Employee {
+  id                String   @id @default(cuid())
+  name              String
+  registrationNumber String?  @unique // Matrícula
+  cpf               String   @unique
+  rg                String?
+  birthDate         DateTime?
+  sectorId          String?
+  sector            Sector?  @relation(fields: [sectorId], references: [id])
+  position          String   // Cargo
+  salary            Float?
+  startDate         DateTime
+  isApprentice      Boolean  @default(false)
+  contractEnd       DateTime? // For apprentices
+  
+  // RH Fields
+  educationLevel    String?  // Fundamental, Médio, Superior, etc.
+  educationDetail   String?  // Ex: 7º Período de Direito
+  careerPlan        String?  // Structured text or JSON
+  
+  // Apprentice Specific
+  observationApprentice String?
+  grades            String?  // Notas
+  description       String?  // Descrição detalhada
+  
+  // Location
+  workLocationId    String?
+  workLocation      WorkLocation? @relation(fields: [workLocationId], references: [id])
+  
+  photoUrl          String?
+  documents         EmployeeDocument[]
+  courses           Course[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model EmployeeDocument {
+  id          String   @id @default(cuid())
+  name        String
+  url         String
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model Course {
   id              String   @id @default(cuid())
   name            String
-  cpf             String   @unique
-  rg              String?
-  birthDate       DateTime?
-  sectorId        String
-  sector          Sector   @relation(fields: [sectorId], references: [id])
-  position        String   // Cargo
-  salary          Float?
-  startDate       DateTime
-  isApprentice    Boolean  @default(false)
-  contractEnd     DateTime? // For apprentices
-  photoUrl        String?
-  documentPdfUrl  String?
+  institution     String
+  completionDate  DateTime?
+  certificateUrl  String?
+  employeeId      String
+  employee        Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+}
+
+model WorkLocation {
+  id          String   @id @default(cuid())
+  name        String   @unique // Ex: Usina Paisa, RH, CIEE
+  category    String?  // RURAL, URBANA, ADMINISTRATIVA (only for root areas)
+  
+  // Hierarchy
+  parentId    String?
+  parent      WorkLocation?  @relation("WorkLocationHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children    WorkLocation[] @relation("WorkLocationHierarchy")
+
+  employees   Employee[]
+  createdAt   DateTime @default(now())
 }
 
 model Sector {

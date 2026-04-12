@@ -9,7 +9,22 @@ import path from 'path';
 export async function submitApplication(formData: FormData) {
   const name = formData.get('name') as string;
   const rawAge = formData.get('age') as string;
-  const age = parseInt(rawAge) || 0; // Fallback to 0 if invalid
+  const age = parseInt(rawAge) || 0; 
+
+  // --- GERENCIAMENTO DE ERROS PRÉ-CANDIDATURA ---
+  if (!name || name.length < 3) {
+    return { success: false, message: 'O nome completo é obrigatório.' };
+  }
+  if (!cpf || cpf.length < 11) {
+    return { success: false, message: 'O CPF informado é inválido.' };
+  }
+  if (!email || !email.includes('@')) {
+    return { success: false, message: 'O e-mail informado é inválido.' };
+  }
+  if (age < 14) {
+    return { success: false, message: 'A idade mínima para candidatura é 14 anos.' };
+  }
+  // ----------------------------------------------
   
   const cpf = formData.get('cpf') as string;
   const education = formData.get('education') as string;

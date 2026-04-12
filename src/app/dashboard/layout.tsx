@@ -18,7 +18,11 @@ import {
   Menu,
   X,
   GalleryVertical,
-  User as UserIcon
+  User as UserIcon,
+  ChevronDown,
+  ChevronUp,
+  GraduationCap,
+  MapPin,
 } from 'lucide-react';
 import { getCurrentUser } from './perfil/actions';
 
@@ -42,11 +46,24 @@ export default function DashboardLayout({
     loadUser();
   }, [pathname]); // Refresh when navigating to ensure data is updated
 
+  const [isRHOpen, setIsRHOpen] = useState(false);
+
   const navItems = [
     { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
     { name: 'Usuários', icon: Users, href: '/dashboard/users' },
     { name: 'Vagas', icon: Briefcase, href: '/dashboard/vagas' },
     { name: 'Candidatos', icon: FileText, href: '/dashboard/candidatos' },
+    { 
+      name: 'RH', 
+      icon: UserIcon, 
+      href: '/dashboard/rh',
+      isExpandable: true,
+      subItems: [
+        { name: 'Jovem Aprendiz', icon: GraduationCap, href: '/dashboard/rh/aprendizes' },
+        { name: 'Funcionários', icon: Users, href: '/dashboard/rh/funcionarios' },
+        { name: 'Unidades', icon: MapPin, href: '/dashboard/rh/unidades' },
+      ]
+    },
     { name: 'Projetos Sociais', icon: GalleryVertical, href: '/dashboard/projetos' },
     { name: 'Notícias', icon: Newspaper, href: '/dashboard/noticias' },
     { name: 'Configurações', icon: Settings, href: '/dashboard/configuracoes' },
@@ -79,9 +96,52 @@ export default function DashboardLayout({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1">
+        <nav className="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href || (item.subItems?.some(sub => pathname === sub.href));
+            
+            if (item.isExpandable) {
+              return (
+                <div key={item.name} className="flex flex-col">
+                  <button
+                    onClick={() => setIsRHOpen(!isRHOpen)}
+                    className={`flex items-center px-6 py-3 transition-all duration-300 group w-full text-left ${
+                      isActive 
+                        ? 'text-white bg-[#006C48] rounded-r-full font-bold' 
+                        : 'text-[#ABCFBB]/70 hover:text-white hover:bg-[#006C48]/50'
+                    }`}
+                  >
+                    <item.icon className={`${isSidebarOpen ? 'mr-3' : 'mx-auto'} w-5 h-5`} />
+                    {isSidebarOpen && (
+                      <div className="flex-1 flex items-center justify-between">
+                        <span className="font-headline text-sm tracking-tight">{item.name}</span>
+                        {isRHOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                      </div>
+                    )}
+                  </button>
+                  
+                  {isRHOpen && isSidebarOpen && (
+                    <div className="ml-8 mt-1 space-y-1 border-l border-white/10 pl-2">
+                      {item.subItems?.map((sub) => (
+                        <Link
+                          key={sub.name}
+                          href={sub.href}
+                          className={`flex items-center px-4 py-2 text-xs transition-all duration-300 rounded-lg ${
+                            pathname === sub.href 
+                              ? 'text-white bg-white/10 font-bold' 
+                              : 'text-[#ABCFBB]/50 hover:text-white hover:bg-white/5'
+                          }`}
+                        >
+                          <sub.icon size={14} className="mr-3 opacity-70" />
+                          <span className="font-headline tracking-tight">{sub.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={item.name}
