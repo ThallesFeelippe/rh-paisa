@@ -299,10 +299,10 @@ export default function UnidadesRH() {
             >
                 <ChevronRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={18} />
             </button>
-            <h1 className="text-3xl font-headline font-black text-emerald-950 uppercase italic tracking-tight flex items-center gap-3">
-                <MapIcon className="text-emerald-600" />
-                Gestão de Áreas e Unidades
-            </h1>
+          <h1 className="text-3xl font-headline font-black text-emerald-950 uppercase italic tracking-tight flex items-center gap-3">
+            <MapIcon className="text-emerald-600" />
+            Gestão de Áreas e Unidades (v2)
+          </h1>
           </div>
           <p className="text-slate-500 italic font-medium ml-12">Estrutura organizacional de setores, subáreas e locais de trabalho.</p>
         </div>
