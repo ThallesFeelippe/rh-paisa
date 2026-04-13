@@ -73,8 +73,27 @@ export function getSession() {
 }
 
 /**
+ * Ensures user is authenticated and optionally has a specific role.
+ * This simulates RLS/RBAC at the application layer.
+ */
+export function ensureAuth(allowedRoles?: string[]) {
+  const session = getSession();
+  
+  if (!session) {
+    throw new Error('Não autorizado. Por favor, faça login novamente.');
+  }
+
+  if (allowedRoles && !allowedRoles.includes(session.role)) {
+    throw new Error(`Acesso negado. Esta ação requer permissão de: ${allowedRoles.join(', ')}`);
+  }
+
+  return session;
+}
+
+/**
  * Clear session
  */
 export function logout() {
   cookies().delete('paisa_session');
 }
+

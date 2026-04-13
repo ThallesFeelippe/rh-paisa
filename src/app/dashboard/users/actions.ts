@@ -1,11 +1,15 @@
 'use server';
 
 import prisma from '@/lib/db';
-import { hashPassword } from '@/lib/auth';
+import { hashPassword, ensureAuth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 
+
+
 export async function createUser(formData: FormData) {
+  ensureAuth();
   const username = formData.get('username') as string;
+
   const name = formData.get('name') as string;
   const password = formData.get('password') as string;
   const role = formData.get('role') as string;
@@ -36,7 +40,9 @@ export async function createUser(formData: FormData) {
 
 export async function deleteUser(id: string) {
   try {
+    ensureAuth();
     await prisma.$transaction([
+
       // Delete user messages first to avoid constraint errors
       prisma.message.deleteMany({
         where: { senderId: id }
@@ -56,7 +62,9 @@ export async function deleteUser(id: string) {
 }
 
 export async function getUsers() {
+  ensureAuth();
   return await prisma.user.findMany({
+
     orderBy: { createdAt: 'desc' },
     select: {
       id: true,

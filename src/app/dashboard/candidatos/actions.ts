@@ -2,9 +2,12 @@
 
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { ensureAuth } from '@/lib/auth';
+import { validateFile, sanitizeFilename, ALLOWED_IMAGE_TYPES, ALLOWED_DOC_TYPES } from '@/lib/upload';
 
 import fs from 'fs/promises';
 import path from 'path';
+
 
 export async function submitApplication(formData: FormData) {
   const name = formData.get('name') as string;
@@ -51,20 +54,23 @@ export async function submitApplication(formData: FormData) {
     await fs.mkdir(photosDir, { recursive: true });
 
     // Save Resume
-    if (resumeFile && resumeFile.size > 0 && typeof resumeFile.arrayBuffer === 'function') {
-      const resumeName = `${Date.now()}-${resumeFile.name.replace(/\s+/g, '_')}`;
+    if (resumeFile && resumeFile.size > 0) {
+      validateFile(resumeFile, ALLOWED_DOC_TYPES);
+      const resumeName = sanitizeFilename(resumeFile.name);
       const resumeBuffer = Buffer.from(await resumeFile.arrayBuffer());
       await fs.writeFile(path.join(resumesDir, resumeName), resumeBuffer);
       resumeUrl = `/uploads/resumes/${resumeName}`;
     }
 
     // Save Photo
-    if (photoFile && photoFile.size > 0 && typeof photoFile.arrayBuffer === 'function') {
-      const photoName = `${Date.now()}-${photoFile.name.replace(/\s+/g, '_')}`;
+    if (photoFile && photoFile.size > 0) {
+      validateFile(photoFile, ALLOWED_IMAGE_TYPES);
+      const photoName = sanitizeFilename(photoFile.name);
       const photoBuffer = Buffer.from(await photoFile.arrayBuffer());
       await fs.writeFile(path.join(photosDir, photoName), photoBuffer);
       photoUrl = `/uploads/photos/${photoName}`;
     }
+
 
     await prisma.application.create({
       data: {
@@ -95,7 +101,9 @@ export async function submitApplication(formData: FormData) {
 }
 
 export async function getApplications() {
+  ensureAuth(['ADMIN', 'GESTOR_RH', 'PSICOLOGA']);
   return await prisma.application.findMany({
+
     include: {
       job: true
     },
@@ -105,7 +113,9 @@ export async function getApplications() {
 
 export async function deleteApplication(id: string) {
   try {
+    ensureAuth(['ADMIN', 'GESTOR_RH']);
     await prisma.application.delete({
+
       where: { id },
     });
     revalidatePath('/dashboard/candidatos');

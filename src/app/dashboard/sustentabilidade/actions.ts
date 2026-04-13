@@ -5,10 +5,15 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { revalidatePath } from 'next/cache';
+import { ensureAuth } from '@/lib/auth';
+import { validateFile, sanitizeFilename, ALLOWED_DOC_TYPES } from '@/lib/upload';
+
 
 export async function getSustainabilitySettings() {
   try {
+    ensureAuth();
     const reportUrl = await prisma.setting.findUnique({
+
       where: { key: 'sustainability_report_url' }
     });
     
@@ -23,14 +28,13 @@ export async function getSustainabilitySettings() {
 
 export async function uploadSustainabilityReport(formData: FormData) {
   try {
+    ensureAuth(['ADMIN', 'SECRETARIA', 'GESTOR_RH']);
     const file = formData.get('file') as File;
     if (!file) {
       return { success: false, error: 'Arquivo não encontrado.' };
     }
 
-    if (file.type !== 'application/pdf') {
-      return { success: false, error: 'O arquivo deve ser um PDF.' };
-    }
+    validateFile(file, ALLOWED_DOC_TYPES);
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -41,11 +45,12 @@ export async function uploadSustainabilityReport(formData: FormData) {
     }
 
     // Standard name or dynamic based on date
-    const filename = `relatorio_sustentabilidade_${Date.now()}.pdf`;
+    const filename = sanitizeFilename(file.name);
     const path = join(uploadDir, filename);
     await writeFile(path, buffer);
 
     const publicPath = `/uploads/reports/${filename}`;
+
 
     // Update the database setting
     await prisma.setting.upsert({

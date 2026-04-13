@@ -2,6 +2,8 @@
 
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { ensureAuth } from '@/lib/auth';
+
 
 export async function getNews() {
   try {
@@ -15,7 +17,9 @@ export async function getNews() {
 }
 
 export async function createNews(formData: FormData) {
+  ensureAuth(['ADMIN', 'GESTOR_RH', 'SECRETARIA']);
   const title = formData.get('title') as string;
+
   const excerpt = formData.get('excerpt') as string;
   const content = formData.get('content') as string;
   const category = (formData.get('category') as string) || 'Geral';
@@ -69,7 +73,9 @@ export async function createNews(formData: FormData) {
 }
 
 export async function updateNews(id: string, formData: FormData) {
+  ensureAuth(['ADMIN', 'GESTOR_RH', 'SECRETARIA']);
   const title = formData.get('title') as string;
+
   const slug = formData.get('slug') as string;
   const excerpt = formData.get('excerpt') as string;
   const content = formData.get('content') as string;
@@ -119,7 +125,9 @@ export async function updateNews(id: string, formData: FormData) {
 
 export async function deleteNews(id: string) {
   try {
+    ensureAuth(['ADMIN', 'GESTOR_RH', 'SECRETARIA']);
     await prisma.news.delete({
+
       where: { id },
     });
     revalidatePath('/dashboard/noticias');

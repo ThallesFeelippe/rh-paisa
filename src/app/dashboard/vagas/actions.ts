@@ -2,9 +2,13 @@
 
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { ensureAuth } from '@/lib/auth';
+
 
 export async function createJob(formData: FormData) {
+  ensureAuth(['ADMIN', 'GESTOR_RH']);
   const title = formData.get('title') as string;
+
   const area = formData.get('area') as string;
   const location = formData.get('location') as string;
   const type = formData.get('type') as string;
@@ -53,7 +57,9 @@ export async function createJob(formData: FormData) {
 
 export async function updateJobStatus(id: string, status: string) {
   try {
+    ensureAuth(['ADMIN', 'GESTOR_RH']);
     await prisma.job.update({
+
       where: { id },
       data: { status },
     });
@@ -67,7 +73,9 @@ export async function updateJobStatus(id: string, status: string) {
 
 export async function deleteJob(id: string) {
   try {
+    ensureAuth(['ADMIN', 'GESTOR_RH']);
     await prisma.job.delete({
+
       where: { id },
     });
     revalidatePath('/dashboard/vagas');

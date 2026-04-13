@@ -2,12 +2,17 @@
 
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { ensureAuth } from '@/lib/auth';
 
 // --- WORK LOCATIONS ---
 
+
+
 export async function getWorkLocations() {
   try {
+    ensureAuth();
     return await prisma.workLocation.findMany({
+
       include: {
         children: {
           include: {
@@ -30,7 +35,9 @@ export async function getWorkLocations() {
 
 export async function createWorkLocation(name: string, category?: string, parentId?: string) {
   try {
+    ensureAuth();
     const location = await prisma.workLocation.create({
+
       data: { 
         name,
         category,
@@ -46,7 +53,9 @@ export async function createWorkLocation(name: string, category?: string, parent
 
 export async function deleteWorkLocation(id: string) {
   try {
+    ensureAuth();
     await prisma.workLocation.delete({ where: { id } });
+
     revalidatePath('/dashboard/rh/unidades');
     return { success: true };
   } catch (error: any) {
@@ -56,7 +65,9 @@ export async function deleteWorkLocation(id: string) {
 
 export async function updateWorkLocation(id: string, data: { name?: string, category?: string, parentId?: string | null }) {
   try {
+    ensureAuth();
     const location = await prisma.workLocation.update({
+
       where: { id },
       data: {
         ...data,
@@ -133,6 +144,7 @@ export async function getEmployee(id: string) {
 
 export async function createEmployee(data: any) {
   try {
+    ensureAuth();
     const { 
       documents, 
       courses, 
@@ -149,6 +161,7 @@ export async function createEmployee(data: any) {
     const finalLocationId = (workLocationId && workLocationId !== "") ? workLocationId : null;
 
     const employee = await prisma.employee.create({
+
       data: {
         ...simpleFields,
         salary: Number(salary) || 0,
@@ -191,6 +204,7 @@ export async function createEmployee(data: any) {
 
 export async function updateEmployee(id: string, data: any) {
   try {
+    ensureAuth();
     const { 
       documents, 
       courses, 
@@ -203,6 +217,7 @@ export async function updateEmployee(id: string, data: any) {
     } = data;
 
     await prisma.employee.update({
+
       where: { id },
       data: {
         ...simpleFields,
@@ -255,7 +270,9 @@ export async function updateEmployee(id: string, data: any) {
 
 export async function deleteEmployee(id: string) {
   try {
+    ensureAuth();
     await prisma.employee.delete({ where: { id } });
+
     revalidatePath('/dashboard/rh/aprendizes');
     revalidatePath('/dashboard/rh/funcionarios');
     return { success: true };
