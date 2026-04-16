@@ -13,18 +13,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Credenciais (usuário/e-mail) e senha são obrigatórios.', success: false }, { status: 400 });
     }
 
-    // Find the user by username (matching the login form's "identifier")
+    // Normalizar o identificador para minúsculas
+    const normalizedIdentifier = identifier.toLowerCase().trim();
+    
+    console.log(`Tentativa de login para: ${normalizedIdentifier}`);
+
+    // Find the user by username
     const user = await prisma.user.findUnique({
-      where: { username: identifier }
+      where: { username: normalizedIdentifier }
     });
 
     if (!user) {
+      console.log(`Usuário não encontrado: ${normalizedIdentifier}`);
       return NextResponse.json({ message: 'Credenciais inválidas.', success: false }, { status: 401 });
     }
 
     const isValid = await verifyPassword(password, user.password);
 
     if (!isValid) {
+      console.log(`Senha incorreta para o usuário: ${normalizedIdentifier}`);
       return NextResponse.json({ message: 'Credenciais inválidas.', success: false }, { status: 401 });
     }
 
