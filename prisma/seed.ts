@@ -7,16 +7,20 @@ async function main() {
   console.log('🌱 Iniciando Seeding do Banco de Dados...');
 
   // 1. Criar Usuário Admin Mestre (Se não existir)
-  const masterUsername = 'admin'; // Substitua pelo seu usuário preferido se desejar
-  const hashedPassword = await bcrypt.hash('paisa2024', 10);
+  const masterUsername = 'admin_paisa';
+  const hashedPassword = await bcrypt.hash('Paisa@2024!Secure#Admin#Industrial', 10);
 
   const admin = await prisma.user.upsert({
     where: { username: masterUsername },
-    update: {},
+    update: {
+      password: hashedPassword,
+      name: 'Admin Paisa Master',
+      role: 'ADMIN',
+    },
     create: {
       username: masterUsername,
       password: hashedPassword,
-      name: 'Administrador Paisa',
+      name: 'Admin Paisa Master',
       role: 'ADMIN',
     },
   });
