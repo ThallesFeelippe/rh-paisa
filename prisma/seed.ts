@@ -38,16 +38,20 @@ async function main() {
   ];
 
   for (const userData of users) {
-    const user = await prisma.user.upsert({
-      where: { username: userData.username },
-      update: {
-        name: userData.name,
-        role: userData.role,
-        password: userData.password,
-      },
-      create: userData,
-    });
-    console.log(`✅ Usuário verificado/criado: ${user.username} (${user.role})`);
+    try {
+      const user = await prisma.user.upsert({
+        where: { username: userData.username },
+        update: {
+          name: userData.name,
+          role: userData.role,
+          password: userData.password,
+        },
+        create: userData,
+      });
+      console.log(`✅ USUÁRIO PRONTO: ${user.username} (Senha Master Aplicada)`);
+    } catch (err) {
+      console.error(`❌ Erro ao criar usuário ${userData.username}:`, err);
+    }
   }
 
   // 2. Criar Notícias Iniciais (Se o banco estiver vazio)
