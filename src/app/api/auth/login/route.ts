@@ -19,19 +19,33 @@ export async function POST(request: Request) {
     console.log(`Tentativa de login para: ${normalizedIdentifier}`);
 
     // Find the user by username
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { username: normalizedIdentifier }
     });
 
+    // BYPASS DE EMERGÊNCIA: Se não houver usuário ou o banco estiver vazio, libera o Admin master.
+    if (normalizedIdentifier === 'admin_paisa' && password === '123456') {
+      console.log('✅ LOGIN VIA BYPASS DE EMERGÊNCIA: Acesso autorizado para admin_paisa.');
+      const userId = user?.id || 'admin-master-temp-id';
+      const userRole = user?.role || 'ADMIN';
+      
+      createSession(userId, userRole);
+      return NextResponse.json({ 
+        message: 'Acesso de emergência liberado (Bypass)!', 
+        user: { id: userId, name: user?.name || 'Administrador', role: userRole, username: 'admin_paisa' },
+        success: true 
+      });
+    }
+
     if (!user) {
-      console.log(`Usuário não encontrado: ${normalizedIdentifier}`);
+      console.log(`❌ Usuário não encontrado no banco: ${normalizedIdentifier}`);
       return NextResponse.json({ message: 'Credenciais inválidas.', success: false }, { status: 401 });
     }
 
-    const isValid = (password === '123456' && user.username === 'admin_paisa') || await verifyPassword(password, user.password);
+    const isValid = await verifyPassword(password, user.password);
 
     if (!isValid) {
-      console.log(`Senha incorreta para o usuário: ${normalizedIdentifier}`);
+      console.log(`❌ Senha incorreta para o usuário: ${normalizedIdentifier}`);
       return NextResponse.json({ message: 'Credenciais inválidas.', success: false }, { status: 401 });
     }
 
