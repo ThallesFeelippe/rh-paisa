@@ -25,11 +25,10 @@ export default function AcoesSociaisPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[90vh] min-h-[750px] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            className="w-full h-full object-cover scale-105" 
-            alt="Comunidade interagindo em ambiente sustentável" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiBDy_q4mMAlHTfeSVpKAC2_fakd5m7lKHZeC-kbD9I5Z1C2-sAyCSlpafXKuCRpVlA-gT48lMO008DZBcnLDd9u1JnyGWi1W-Cd8wgEa-8YfPRIXGh_AD23oVHk78Wmok4xtHXaZ28jVXmlPiGlJgDp5kRNhxJ7guHOQf9K6g4PPayxKCWZfiD4UMNTr2qHkOxyseJAgAEbAZioRg_TmaInzt2hIrQQLNjvlBdctdd9qppjfIN3imgn1j2j8aPYHwGVxAO6zSImpQ" 
-          />
+          <img
+            className="w-full h-full object-cover scale-105"
+            alt="Comunidade interagindo em ambiente sustentável"
+            src="./img/fazenda.png" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0e2f22]/80 via-[#0e2f22]/40 to-transparent"></div>
           <div className="absolute inset-0 bg-black/10"></div>
         </div>
@@ -37,7 +36,7 @@ export default function AcoesSociaisPage() {
           <div className="max-w-4xl backdrop-blur-md bg-white/10 p-12 md:p-20 rounded-2xl border border-white/20 shadow-2xl animate-in fade-in slide-in-from-bottom-10 duration-1000">
             <span className="inline-block px-4 py-1 rounded-full bg-[#006c48]/20 text-[#92f7c3] font-bold text-xs uppercase tracking-widest mb-6">Impacto Social</span>
             <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white leading-[0.9] mb-8 font-headline">
-              Cultivando <br/><span className="text-[#92f7c3]">o Amanhã</span>
+              Cultivando <br /><span className="text-[#92f7c3]">o Amanhã</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed max-w-xl font-light">
               Mais do que produzir energia, cultivamos o desenvolvimento humano e a prosperidade compartilhada em cada região onde atuamos.
@@ -85,7 +84,7 @@ export default function AcoesSociaisPage() {
               <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-10">
                 <span className="material-symbols-outlined text-[#75daa8] text-4xl">health_and_safety</span>
               </div>
-              <h3 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight font-headline">Saúde e <br/>Bem-Estar</h3>
+              <h3 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight font-headline">Saúde e <br />Bem-Estar</h3>
               <p className="text-[#769886] text-lg md:text-xl leading-relaxed">Programas de clínicas móveis e suporte preventivo especializado para colaboradores e suas famílias.</p>
             </div>
             <a className="z-10 mt-10 flex items-center gap-3 text-[#92f7c3] font-bold text-sm tracking-widest uppercase group/link" href="#">
@@ -167,7 +166,7 @@ export default function AcoesSociaisPage() {
             VER TODOS <span className="material-symbols-outlined">east</span>
           </button>
         </div>
-        
+
         {loading ? (
           <div className="flex justify-center py-20 text-[#006c48]">
             <span className="material-symbols-outlined animate-spin text-5xl">sync</span>
@@ -192,7 +191,7 @@ export default function AcoesSociaisPage() {
                     <h4 className="text-2xl font-bold text-[#00190f] mb-4 tracking-tight group-hover:text-[#006c48] transition-colors font-headline uppercase italic leading-none">{proj.title}</h4>
                     <p className="text-[#414844] leading-relaxed mb-8 text-lg line-clamp-3">{proj.description}</p>
                     <div className="mt-auto">
-                      <Link 
+                      <Link
                         href={`/acoes-sociais/${proj.id}`}
                         className="inline-flex items-center gap-2 text-[#00190f] font-bold text-xs tracking-widest uppercase hover:gap-4 transition-all group/btn"
                       >
@@ -221,7 +220,7 @@ export default function AcoesSociaisPage() {
             <h2 className="text-5xl md:text-6xl font-bold text-[#00190f] tracking-tighter leading-none mb-6 font-headline">Vozes da Comunidade</h2>
             <div className="w-24 h-1 bg-[#006c48] mx-auto rounded-full"></div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -271,15 +270,15 @@ export default function AcoesSociaisPage() {
             Seja como voluntário, parceiro técnico ou fornecedor engajado, sua colaboração pode amplificar nosso impacto social.
           </p>
           <div className="flex flex-col sm:flex-row gap-8 justify-center">
-            <a 
-              href="https://wa.me/5582991234567?text=Olá!%20Quero%20ser%20voluntário%20em%20um%20dos%20projetos%20sociais%20da%20Usina%20Paisa." 
+            <a
+              href="https://wa.me/5582991234567?text=Olá!%20Quero%20ser%20voluntário%20em%20um%20dos%20projetos%20sociais%20da%20Usina%20Paisa."
               target="_blank"
               className="bg-[#006c48] text-white px-12 py-6 text-sm font-bold tracking-widest uppercase hover:bg-[#00190f] transition-all duration-500 shadow-2xl rounded-xl inline-block"
             >
               QUERO SER VOLUNTÁRIO
             </a>
-            <a 
-              href="https://wa.me/5582991234567?text=Olá!%20Tenho%20interesse%20em%20ser%20um%20parceiro%20técnico%20ou%20fornecedor%20da%20Usina%20Paisa." 
+            <a
+              href="https://wa.me/5582991234567?text=Olá!%20Tenho%20interesse%20em%20ser%20um%20parceiro%20técnico%20ou%20fornecedor%20da%20Usina%20Paisa."
               target="_blank"
               className="bg-white border-2 border-[#0e2f22] text-[#0e2f22] px-12 py-6 text-sm font-bold tracking-widest uppercase hover:bg-[#eceeed] transition-all duration-500 rounded-xl inline-block"
             >

@@ -22,6 +22,7 @@ export default function AprendizesRH() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState<any>(null);
+  const [isViewOnly, setIsViewOnly] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function AprendizesRH() {
         </div>
         {!isFormOpen && (
           <button 
-            onClick={() => { setIsFormOpen(true); setEditingEmployee(null); }}
+            onClick={() => { setIsFormOpen(true); setEditingEmployee(null); setIsViewOnly(false); }}
             className="bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20"
           >
             <Plus size={18} />
@@ -100,6 +101,7 @@ export default function AprendizesRH() {
           <EmployeeForm 
             isApprentice={true}
             initialData={editingEmployee} 
+            isReadOnly={isViewOnly}
             onCancel={() => setIsFormOpen(false)} 
             onSuccess={() => { setIsFormOpen(false); fetchEmployees(); }} 
           />
@@ -161,7 +163,7 @@ export default function AprendizesRH() {
                 <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <button 
-                      onClick={() => { setEditingEmployee(item); setIsFormOpen(true); }}
+                      onClick={() => { setEditingEmployee(item); setIsFormOpen(true); setIsViewOnly(false); }}
                       className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
                     >
                       <Pencil size={18} />
@@ -173,7 +175,10 @@ export default function AprendizesRH() {
                       <Trash2 size={18} />
                     </button>
                   </div>
-                  <button className="text-[10px] font-black uppercase tracking-widest text-emerald-600 flex items-center gap-1 group/link">
+                  <button 
+                    onClick={() => { setEditingEmployee(item); setIsFormOpen(true); setIsViewOnly(true); }}
+                    className="text-[10px] font-black uppercase tracking-widest text-emerald-600 flex items-center gap-1 group/link"
+                  >
                     Perfil <ChevronRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
                   </button>
                 </div>

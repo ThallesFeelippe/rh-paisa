@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { 
   LayoutDashboard, 
   Briefcase, 
@@ -23,6 +23,7 @@ import {
   ChevronUp,
   GraduationCap,
   MapPin,
+  MessageCircle,
 } from 'lucide-react';
 import { getCurrentUser } from './perfil/actions';
 
@@ -32,11 +33,14 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   
-  // Sidebar toggle state
+  const currentFullHref = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [user, setUser] = useState<any>(null);
+  const [openMenus, setOpenMenus] = useState<string[]>([]);
 
   useEffect(() => {
     async function loadUser() {
@@ -44,33 +48,76 @@ export default function DashboardLayout({
       if (data) setUser(data);
     }
     loadUser();
-  }, [pathname]); // Refresh when navigating to ensure data is updated
+  }, [pathname]);
 
-  const [isRHOpen, setIsRHOpen] = useState(false);
+  const toggleMenu = (name: string) => {
+    setOpenMenus(prev => 
+      prev.includes(name) ? prev.filter(m => m !== name) : [...prev, name]
+    );
+  };
 
   const navItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
-    { name: 'Usuários', icon: Users, href: '/dashboard/users' },
-    { name: 'Vagas', icon: Briefcase, href: '/dashboard/vagas' },
-    { name: 'Candidatos', icon: FileText, href: '/dashboard/candidatos' },
+    { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard', roles: ['ADMIN', 'GESTOR_RH', 'PSICOLOGA', 'SECRETARIA'] },
+    { name: 'Usuários', icon: Users, href: '/dashboard/users', roles: ['ADMIN'] },
+    { name: 'Vagas', icon: Briefcase, href: '/dashboard/vagas', roles: ['ADMIN', 'GESTOR_RH'] },
+    { name: 'Candidatos', icon: FileText, href: '/dashboard/candidatos', roles: ['ADMIN', 'GESTOR_RH'] },
     { 
       name: 'RH', 
       icon: UserIcon, 
       href: '/dashboard/rh',
       isExpandable: true,
+      roles: ['ADMIN', 'GESTOR_RH'],
       subItems: [
         { name: 'Jovem Aprendiz', icon: GraduationCap, href: '/dashboard/rh/aprendizes' },
         { name: 'Funcionários', icon: Users, href: '/dashboard/rh/funcionarios' },
         { name: 'Unidades', icon: MapPin, href: '/dashboard/rh/unidades' },
+        { name: 'Gestão Afastados', icon: FileText, href: '/dashboard/rh/afastados' },
+        { name: 'Atendimentos', icon: Users, href: '/dashboard/atendimentos' },
+        { name: 'Chat Secretaria', icon: MessageCircle, href: '/dashboard/comunicacao?channel=RH_SECRETARIA&origin=RH' },
       ]
     },
-    { name: 'Projetos Sociais', icon: GalleryVertical, href: '/dashboard/projetos' },
-    { name: 'Notícias', icon: Newspaper, href: '/dashboard/noticias' },
-    { name: 'Configurações', icon: Settings, href: '/dashboard/configuracoes' },
+    { 
+      name: 'Secretaria', 
+      icon: LayoutGrid, 
+      href: '/dashboard/atendimentos',
+      isExpandable: true,
+      roles: ['ADMIN', 'SECRETARIA'],
+      subItems: [
+        { name: 'Fila Atendimento', icon: Users, href: '/dashboard/atendimentos' },
+        { name: 'Chat Psicologia', icon: MessageCircle, href: '/dashboard/comunicacao?channel=PSICOLOGIA_SECRETARIA&origin=SECRETARIA_PSI' },
+        { name: 'Chat RH', icon: MessageCircle, href: '/dashboard/comunicacao?channel=RH_SECRETARIA&origin=SECRETARIA_RH' },
+      ]
+    },
+    { 
+      name: 'Psicologia', 
+      icon: Users, 
+      href: '/dashboard/atendimentos',
+      isExpandable: true,
+      roles: ['ADMIN', 'PSICOLOGA'],
+      subItems: [
+        { name: 'Fila Atendimento', icon: Users, href: '/dashboard/atendimentos' },
+        { name: 'Chat Secretaria', icon: MessageCircle, href: '/dashboard/comunicacao?channel=PSICOLOGIA_SECRETARIA&origin=PSICOLOGIA' },
+      ]
+    },
+    { name: 'Projetos Sociais', icon: GalleryVertical, href: '/dashboard/projetos', roles: ['ADMIN', 'GESTOR_RH'] },
+    { name: 'Notícias', icon: Newspaper, href: '/dashboard/noticias', roles: ['ADMIN', 'GESTOR_RH'] },
   ];
 
+  const filteredNavItems = navItems.filter(item => 
+    !user || item.roles.includes(user.role)
+  );
+
+  useEffect(() => {
+    navItems.forEach(item => {
+      const isActive = (item.href === '/dashboard' ? pathname === '/dashboard' : currentFullHref.startsWith(item.href)) || 
+                      (item.subItems?.some(sub => currentFullHref === sub.href));
+      if (isActive && item.isExpandable && !openMenus.includes(item.name)) {
+        setOpenMenus(prev => [...prev, item.name]);
+      }
+    });
+  }, [currentFullHref, pathname]);
+
   const handleLogout = async () => {
-    // Logic to clear cookie and redirect
     document.cookie = "paisa_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     router.replace('/login');
   };
@@ -83,11 +130,13 @@ export default function DashboardLayout({
           isSidebarOpen ? 'w-64' : 'w-20'
         }`}
       >
-        <div className="p-6 mb-10 flex items-center justify-between">
-          <div className={`${!isSidebarOpen && 'hidden'}`}>
-            <h1 className="text-xl font-bold tracking-tighter text-white font-headline uppercase leading-none">USINA PAISA</h1>
-            <p className="text-[#ABCFBB]/60 text-[10px] tracking-widest font-headline uppercase mt-1">Precision Ecosystem</p>
-          </div>
+        <div className={`p-6 mb-10 flex items-center ${isSidebarOpen ? 'justify-between' : 'justify-center'}`}>
+          {isSidebarOpen && (
+            <div>
+              <h1 className="text-xl font-bold tracking-tighter text-white font-headline uppercase leading-none">USINA PAISA</h1>
+              <p className="text-[#ABCFBB]/60 text-[10px] tracking-widest font-headline uppercase mt-1">Precision Ecosystem</p>
+            </div>
+          )}
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className="text-[#ABCFBB] hover:text-white transition-colors"
@@ -97,45 +146,50 @@ export default function DashboardLayout({
         </div>
 
         <nav className="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href || (item.subItems?.some(sub => pathname === sub.href));
+          {filteredNavItems.map((item) => {
+            const isActive = (item.href === '/dashboard' ? pathname === '/dashboard' : currentFullHref.startsWith(item.href)) || 
+                            (item.subItems?.some(sub => currentFullHref === sub.href));
             
             if (item.isExpandable) {
+              const isOpen = openMenus.includes(item.name);
               return (
                 <div key={item.name} className="flex flex-col">
                   <button
-                    onClick={() => setIsRHOpen(!isRHOpen)}
+                    onClick={() => toggleMenu(item.name)}
                     className={`flex items-center px-6 py-3 transition-all duration-300 group w-full text-left ${
                       isActive 
                         ? 'text-white bg-[#006C48] rounded-r-full font-bold' 
                         : 'text-[#ABCFBB]/70 hover:text-white hover:bg-[#006C48]/50'
                     }`}
                   >
-                    <item.icon className={`${isSidebarOpen ? 'mr-3' : 'mx-auto'} w-5 h-5`} />
+                    <item.icon className={`${isSidebarOpen ? 'mr-3' : 'mx-auto'} w-5 h-5 ${isActive ? 'text-white' : 'text-[#ABCFBB]/40'}`} />
                     {isSidebarOpen && (
                       <div className="flex-1 flex items-center justify-between">
                         <span className="font-headline text-sm tracking-tight">{item.name}</span>
-                        {isRHOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                        {isOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                       </div>
                     )}
                   </button>
                   
-                  {isRHOpen && isSidebarOpen && (
-                    <div className="ml-8 mt-1 space-y-1 border-l border-white/10 pl-2">
-                      {item.subItems?.map((sub) => (
-                        <Link
-                          key={sub.name}
-                          href={sub.href}
-                          className={`flex items-center px-4 py-2 text-xs transition-all duration-300 rounded-lg ${
-                            pathname === sub.href 
-                              ? 'text-white bg-white/10 font-bold' 
-                              : 'text-[#ABCFBB]/50 hover:text-white hover:bg-white/5'
-                          }`}
-                        >
-                          <sub.icon size={14} className="mr-3 opacity-70" />
-                          <span className="font-headline tracking-tight">{sub.name}</span>
-                        </Link>
-                      ))}
+                  {isOpen && isSidebarOpen && (
+                    <div className="ml-8 mt-1 space-y-1 border-l-2 border-[#cdf139]/30 pl-2">
+                      {item.subItems?.map((sub) => {
+                        const isSubActive = currentFullHref === sub.href;
+                        return (
+                          <Link
+                            key={sub.name}
+                            href={sub.href}
+                            className={`flex items-center px-4 py-2 text-[10px] transition-all duration-300 rounded-lg uppercase font-bold tracking-wider ${
+                              isSubActive 
+                                ? 'text-white bg-[#006C48]/40 shadow-sm' 
+                                : 'text-[#ABCFBB]/50 hover:text-white hover:bg-white/5'
+                            }`}
+                          >
+                            <sub.icon size={12} className={`mr-3 ${isSubActive ? 'opacity-100 text-[#cdf139]' : 'opacity-40'}`} />
+                            <span className="font-headline tracking-tight">{sub.name}</span>
+                          </Link>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -147,12 +201,12 @@ export default function DashboardLayout({
                 key={item.name}
                 href={item.href}
                 className={`flex items-center px-6 py-3 transition-all duration-300 group ${
-                  isActive 
-                    ? 'text-white bg-[#006C48] rounded-r-full font-bold' 
+                  currentFullHref === item.href 
+                    ? 'text-white bg-[#006C48] rounded-r-full font-bold shadow-lg shadow-[#006C48]/20' 
                     : 'text-[#ABCFBB]/70 hover:text-white hover:bg-[#006C48]/50'
                 }`}
               >
-                <item.icon className={`${isSidebarOpen ? 'mr-3' : 'mx-auto'} w-5 h-5`} />
+                <item.icon className={`${isSidebarOpen ? 'mr-3' : 'mx-auto'} w-5 h-5 ${currentFullHref === item.href ? 'text-white' : 'text-[#ABCFBB]/40'}`} />
                 {isSidebarOpen && <span className="font-headline text-sm tracking-tight">{item.name}</span>}
               </Link>
             );
@@ -195,7 +249,6 @@ export default function DashboardLayout({
 
       {/* Main Content */}
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        {/* Header */}
         <header className="h-16 sticky top-0 bg-[#f8faf9]/80 backdrop-blur-xl border-b border-[#C1C8C2]/20 flex items-center justify-between px-8 z-40">
           <div className="flex items-center flex-1">
             <div className="relative w-96 max-w-full">
@@ -224,7 +277,6 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        {/* Canvas */}
         <main className="p-8 lg:p-10">
           {children}
         </main>

@@ -15,6 +15,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { getDashboardStats } from './home-actions';
+import { getCurrentUser } from './perfil/actions';
 import Link from 'next/link';
 
 export default function DashboardOverview() {
@@ -54,7 +55,8 @@ export default function DashboardOverview() {
       color: 'bg-emerald-100', 
       textColor: 'text-emerald-700',
       badgeColor: 'bg-emerald-200',
-      link: '/dashboard/vagas'
+      link: '/dashboard/vagas',
+      roles: ['ADMIN', 'GESTOR_RH']
     },
     { 
       name: 'Novos Candidatos', 
@@ -64,7 +66,8 @@ export default function DashboardOverview() {
       color: 'bg-lime-100', 
       textColor: 'text-lime-900',
       badgeColor: 'bg-lime-200',
-      link: '/dashboard/candidatos'
+      link: '/dashboard/candidatos',
+      roles: ['ADMIN', 'GESTOR_RH']
     },
     { 
       name: 'Notícias Publicadas', 
@@ -74,9 +77,21 @@ export default function DashboardOverview() {
       color: 'bg-teal-100', 
       textColor: 'text-teal-700',
       badgeColor: 'bg-teal-200',
-      link: '/dashboard/noticias'
+      link: '/dashboard/noticias',
+      roles: ['ADMIN', 'GESTOR_RH', 'SECRETARIA']
     }
   ];
+
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    async function loadUser() {
+      const u = await getCurrentUser();
+      setUser(u);
+    }
+    loadUser();
+  }, []);
+
+  const filteredKpis = kpis.filter(kpi => !user || kpi.roles.includes(user.role));
 
   const currentItems = activeTab === 'VAGAS' ? data.recentJobs : data.recentNews;
 
@@ -89,18 +104,22 @@ export default function DashboardOverview() {
           <p className="text-slate-500 font-body">Monitoramento em tempo real do ecossistema produtivo e sustentável da Unidade Paisa.</p>
         </div>
         <div className="flex gap-4">
-          <button className="bg-slate-100 px-4 py-2 rounded-lg text-xs font-bold font-headline hover:bg-slate-200 transition-colors flex items-center">
-            <Download className="w-4 h-4 mr-2" /> EXPORTAR DADOS
-          </button>
-          <Link href="/dashboard/vagas" className="bg-emerald-950 text-white px-6 py-2 rounded text-xs font-bold font-headline hover:bg-emerald-800 transition-all duration-300 shadow-xl shadow-emerald-950/10 flex items-center gap-2">
-            <Plus size={14} /> NOVA VAGA
-          </Link>
+          {(user?.role === 'ADMIN' || user?.role === 'GESTOR_RH') && (
+            <>
+              <button className="bg-slate-100 px-4 py-2 rounded-lg text-xs font-bold font-headline hover:bg-slate-200 transition-colors flex items-center">
+                <Download className="w-4 h-4 mr-2" /> EXPORTAR DADOS
+              </button>
+              <Link href="/dashboard/vagas" className="bg-emerald-950 text-white px-6 py-2 rounded text-xs font-bold font-headline hover:bg-emerald-800 transition-all duration-300 shadow-xl shadow-emerald-950/10 flex items-center gap-2">
+                <Plus size={14} /> NOVA VAGA
+              </Link>
+            </>
+          )}
         </div>
       </section>
 
       {/* KPI Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {kpis.map((kpi) => (
+        {filteredKpis.map((kpi) => (
           <Link href={kpi.link} key={kpi.name} className="bg-white p-6 rounded-2xl border border-slate-100 group hover:shadow-2xl hover:shadow-emerald-900/5 transition-all cursor-pointer">
             <div className="flex justify-between items-start mb-4">
               <div className={`w-10 h-10 rounded-lg ${kpi.color} flex items-center justify-center ${kpi.textColor}`}>

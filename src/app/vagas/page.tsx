@@ -16,11 +16,10 @@ export default async function VagasPage() {
       {/* Hero Section */}
       <section className="relative min-h-[600px] flex items-center overflow-hidden py-16 px-8 lg:px-20">
         <div className="absolute inset-0 z-0">
-          <img 
-            alt="Agricultural Technology" 
-            className="w-full h-full object-cover grayscale-[20%] contrast-110" 
-            src="https://images.unsplash.com/photo-1590767187868-b8e9ece0974b?auto=format&fit=crop&q=80&w=2000" 
-          />
+          <img
+            alt="Agricultural Technology"
+            className="w-full h-full object-cover grayscale-[20%] contrast-110"
+            src="./img/fazenda.png" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0e2f22]/90 via-[#0e2f22]/40 to-transparent"></div>
         </div>
         <div className="relative z-10 max-w-3xl">
@@ -57,8 +56,8 @@ export default async function VagasPage() {
               <Sparkles className="mx-auto text-[#006C48]/30 mb-6" size={48} />
               <h3 className="text-2xl font-bold text-[#00190f] mb-2 font-headline uppercase italic">Banco de Talentos</h3>
               <p className="text-[#414844] mb-8 font-body">Não encontramos vagas abertas no momento, mas adoraríamos conhecer você!</p>
-              <Link 
-                href="/vagas/inscricao?job=general" 
+              <Link
+                href="/vagas/inscricao?job=general"
                 className="bg-[#0e2f22] text-white px-10 py-4 rounded-sm font-bold uppercase tracking-widest text-sm hover:bg-[#006C48] transition-all font-headline"
               >
                 CADASTRAR CURRÍCULO GERAL
@@ -90,7 +89,7 @@ export default async function VagasPage() {
                     <p className="text-[10px] font-bold text-[#414844] uppercase tracking-[0.2em] mb-1">Modelo</p>
                     <p className="text-sm font-medium uppercase">{vaga.type}</p>
                   </div>
-                  <Link 
+                  <Link
                     href={`/vagas/inscricao?job=${vaga.id}`}
                     className="w-full md:w-auto px-10 py-5 bg-[#0e2f22] text-white font-bold text-xs uppercase tracking-widest rounded-sm hover:bg-[#006C48] transition-all font-headline italic"
                   >
@@ -107,8 +106,8 @@ export default async function VagasPage() {
             <div className="relative z-10">
               <h3 className="text-2xl font-bold text-white mb-2 font-headline uppercase italic">Fique em nosso radar</h3>
               <p className="text-[#ABCFBB] mb-8 font-body max-w-lg mx-auto">Quer trabalhar conosco mas não achou sua vaga ideal? Deixe seu currículo em nosso Banco de Talentos Geral.</p>
-              <Link 
-                href="/vagas/inscricao?job=general" 
+              <Link
+                href="/vagas/inscricao?job=general"
                 className="inline-block bg-[#92f7c3] text-[#002113] px-10 py-4 rounded-sm font-bold uppercase tracking-widest text-sm hover:scale-105 transition-all font-headline italic"
               >
                 CADASTRAR NO BANCO GERAL

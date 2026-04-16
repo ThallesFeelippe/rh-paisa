@@ -9,10 +9,10 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            className="w-full h-full object-cover" 
-            alt="Vast green sugarcane plantation stretching to the horizon under a golden sunrise" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuADIydbVx8aHBb3eUYl25H0v2hiaVM40s6Z4RX7-Hozbr2LPspNUNEKxKjhFoygzjnbVxuGbZv-ECqqG2tTZfOsMFrx97MU6Q8hYqnGnfvP1Eiq1d6EEr7OHQX_o2G3BcoDuOAq7TJQnTUlOFwJnlzPAXzxUkpot5spOMIIY3VL5bfpcorH23vGwj39HcRzForh5i5oYVbJCpNlxUd8AVE-vOncWOotg_Peys86FN_Bc75C4hgyNtGXDy-_c2xMg7QvUkBTcxbwCucT" 
+          <img
+            className="w-full h-full object-cover"
+            alt="Vast green sugarcane plantation stretching to the horizon under a golden sunrise"
+            src="/img/fazenda.png"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/90 via-emerald-950/40 to-transparent"></div>
         </div>
@@ -76,10 +76,10 @@ export default function HomePage() {
             </div>
           </div>
           <div className="md:col-span-12 lg:col-span-8 relative overflow-hidden bg-surface-container-low min-h-[280px] group">
-            <img 
-              className="absolute inset-0 w-full h-full object-cover opacity-10 grayscale group-hover:scale-105 transition-transform duration-700" 
-              alt="Industrial facility silhouette" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuQTPcg-th9-W-aq3W6fxW4_fEDpabBQEBjVL2ki_ikGsuzYJOxaG5zv1uO_uXqFQ39HV8mJv2_VC2n9qKhNGP5oRbnuaPdtE2DSVcEzqiPC_NQbOXSy324KzQxvS-l-7dy5n9QQjcdRxOPWQ3QgpuCBuKgMh5SfiYDr6Z0bISIEBbRNaIMK64-59jmW4xEHsUKCAGywYMN1aHaoCLJRA8mZ-ilkpciZZQ7WiZhJIHvavM8piRNhtBzgv83H4fzXJ5JDb9ujXttOP1" 
+            <img
+              className="absolute inset-0 w-full h-full object-cover opacity-10 grayscale group-hover:scale-105 transition-transform duration-700"
+              alt="Industrial facility silhouette"
+              src="/img/CORTEDECANA QUEIMADA.png"
             />
             <div className="relative z-10 p-10 h-full flex flex-col justify-center max-w-2xl">
               <h3 className="font-headline text-3xl font-bold text-primary mb-4">Tecnologia de Ponta</h3>
@@ -93,7 +93,7 @@ export default function HomePage() {
       <section className="relative bg-[#02130d] py-32 overflow-hidden">
         {/* Background Decorative Element */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
-        
+
         <div className="px-8 max-w-screen-2xl mx-auto mb-24 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div className="max-w-2xl space-y-4">
@@ -114,27 +114,27 @@ export default function HomePage() {
             { id: '03', icon: History, title: 'Processamento', desc: 'Extração de alta performance com controle automatizado de pureza e temperatura.' },
             { id: '04', icon: Award, title: 'Bioenergia', desc: 'O bagaço da cana alimenta nossas turbinas, gerando energia limpa para milhares de lares.' },
           ].map((step, idx) => (
-            <div 
-              key={step.id} 
+            <div
+              key={step.id}
               className="group relative p-10 bg-white/[0.03] border border-white/5 rounded-3xl overflow-hidden hover:bg-white/[0.07] transition-all duration-500 hover:-translate-y-2 hover:border-emerald-500/30"
             >
               {/* Background Number */}
               <span className="absolute -top-6 -left-4 text-9xl font-black text-white/[0.02] group-hover:text-emerald-500/[0.05] transition-colors duration-500 select-none">
                 {step.id}
               </span>
-              
+
               <div className="relative z-10 flex flex-col h-full">
                 <div className="p-4 bg-emerald-500/10 rounded-2xl w-fit mb-8 group-hover:bg-emerald-500 transition-colors duration-500">
                   <step.icon size={32} className="text-emerald-500 group-hover:text-black transition-colors duration-500" />
                 </div>
-                
+
                 <h4 className="font-headline text-2xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">
                   {step.title}
                 </h4>
                 <p className="text-emerald-500/60 text-sm leading-relaxed group-hover:text-emerald-100 transition-colors">
                   {step.desc}
                 </p>
-                
+
                 <div className="mt-8 flex items-center gap-2 text-xs font-bold text-emerald-500 tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">
                   Ver Detalhes <ArrowRight size={14} />
                 </div>
@@ -155,10 +155,10 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 min-h-[700px]">
           <div className="md:col-span-8 group relative overflow-hidden rounded-3xl">
-            <img 
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-              alt="Açúcar VHP de alta pureza" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuClzWjMnylXkDhf3KPKIB1nVDhCJgVNoVkAzkLiiHOCvPO0gUrJVfSNaM4FAo4neqF35xfRau5l-zFiKhZ81xwL1jPCBWP2IzOS6eKc3lBPrBpafFmHs4YCPDh26E2_0-0ZJ39yxrlQ2YkcpNdvVCPT4EPU8iFv1s3PXkeOdq_zYcUKWvo4cdRmzWPZef_CAyB61R-kX9N94IqC-I1nyi23f30xCFKgWNiTLxrkcgoA8JwNNayUtLp7P8CYqzFHzdNGe6eOqHFHf7qA" 
+            <img
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              alt="Açúcar VHP de alta pureza"
+              src="/img/cana.png"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-12 flex flex-col justify-end">
               <h4 className="font-headline text-4xl font-bold text-white mb-2 italic">Açúcar VHP</h4>
@@ -170,22 +170,20 @@ export default function HomePage() {
           </div>
           <div className="md:col-span-4 flex flex-col gap-8">
             <div className="flex-1 group relative overflow-hidden rounded-3xl">
-              <img 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                alt="Etanol combustível" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWG1WBPPOf2B99Qk9ZrR5dDvgWJUyTeR0ETJH31Uxq17aeC3-qeJ4Qezm7px-qcq4Gx-BJFhfDL6IqIJV59Fa06rD-bAafCjYvdYwfjDcsSKDhDwRsU4UjLclwvkYjeMa65dJCe4ttYEKKpya7kNOVztxCbuRkpFMzjdRd9Rp8cMrxqWWrcPwlnzkWEYIKmLsSOGkmuPPTjb5MJ5WWNccr0blP5gyL47o1o-YQpsM9chgbP3ZK1NzFeG7NBPaS2trd-li4VMgeYcji" 
-              />
+              <img
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                alt="Etanol combustível"
+                src="/img/etanol.png" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
                 <h4 className="font-headline text-2xl font-bold text-white mb-1">Etanol</h4>
                 <p className="text-white/70 text-sm">Bio combustível de alta octanagem.</p>
               </div>
             </div>
             <div className="flex-1 group relative overflow-hidden rounded-3xl">
-              <img 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                alt="Energia renovável" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuQTPcg-th9-W-aq3W6fxW4_fEDpabBQEBjVL2ki_ikGsuzYJOxaG5zv1uO_uXqFQ39HV8mJv2_VC2n9qKhNGP5oRbnuaPdtE2DSVcEzqiPC_NQbOXSy324KzQxvS-l-7dy5n9QQjcdRxOPWQ3QgpuCBuKgMh5SfiYDr6Z0bISIEBbRNaIMK64-59jmW4xEHsUKCAGywYMN1aHaoCLJRA8mZ-ilkpciZZQ7WiZhJIHvavM8piRNhtBzgv83H4fzXJ5JDb9ujXttOP1" 
-              />
+              <img
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                alt="Energia renovável"
+                src="/img/solar.png" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
                 <h4 className="font-headline text-2xl font-bold text-white mb-1">Bioeletricidade</h4>
                 <p className="text-white/70 text-sm">Energia 100% renovável via biomassa.</p>
@@ -200,11 +198,10 @@ export default function HomePage() {
         <div className="max-w-screen-2xl mx-auto px-8 flex flex-col lg:flex-row gap-16 items-center">
           <div className="w-full lg:w-1/2 relative group">
             <div className="relative overflow-hidden rounded-xl">
-              <img 
-                alt="Sustainable farming field" 
-                className="w-full aspect-[4/5] object-cover" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBsgv_ysU1yUH0VzgCfEv_tTvYb0gr0PRIhdvF-71F5ECf1k0wxXD35Qrr_0WIkQsln9Fhx-KLlK0E7e3KVDLTCKzd_SS57HnH_l9s8xwkpwf17uHktoPbgwtP1d_qR7JvM8EDyiehTc8iL6HZrxH9Y_5_kwTLQNv9zO68uzgzO1peNvW0NGktmgAzk7ee7wUZNhK3fDlaMG-9xG-Gvg2EClm5EtqGLfxp9s-376NnLLzxZHi8Wj_YbWEBPKepBqK2uoGgxpLiCE5Y" 
-              />
+              <img
+                alt="Sustainable farming field"
+                className="w-full aspect-[4/5] object-cover"
+                src="/img/meioambiente.png" />
               <div className="absolute bottom-12 -right-4 bg-emerald-500 text-black p-10 max-w-[280px] shadow-2xl">
                 <h3 className="font-headline text-4xl font-bold mb-2">100%</h3>
                 <p className="font-headline text-xs font-bold uppercase tracking-widest leading-tight">Resíduo Zero no Processamento</p>
@@ -239,11 +236,10 @@ export default function HomePage() {
         <div className="max-w-screen-xl mx-auto px-8 flex flex-col lg:flex-row gap-20 items-center">
           <div className="w-full lg:w-1/2 relative group">
             <div className="relative overflow-visible">
-              <img 
-                alt="Reflorestamento e cuidado com o solo" 
-                className="w-full aspect-square object-cover rounded-none shadow-xl" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBsgv_ysU1yUH0VzgCfEv_tTvYb0gr0PRIhdvF-71F5ECf1k0wxXD35Qrr_0WIkQsln9Fhx-KLlK0E7e3KVDLTCKzd_SS57HnH_l9s8xwkpwf17uHktoPbgwtP1d_qR7JvM8EDyiehTc8iL6HZrxH9Y_5_kwTLQNv9zO68uzgzO1peNvW0NGktmgAzk7ee7wUZNhK3fDlaMG-9xG-Gvg2EClm5EtqGLfxp9s-376NnLLzxZHi8Wj_YbWEBPKepBqK2uoGgxpLiCE5Y" 
-              />
+              <img
+                alt="Reflorestamento e cuidado com o solo"
+                className="w-full aspect-square object-cover rounded-none shadow-xl"
+                src="/img/reflorestamento.png" />
               <div className="absolute -bottom-6 -right-6 bg-white border border-emerald-500/20 p-8 shadow-2xl flex flex-col gap-1 min-w-[180px]">
                 <h3 className="font-headline text-3xl font-black text-emerald-600 leading-none">98%</h3>
                 <p className="font-headline text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-tight italic">De Reuso de Água no Ciclo Industrial</p>
@@ -253,12 +249,12 @@ export default function HomePage() {
           <div className="w-full lg:w-1/2 space-y-8">
             <div>
               <span className="text-emerald-600 font-headline font-bold text-[10px] uppercase tracking-[0.3em] mb-4 block">Sustainability First</span>
-              <h2 className="font-headline text-5xl md:text-6xl font-black text-slate-900 leading-tight mb-8">Compromisso com o <br/>Futuro: <span className="text-emerald-700">Jornada ESG</span></h2>
+              <h2 className="font-headline text-5xl md:text-6xl font-black text-slate-900 leading-tight mb-8">Compromisso com o <br />Futuro: <span className="text-emerald-700">Jornada ESG</span></h2>
               <p className="font-body text-slate-600 text-lg leading-relaxed mb-10">
                 Na USINA PAISA, a sustentabilidade não é um departamento, é a nossa essência. Desenvolvemos ecossistemas de regeneração que vão além da conformidade legal, impactando positivamente a biodiversidade local e fortalecendo as comunidades vizinhas através de educação e inovação tecnológica.
               </p>
             </div>
-            
+
             <div className="space-y-6">
               <div className="flex items-center gap-4">
                 <div className="w-6 h-6 bg-emerald-600 rounded-full flex items-center justify-center">
@@ -297,7 +293,7 @@ export default function HomePage() {
               Nosso compromisso social transpende os portões da usina. Investimos no desenvolvimento humano e no fortalecimento das raízes locais, criando um ecossistema de oportunidades onde a inovação caminha lado a lado com o bem-estar social.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-slate-200 bg-white">
             {[
               { title: 'Educação do Futuro', desc: 'Suporte contínuo a escolas locais e centros de treinamento técnico para os desafios da indústria 4.0 no agronegócio sustentável.', icon: 'school', link: 'Ver Projetos' },

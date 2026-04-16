@@ -280,3 +280,164 @@ export async function deleteEmployee(id: string) {
     return { success: false, error: error.message };
   }
 }
+
+// --- LEAVE MANAGEMENT ---
+
+export async function getLeaveTypes() {
+  try {
+    return await prisma.leaveType.findMany({
+      orderBy: { name: 'asc' }
+    });
+  } catch (error) {
+    console.error('getLeaveTypes error:', error);
+    return [];
+  }
+}
+
+export async function createLeaveType(name: string) {
+  try {
+    ensureAuth();
+    const type = await prisma.leaveType.create({
+      data: { name }
+    });
+    return { success: true, type };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function getLeaves() {
+  try {
+    return await prisma.leave.findMany({
+      include: {
+        employee: {
+          include: {
+            sector: true,
+            workLocation: true
+          }
+        },
+        leaveType: true
+      },
+      orderBy: { startDate: 'desc' }
+    });
+  } catch (error) {
+    console.error('getLeaves error:', error);
+    return [];
+  }
+}
+
+export async function createLeave(data: any) {
+  try {
+    ensureAuth();
+    const { employeeId, leaveTypeId, startDate, expectedReturn, observation, documentUrl } = data;
+    
+    const leave = await prisma.leave.create({
+      data: {
+        employeeId,
+        leaveTypeId,
+        startDate: new Date(startDate),
+        expectedReturn: expectedReturn ? new Date(expectedReturn) : null,
+        observation,
+        documentUrl,
+        status: 'ATIVO'
+      }
+    });
+
+    revalidatePath('/dashboard/rh/afastados');
+    return { success: true, leave };
+  } catch (error: any) {
+    console.error('createLeave error:', error);
+    return { success: false, error: 'Erro ao salvar afastamento: ' + error.message };
+  }
+}
+
+export async function updateLeave(id: string, data: any) {
+  try {
+    ensureAuth();
+    const { leaveTypeId, startDate, expectedReturn, observation, documentUrl, status } = data;
+    
+    const leave = await prisma.leave.update({
+      where: { id },
+      data: {
+        leaveTypeId,
+        startDate: new Date(startDate),
+        expectedReturn: expectedReturn ? new Date(expectedReturn) : null,
+        observation,
+        documentUrl,
+        status: status || 'ATIVO'
+      }
+    });
+
+    revalidatePath('/dashboard/rh/afastados');
+    return { success: true, leave };
+  } catch (error: any) {
+    console.error('updateLeave error:', error);
+    return { success: false, error: 'Erro ao atualizar: ' + error.message };
+  }
+}
+
+export async function seedAfastados() {
+  try {
+    // Check if we have employees
+    const employees = await prisma.employee.findMany({ take: 3 });
+    if (employees.length < 3) return { success: false, error: 'Cadastre pelo menos 3 funcionários primeiro.' };
+
+    // Check if we have leave types
+    let types = await prisma.leaveType.findMany();
+    if (types.length === 0) {
+      await prisma.leaveType.createMany({
+        data: [
+          { name: 'INSS (Auxílio Doença - B31)' },
+          { name: 'INSS (Acidente de Trabalho - B91)' },
+          { name: 'Licença Maternidade' },
+          { name: 'Licença Médica (< 15 dias)' },
+          { name: 'Afastamento Administrativo' },
+        ]
+      });
+      types = await prisma.leaveType.findMany();
+    }
+
+    // Create 3 leaves
+    const leaveData = [
+      {
+        employeeId: employees[0].id,
+        leaveTypeId: types[0].id,
+        startDate: new Date('2024-05-12'),
+        expectedReturn: new Date('2024-09-15'),
+        observation: 'Afastamento padrão INSS',
+        status: 'ATIVO'
+      },
+      {
+        employeeId: employees[1].id,
+        leaveTypeId: types[2].id,
+        startDate: new Date('2024-06-01'),
+        expectedReturn: new Date('2024-10-05'),
+        observation: 'Licença maternidade confirmada',
+        status: 'ATIVO'
+      },
+      {
+        employeeId: employees[2].id,
+        leaveTypeId: types[3].id,
+        startDate: new Date('2024-07-20'),
+        expectedReturn: new Date('2024-07-28'),
+        observation: 'Atestado de 8 dias',
+        status: 'ATIVO'
+      }
+    ];
+
+    for (const data of leaveData) {
+      const exists = await prisma.leave.findFirst({
+        where: { employeeId: data.employeeId, startDate: data.startDate }
+      });
+      if (!exists) {
+        await prisma.leave.create({ data });
+      }
+    }
+
+    revalidatePath('/dashboard/rh/afastados');
+    return { success: true };
+  } catch (error: any) {
+    console.error('seedAfastados error:', error);
+    return { success: false, error: error.message };
+  }
+}

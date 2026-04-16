@@ -26,13 +26,14 @@ import { getSectors, getWorkLocations } from '@/app/dashboard/rh/actions';
 interface EmployeeFormProps {
   initialData?: any;
   isApprentice?: boolean;
+  isReadOnly?: boolean;
   onSuccess: () => void;
   onCancel: () => void;
 }
 
 type TabType = 'IDENTIDADE' | 'CONTRATO' | 'EDUCACAO' | 'CARREIRA' | 'DOCUMENTOS';
 
-export default function EmployeeForm({ initialData, isApprentice = false, onSuccess, onCancel }: EmployeeFormProps) {
+export default function EmployeeForm({ initialData, isApprentice = false, isReadOnly = false, onSuccess, onCancel }: EmployeeFormProps) {
   const [activeTab, setActiveTab] = useState<TabType>('IDENTIDADE');
   const [sectors, setSectors] = useState<any[]>([]);
   const [locations, setLocations] = useState<any[]>([]);
@@ -233,7 +234,7 @@ export default function EmployeeForm({ initialData, isApprentice = false, onSucc
             </div>
         )}
 
-        <div className="flex-grow overflow-y-auto p-12 custom-scrollbar">
+        <fieldset disabled={isReadOnly} className="flex-grow overflow-y-auto p-12 custom-scrollbar">
             {activeTab === 'IDENTIDADE' && (
                 <div className="space-y-10 animate-fade-up">
                     <div className="flex flex-col md:flex-row gap-10 items-center">
@@ -515,7 +516,7 @@ export default function EmployeeForm({ initialData, isApprentice = false, onSucc
                     </div>
                 </div>
             )}
-        </div>
+        </fieldset>
 
         {/* Footer Actions */}
         <div className="p-10 border-t border-slate-50 flex items-center justify-between bg-white/80 backdrop-blur-md z-10">
@@ -524,18 +525,20 @@ export default function EmployeeForm({ initialData, isApprentice = false, onSucc
                 onClick={onCancel}
                 className="px-6 py-4 font-black text-[10px] uppercase tracking-widest text-slate-400 hover:text-red-500 transition-all flex items-center gap-2"
             >
-                <X size={14} /> DESCARTAR
+                <X size={14} /> {isReadOnly ? 'FECHAR' : 'DESCARTAR'}
             </button>
-            <div className="flex gap-4">
-                <button 
-                    type="submit"
-                    disabled={isSubmitting || isUploading}
-                    className="bg-emerald-950 text-white px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-2xl shadow-emerald-950/20 hover:bg-emerald-800 transition-all flex items-center gap-4 disabled:opacity-50 active:scale-95 group"
-                >
-                    {isSubmitting ? <Loader2 className="animate-spin w-4 h-4" /> : <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                    {initialData ? 'SALVAR ATUALIZAÇÃO' : 'FINALIZAR CADASTRO'}
-                </button>
-            </div>
+            {!isReadOnly && (
+                <div className="flex gap-4">
+                    <button 
+                        type="submit"
+                        disabled={isSubmitting || isUploading}
+                        className="bg-emerald-950 text-white px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-2xl shadow-emerald-950/20 hover:bg-emerald-800 transition-all flex items-center gap-4 disabled:opacity-50 active:scale-95 group"
+                    >
+                        {isSubmitting ? <Loader2 className="animate-spin w-4 h-4" /> : <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                        {initialData ? 'SALVAR ATUALIZAÇÃO' : 'FINALIZAR CADASTRO'}
+                    </button>
+                </div>
+            )}
         </div>
       </div>
     </form>
