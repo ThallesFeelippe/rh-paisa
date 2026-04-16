@@ -41,6 +41,7 @@ export default function AtendimentosPage() {
   
   const [message, setMessage] = useState({ text: '', type: '' });
   const [user, setUser] = useState<any>(null);
+  const [now, setNow] = useState<Date>(new Date());
   const [activeTab, setActiveTab] = useState<'TODOS' | 'PSICOLOGIA' | 'RH'>('TODOS');
   const [statusFilter, setStatusFilter] = useState('TODOS');
   
@@ -174,7 +175,6 @@ export default function AtendimentosPage() {
     return tabMatch && statusMatch;
   });
 
-  const now = new Date();
   const currentMonthConsultations = consultations.filter(c => {
     const d = new Date(c.date);
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
@@ -190,16 +190,21 @@ export default function AtendimentosPage() {
 
   const casosUrgentes = consultations.filter(c => c.status === 'PENDENTE' || c.type === 'URGENCIA').length;
 
+  useEffect(() => {
+    setNow(new Date());
+  }, []);
+
   const formatNumber = (num: number) => num.toLocaleString('pt-BR');
 
   const canReset = ['ADMIN', 'SECRETARIA'].includes(user?.role);
   
   const canEdit = (item: any = null) => {
-    if (user?.role === 'ADMIN' || user?.role === 'SECRETARIA') return true;
-    if (user?.role === 'PSICOLOGA' && item?.category === 'PSICOLOGIA') return true;
-    if (user?.role === 'GESTOR_RH' && item?.category === 'RH') return true;
+    if (!user) return false;
+    if (user.role === 'ADMIN' || user.role === 'SECRETARIA') return true;
+    if (user.role === 'PSICOLOGA' && item?.category === 'PSICOLOGIA') return true;
+    if (user.role === 'GESTOR_RH' && item?.category === 'RH') return true;
     // For new entries (item is null)
-    if (!item && (user?.role === 'PSICOLOGA' || user?.role === 'GESTOR_RH')) return true;
+    if (!item && (user.role === 'PSICOLOGA' || user.role === 'GESTOR_RH')) return true;
     return false;
   };
 

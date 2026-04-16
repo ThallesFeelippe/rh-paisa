@@ -19,26 +19,32 @@ export async function getConsultations() {
 
 export async function createConsultation(data: any) {
   const session = getSession();
-  if (!session) return { success: false, error: 'Não autorizado' };
+  if (!session) return { success: false, error: 'Não autorizado. Faça login novamente.' };
 
   try {
+    // Validação básica da data
+    const consultationDate = data.date ? new Date(data.date) : new Date();
+    if (isNaN(consultationDate.getTime())) {
+      throw new Error('Data de atendimento inválida.');
+    }
+
     const consultation = await prisma.consultation.create({
       data: {
-        employeeName: data.employeeName,
-        employeeRegistration: data.employeeRegistration,
-        employeeRole: data.employeeRole,
-        type: data.type,
-        category: data.category,
+        employeeName: data.employeeName || 'Não informado',
+        employeeRegistration: data.employeeRegistration || null,
+        employeeRole: data.employeeRole || null,
+        type: data.type || 'INDIVIDUAL',
+        category: data.category || 'PSICOLOGIA',
         status: data.status || 'AGENDADO',
-        date: new Date(data.date),
-        observation: data.observation,
+        date: consultationDate,
+        observation: data.observation || null,
       },
     });
     revalidatePath('/dashboard/atendimentos');
     return { success: true, data: consultation };
-  } catch (error) {
-    console.error('Error creating consultation:', error);
-    return { success: false, error: 'Erro ao criar atendimento' };
+  } catch (error: any) {
+    console.error('❌ Error creating consultation:', error);
+    return { success: false, error: error.message || 'Erro ao criar atendimento no banco de dados' };
   }
 }
 
@@ -47,6 +53,8 @@ export async function updateConsultation(id: string, data: any) {
   if (!session) return { success: false, error: 'Não autorizado' };
 
   try {
+    const consultationDate = data.date ? new Date(data.date) : new Date();
+    
     const consultation = await prisma.consultation.update({
       where: { id },
       data: {
@@ -56,14 +64,14 @@ export async function updateConsultation(id: string, data: any) {
         type: data.type,
         category: data.category,
         status: data.status,
-        date: new Date(data.date),
+        date: consultationDate,
         observation: data.observation,
       },
     });
     revalidatePath('/dashboard/atendimentos');
     return { success: true, data: consultation };
   } catch (error) {
-    console.error('Error updating consultation:', error);
+    console.error('❌ Error updating consultation:', error);
     return { success: false, error: 'Erro ao atualizar atendimento' };
   }
 }

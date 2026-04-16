@@ -6,25 +6,49 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Iniciando Seeding do Banco de Dados...');
 
-  // 1. Criar Usuário Admin Mestre (Se não existir)
-  const masterUsername = 'admin_paisa';
-  const hashedPassword = await bcrypt.hash('Paisa@2024!Secure#Admin#Industrial', 10);
+  const commonPassword = await bcrypt.hash('Paisa@2024!Secure', 10);
+  const adminPassword = await bcrypt.hash('Paisa@2024!Secure#Admin#Industrial', 10);
 
-  const admin = await prisma.user.upsert({
-    where: { username: masterUsername },
-    update: {
-      password: hashedPassword,
+  // 1. Criar Usuários Administrativos
+  const users = [
+    {
+      username: 'admin_paisa',
       name: 'Admin Paisa Master',
       role: 'ADMIN',
+      password: adminPassword,
     },
-    create: {
-      username: masterUsername,
-      password: hashedPassword,
-      name: 'Admin Paisa Master',
-      role: 'ADMIN',
+    {
+      username: 'secretaria_paisa',
+      name: 'Secretaria Paisa',
+      role: 'SECRETARIA',
+      password: commonPassword,
     },
-  });
-  console.log(`✅ Usuário Admin verificado/criado: ${admin.username}`);
+    {
+      username: 'psicologia_paisa',
+      name: 'Equipe Psicologia',
+      role: 'PSICOLOGA',
+      password: commonPassword,
+    },
+    {
+      username: 'gestor_rh_paisa',
+      name: 'Gestor RH Paisa',
+      role: 'GESTOR_RH',
+      password: commonPassword,
+    }
+  ];
+
+  for (const userData of users) {
+    const user = await prisma.user.upsert({
+      where: { username: userData.username },
+      update: {
+        name: userData.name,
+        role: userData.role,
+        password: userData.password,
+      },
+      create: userData,
+    });
+    console.log(`✅ Usuário verificado/criado: ${user.username} (${user.role})`);
+  }
 
   // 2. Criar Notícias Iniciais (Se o banco estiver vazio)
   const newsCount = await prisma.news.count();
@@ -78,6 +102,89 @@ async function main() {
       ]
     });
     console.log('✅ Vagas iniciais criadas.');
+  }
+
+  // 4. Criar Atendimentos Iniciais (Se o banco estiver vazio)
+  const consultationCount = await prisma.consultation.count();
+  if (consultationCount === 0) {
+    await prisma.consultation.createMany({
+      data: [
+        {
+          employeeName: 'Ricardo Silva',
+          employeeRegistration: '254585',
+          employeeRole: 'Operador de Moagem • Setor A',
+          type: 'INDIVIDUAL',
+          category: 'PSICOLOGIA',
+          status: 'REALIZADO',
+          date: new Date('2026-04-10T09:30:00'),
+          observation: 'Atendimento de rotina e acompanhamento psicológico.',
+        },
+        {
+          employeeName: 'Ana Maria Oliveira',
+          employeeRegistration: '252426',
+          employeeRole: 'Administrativo • RH',
+          type: 'GRUPO',
+          category: 'RH',
+          status: 'AGENDADO',
+          date: new Date('2026-04-18T14:00:00'),
+          observation: 'Integração técnica e operacional - Novos Colaboradores.',
+        },
+        {
+          employeeName: 'Carlos Eduardo Santos',
+          employeeRegistration: '258974',
+          employeeRole: 'Gerente Operacional',
+          type: 'URGENCIA',
+          category: 'PSICOLOGIA',
+          status: 'PENDENTE',
+          date: new Date('2026-04-16T10:00:00'),
+          observation: 'Acompanhamento de estresse agudo pós-safra.',
+        }
+      ]
+    });
+    console.log('✅ Atendimentos iniciais criados.');
+  }
+
+  // 5. Unidades de Trabalho
+  const unitCount = await prisma.unit.count();
+  if (unitCount === 0) {
+    await prisma.unit.createMany({
+      data: [
+        { name: 'USINA PAISA - MATRIZ', location: 'Penedo, AL', status: 'ATIVO' },
+        { name: 'FILIAL ALAGOAS - CAMPO', location: 'Coruripe, AL', status: 'ATIVO' }
+      ]
+    });
+    console.log('✅ Unidades iniciais criadas.');
+  }
+
+  // 6. Funcionários (Amostra)
+  const employeeCount = await prisma.employee.count();
+  if (employeeCount === 0) {
+    const unit = await prisma.unit.findFirst();
+    if (unit) {
+      await prisma.employee.createMany({
+        data: [
+          {
+            name: 'João Carlos Pereira',
+            registration: '254001',
+            role: 'Operador Especialista',
+            unitId: unit.id,
+            email: 'joao@paisa.com.br',
+            status: 'ATIVO',
+            admissionDate: new Date('2022-01-15'),
+          },
+          {
+            name: 'Maria Clara Souza',
+            registration: '254002',
+            role: 'Analista Administrativo',
+            unitId: unit.id,
+            email: 'maria@paisa.com.br',
+            status: 'ATIVO',
+            admissionDate: new Date('2023-06-20'),
+          }
+        ]
+      });
+      console.log('✅ Funcionários iniciais criados.');
+    }
   }
 
   console.log('🚀 Seeding finalizado com sucesso!');

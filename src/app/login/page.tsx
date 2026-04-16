@@ -34,10 +34,11 @@ export default function LoginPage() {
         // Redireciona para o dashboard se o login for bem-sucedido
         router.push('/dashboard');
       } else {
-        setError(data.message || 'Credenciais inválidas.');
+        const errorMsg = data.debug ? `${data.message} (${data.debug})` : (data.message || 'Credenciais inválidas.');
+        setError(errorMsg);
       }
-    } catch (err) {
-      setError('Algo deu errado. Tente novamente mais tarde.');
+    } catch (err: any) {
+      setError(`Algo deu errado: ${err.message || 'Tente novamente mais tarde.'}`);
     } finally {
       setIsLoading(false);
     }
