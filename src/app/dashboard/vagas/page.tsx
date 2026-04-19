@@ -116,6 +116,16 @@ export default function VagasPage() {
         </button>
       </section>
 
+      {/* Messages */}
+      {message.text && (
+        <div className={`p-4 rounded-xl flex items-center gap-3 animate-shake border-2 ${
+          message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'
+        }`}>
+          {message.type === 'success' ? <CheckCircle className="shrink-0" size={20} /> : <AlertCircle className="shrink-0" size={20} />}
+          <p className="font-bold text-xs uppercase tracking-widest">{message.text}</p>
+        </div>
+      )}
+
       {/* Grid List */}
       {isLoading ? (
         <div className="flex flex-col items-center justify-center py-20 text-[#414844]/50">

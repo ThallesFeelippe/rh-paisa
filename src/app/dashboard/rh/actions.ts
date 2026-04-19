@@ -145,6 +145,14 @@ export async function getEmployee(id: string) {
 export async function createEmployee(data: any) {
   try {
     ensureAuth();
+
+    let payload = data;
+    
+    // Support both FormData (standard forms) and plain objects (API/Client calls)
+    if (data instanceof FormData) {
+      payload = Object.fromEntries(data.entries());
+    }
+
     const { 
       documents, 
       courses, 
@@ -154,21 +162,37 @@ export async function createEmployee(data: any) {
       startDate, 
       contractEnd,
       salary,
+      isApprentice,
+      registrationNumber,
       ...simpleFields 
-    } = data;
+    } = payload;
 
-    // Clean up workLocationId - ensuring it's not an empty string
-    const finalLocationId = (workLocationId && workLocationId !== "") ? workLocationId : null;
+    // Strict check for empty strings or invalid IDs
+    const finalSectorId = (sectorId && typeof sectorId === 'string' && sectorId.trim() !== "") ? sectorId : null;
+    const finalLocationId = (workLocationId && typeof workLocationId === 'string' && workLocationId.trim() !== "") ? workLocationId : null;
+    const finalRegNumber = (registrationNumber && typeof registrationNumber === 'string' && registrationNumber.trim() !== "") ? registrationNumber : null;
 
     const employee = await prisma.employee.create({
-
       data: {
-        ...simpleFields,
+        name: String(simpleFields.name || ""),
+        cpf: String(simpleFields.cpf || ""),
+        rg: simpleFields.rg ? String(simpleFields.rg) : null,
+        position: String(simpleFields.position || ""),
+        registrationNumber: finalRegNumber,
+        isApprentice: isApprentice === 'true' || isApprentice === true,
         salary: Number(salary) || 0,
         birthDate: birthDate ? new Date(birthDate) : null,
         startDate: startDate ? new Date(startDate) : new Date(),
         contractEnd: contractEnd ? new Date(contractEnd) : null,
-        // Using direct ID linkage for workLocationId if sectorId is not provided
+        educationLevel: simpleFields.educationLevel || null,
+        educationDetail: simpleFields.educationDetail || null,
+        careerPlan: simpleFields.careerPlan || null,
+        observationApprentice: simpleFields.observationApprentice || null,
+        grades: simpleFields.grades || null,
+        description: simpleFields.description || null,
+        photoUrl: simpleFields.photoUrl || null,
+        // Relations
+        sector: finalSectorId ? { connect: { id: finalSectorId } } : undefined,
         workLocation: finalLocationId ? { connect: { id: finalLocationId } } : undefined,
         documents: {
           create: documents?.map((doc: any) => ({
@@ -190,7 +214,10 @@ export async function createEmployee(data: any) {
     revalidatePath('/dashboard/rh/aprendizes');
     revalidatePath('/dashboard/rh/funcionarios');
     revalidatePath('/dashboard/rh/unidades');
-    return { success: true, employee };
+    revalidatePath('/dashboard/psicologia/pacientes');
+    revalidatePath('/dashboard/psicologia/pacientes/novo');
+    
+    return { success: true, data: employee };
   } catch (error: any) {
     console.error('createEmployee error:', error);
     if (error.code === 'P2002') {
@@ -198,7 +225,7 @@ export async function createEmployee(data: any) {
       const friendlyField = field === 'registrationNumber' ? 'MATRÍCULA' : field.toUpperCase();
       return { success: false, error: `Já existe um colaborador cadastrado com este ${friendlyField}.` };
     }
-    return { success: false, error: 'Erro técnico ao salvar: ' + error.message };
+    return { success: false, error: 'Erro ao salvar: ' + (error.message || 'Erro desconhecido') };
   }
 }
 

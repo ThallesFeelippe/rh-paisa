@@ -13,6 +13,17 @@ export async function submitApplication(formData: FormData) {
   const name = formData.get('name') as string;
   const rawAge = formData.get('age') as string;
   const age = parseInt(rawAge) || 0; 
+  const cpf = formData.get('cpf') as string;
+  const education = formData.get('education') as string;
+  const maritalStatus = formData.get('maritalStatus') as string;
+  const email = formData.get('email') as string;
+  const phone = formData.get('phone') as string;
+  const address = formData.get('address') as string;
+  const motivation = formData.get('motivation') as string;
+  const jobId = formData.get('jobId') as string;
+  
+  const photoFile = formData.get('photoFile') as File | null;
+  const resumeFile = formData.get('resumeFile') as File | null;
 
   // --- GERENCIAMENTO DE ERROS PRÉ-CANDIDATURA ---
   if (!name || name.length < 3) {
@@ -28,18 +39,6 @@ export async function submitApplication(formData: FormData) {
     return { success: false, message: 'A idade mínima para candidatura é 14 anos.' };
   }
   // ----------------------------------------------
-  
-  const cpf = formData.get('cpf') as string;
-  const education = formData.get('education') as string;
-  const maritalStatus = formData.get('maritalStatus') as string;
-  const email = formData.get('email') as string;
-  const phone = formData.get('phone') as string;
-  const address = formData.get('address') as string;
-  const motivation = formData.get('motivation') as string;
-  const jobId = formData.get('jobId') as string;
-  
-  const photoFile = formData.get('photoFile') as File | null;
-  const resumeFile = formData.get('resumeFile') as File | null;
 
   let photoUrl = null;
   let resumeUrl = null;

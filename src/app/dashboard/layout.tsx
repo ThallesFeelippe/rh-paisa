@@ -26,6 +26,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { getCurrentUser } from './perfil/actions';
+import AccessDenied from '@/components/dashboard/AccessDenied';
 
 export default function DashboardLayout({
   children,
@@ -66,13 +67,13 @@ export default function DashboardLayout({
       icon: UserIcon, 
       href: '/dashboard/rh',
       isExpandable: true,
-      roles: ['ADMIN', 'GESTOR_RH'],
+      roles: ['ADMIN', 'GESTOR_RH', 'PSICOLOGA'],
       subItems: [
         { name: 'Jovem Aprendiz', icon: GraduationCap, href: '/dashboard/rh/aprendizes' },
         { name: 'Funcionários', icon: Users, href: '/dashboard/rh/funcionarios' },
         { name: 'Unidades', icon: MapPin, href: '/dashboard/rh/unidades' },
         { name: 'Gestão Afastados', icon: FileText, href: '/dashboard/rh/afastados' },
-        { name: 'Atendimentos', icon: Users, href: '/dashboard/atendimentos' },
+        { name: 'Atendimentos', icon: Users, href: '/dashboard/atendimentos?origin=RH' },
         { name: 'Chat Secretaria', icon: MessageCircle, href: '/dashboard/comunicacao?channel=RH_SECRETARIA&origin=RH' },
       ]
     },
@@ -83,7 +84,7 @@ export default function DashboardLayout({
       isExpandable: true,
       roles: ['ADMIN', 'SECRETARIA'],
       subItems: [
-        { name: 'Fila Atendimento', icon: Users, href: '/dashboard/atendimentos' },
+        { name: 'Fila Atendimento', icon: Users, href: '/dashboard/atendimentos?origin=SECRETARIA' },
         { name: 'Chat Psicologia', icon: MessageCircle, href: '/dashboard/comunicacao?channel=PSICOLOGIA_SECRETARIA&origin=SECRETARIA_PSI' },
         { name: 'Chat RH', icon: MessageCircle, href: '/dashboard/comunicacao?channel=RH_SECRETARIA&origin=SECRETARIA_RH' },
       ]
@@ -91,11 +92,13 @@ export default function DashboardLayout({
     { 
       name: 'Psicologia', 
       icon: Users, 
-      href: '/dashboard/atendimentos',
+      href: '/dashboard/psicologia/pacientes',
       isExpandable: true,
       roles: ['ADMIN', 'PSICOLOGA'],
       subItems: [
-        { name: 'Fila Atendimento', icon: Users, href: '/dashboard/atendimentos' },
+        { name: 'Gestão de Pacientes', icon: Users, href: '/dashboard/psicologia/pacientes' },
+        { name: 'Funcionários (RH)', icon: Users, href: '/dashboard/rh/funcionarios' },
+        { name: 'Fila Atendimento', icon: Users, href: '/dashboard/atendimentos?origin=PSICOLOGIA' },
         { name: 'Chat Secretaria', icon: MessageCircle, href: '/dashboard/comunicacao?channel=PSICOLOGIA_SECRETARIA&origin=PSICOLOGIA' },
       ]
     },
@@ -108,13 +111,33 @@ export default function DashboardLayout({
   );
 
   useEffect(() => {
-    navItems.forEach(item => {
-      const isActive = (item.href === '/dashboard' ? pathname === '/dashboard' : currentFullHref.startsWith(item.href)) || 
-                      (item.subItems?.some(sub => currentFullHref === sub.href));
-      if (isActive && item.isExpandable && !openMenus.includes(item.name)) {
-        setOpenMenus(prev => [...prev, item.name]);
+    // Auto-open logic for the sidebar
+    // We find the BEST match for the current route
+    let activeMenuName = "";
+
+    // 1. Check for exact sub-item match (highest priority)
+    for (const item of navItems) {
+      if (item.subItems?.some(sub => currentFullHref === sub.href)) {
+        activeMenuName = item.name;
+        break;
       }
-    });
+    }
+
+    // 2. If no exact sub-item match, check for path prefix
+    if (!activeMenuName) {
+      const sortedItems = [...navItems]
+        .filter(item => item.isExpandable && item.href !== '/dashboard' && pathname.startsWith(item.href))
+        .sort((a, b) => b.href.length - a.href.length);
+      
+      if (sortedItems.length > 0) {
+        activeMenuName = sortedItems[0].name;
+      }
+    }
+
+    // Auto-open the active menu if not already open
+    if (activeMenuName && !openMenus.includes(activeMenuName)) {
+      setOpenMenus(prev => [...prev, activeMenuName]);
+    }
   }, [currentFullHref, pathname]);
 
   const handleLogout = async () => {
@@ -278,7 +301,18 @@ export default function DashboardLayout({
         </header>
 
         <main className="p-8 lg:p-10">
-          {children}
+          {(() => {
+            const currentItem = navItems.find(item => 
+              (item.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(item.href)) ||
+              (item.subItems?.some(sub => pathname === sub.href))
+            );
+            
+            if (currentItem && user && !currentItem.roles.includes(user.role)) {
+              return <AccessDenied />;
+            }
+            
+            return children;
+          })()}
         </main>
       </div>
     </div>

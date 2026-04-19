@@ -49,42 +49,41 @@ export default function LoginPage() {
       <main className="w-full min-h-screen flex flex-col md:flex-row">
         
         {/* Branding/Imagery Section (Organic & Tech) */}
-        <section className="relative w-full md:w-7/12 h-64 md:h-screen overflow-hidden">
-          <img 
-            alt="Campo de cana-de-açúcar" 
-            className="absolute inset-0 w-full h-full object-cover grayscale-[20%] contrast-110" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnHhTfoMtPYM8WWTTugzzKtaukJWtBMA_7xyze2rpFljMUrJofucnAWKJMeB9n02qpfP3-KiGzTaBdCcJemVBE8goAsP7BJmPYSPXPU_BVmcgi89PXccnAkZVt3vQy2-FQDYDFIGIJirax4qxZROpScWRY8Qlvhw2BnbsfwgS6r_OFv6Dn1Cow3IknkJulNz2G_NyZ9Sw_XxlA9Fv5YnvyrD2oVofUzNrJFD34e5BOG0CGTaTZQJ6-sxMr_-Yz6L4cANsKUKkTVppk" 
-          />
-          {/* Overlay Mask */}
-          <div className="absolute inset-0 bg-primary-container/40 backdrop-none mix-blend-multiply"></div>
+        <section className="relative w-full md:w-7/12 h-[40vh] md:h-screen overflow-hidden">
+          <div className="absolute inset-0 bg-emerald-950">
+            <img 
+              alt="Campo de cana-de-açúcar" 
+              className="w-full h-full object-cover opacity-60 grayscale-[30%] contrast-125 hover:scale-105 transition-transform duration-[10s]" 
+              src="https://images.unsplash.com/photo-1594142461710-859a1f287042?q=80&w=2070&auto=format&fit=crop" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-transparent to-transparent md:bg-gradient-to-r"></div>
+          </div>
           
           {/* Floating Data Card (Industrial Precision) */}
-          <div className="absolute bottom-12 left-12 right-12 md:right-auto md:w-96 bg-white/60 backdrop-blur-xl rounded-xl p-8 border border-white/20 hidden md:block shadow-2xl">
+          <div className="absolute bottom-12 left-12 right-12 md:right-auto md:w-96 bg-white/10 backdrop-blur-2xl rounded-2xl p-8 border border-white/10 hidden md:block shadow-2xl animate-slideUp">
             <div className="flex items-center gap-3 mb-4">
-              <span className="material-symbols-outlined text-secondary font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>sensors_kr</span>
-              <span className="font-headline text-[10px] tracking-widest uppercase text-on-surface-variant font-black">Monitoramento Ativo</span>
+              <span className="material-symbols-outlined text-emerald-400 font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>sensors</span>
+              <span className="font-headline text-[10px] tracking-[0.3em] uppercase text-emerald-100/60 font-black">Monitoramento Ativo</span>
             </div>
-            <h2 className="font-headline text-2xl font-bold text-primary mb-2 tracking-tighter italic uppercase leading-none">Eco-Digital <br/> <span className="text-secondary">Usina Paisa</span></h2>
-            <p className="text-xs text-on-surface-variant leading-relaxed">Integrando precisão industrial com sustentabilidade regenerativa para o futuro da produção sucroenergética.</p>
-            <div className="mt-6 flex gap-4">
+            <h2 className="font-headline text-3xl font-bold text-white mb-2 tracking-tighter italic uppercase leading-none">Ecossistema <br/> <span className="text-emerald-400">Usina Paisa</span></h2>
+            <p className="text-xs text-emerald-100/50 leading-relaxed font-medium">Integrando precisão industrial com sustentabilidade regenerativa para o futuro da produção sucroenergética.</p>
+            <div className="mt-8 flex gap-8">
               <div className="flex flex-col">
-                <span className="text-[10px] text-on-surface-variant/60 font-bold uppercase tracking-widest">Extração</span>
-                <span className="font-headline text-lg font-bold text-secondary">98.4%</span>
+                <span className="text-[10px] text-emerald-100/40 font-bold uppercase tracking-widest mb-1">Extração</span>
+                <span className="font-headline text-2xl font-bold text-emerald-400">98.4%</span>
               </div>
-              <div className="w-px h-8 bg-outline-variant/30"></div>
+              <div className="w-px h-10 bg-white/10"></div>
               <div className="flex flex-col">
-                <span className="text-[10px] text-on-surface-variant/60 font-bold uppercase tracking-widest">Umidade</span>
-                <span className="font-headline text-lg font-bold text-secondary">12.1%</span>
+                <span className="text-[10px] text-emerald-100/40 font-bold uppercase tracking-widest mb-1">Eficiência</span>
+                <span className="font-headline text-2xl font-bold text-emerald-400">94.2%</span>
               </div>
             </div>
           </div>
           
-          {/* Mobile Logo */}
-          <div className="absolute top-8 left-8 md:hidden">
-            <div className="flex items-center gap-2 bg-white/90 px-4 py-2 rounded-full shadow-lg">
-              <span className="material-symbols-outlined text-secondary">precision_manufacturing</span>
-              <span className="font-headline font-bold tracking-tighter text-primary">USINA PAISA</span>
-            </div>
+          {/* Mobile Overlay Text */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center md:hidden p-8 text-center">
+             <h1 className="font-headline text-5xl font-black text-white italic uppercase tracking-tighter">USINA PAISA</h1>
+             <p className="text-emerald-400 text-[10px] font-bold uppercase tracking-[0.3em] mt-2">Portal Administrativo</p>
           </div>
         </section>
 

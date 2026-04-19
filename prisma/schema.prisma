@@ -7,185 +7,181 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+// Nota: SQLite não suporta Enums nativos. Usaremos Strings.
+
 model User {
-  id              String   @id @default(cuid())
-  role            String   // ADMIN, SECRETARIA, PSICOLOGA, GESTOR_RH
-  username        String   @unique
-  password        String
-  name            String
-  avatarUrl       String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  messagesSent    Message[]
+  id           String    @id @default(uuid())
+  username     String    @unique
+  role         String    @default("SECRETARIA") // ADMIN, SECRETARIA, PSICOLOGA, GESTOR_RH
+  password     String
+  name         String
+  avatarUrl    String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  messagesSent Message[]
 }
 
 model Employee {
-  id                String   @id @default(cuid())
-  name              String
-  registrationNumber String?  @unique // Matrícula
-  cpf               String   @unique
-  rg                String?
-  birthDate         DateTime?
-  sectorId          String?
-  sector            Sector?  @relation(fields: [sectorId], references: [id])
-  position          String   // Cargo
-  salary            Float?
-  startDate         DateTime
-  isApprentice      Boolean  @default(false)
-  contractEnd       DateTime? // For apprentices
-  
-  // RH Fields
-  educationLevel    String?  // Fundamental, Médio, Superior, etc.
-  educationDetail   String?  // Ex: 7º Período de Direito
-  careerPlan        String?  // Structured text or JSON
-  
-  // Apprentice Specific
+  id                    String             @id @default(uuid())
+  name                  String
+  registrationNumber    String?            @unique
+  cpf                   String             @unique
+  rg                    String?
+  birthDate             DateTime?
+  sectorId              String?
+  sector                Sector?            @relation(fields: [sectorId], references: [id])
+  position              String
+  salary                Decimal?
+  startDate             DateTime
+  isApprentice          Boolean            @default(false)
+  contractEnd           DateTime?
+  educationLevel        String?
+  educationDetail       String?
+  careerPlan            String?
   observationApprentice String?
-  grades            String?  // Notas
-  description       String?  // Descrição detalhada
-  
-  // Location
-  workLocationId    String?
-  workLocation      WorkLocation? @relation(fields: [workLocationId], references: [id])
-  
-  photoUrl          String?
-  documents         EmployeeDocument[]
-  courses           Course[]
-  leaves            Leave[]
-  
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  grades                String?
+  description           String?
+  workLocationId        String?
+  workLocation          WorkLocation?      @relation(fields: [workLocationId], references: [id])
+  photoUrl              String?
+  documents             EmployeeDocument[]
+  courses               Course[]
+  leaves                Leave[]
+  patientProfile        PatientProfile?
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  deletedAt             DateTime?
+
+  @@index([cpf])
+  @@index([registrationNumber])
+  @@index([sectorId])
+  @@index([workLocationId])
+  @@index([name])
 }
 
 model EmployeeDocument {
-  id          String   @id @default(cuid())
-  name        String
-  url         String
-  employeeId  String
-  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  id         String   @id @default(uuid())
+  name       String
+  url        String
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
 }
 
 model Course {
-  id              String   @id @default(cuid())
-  name            String
-  institution     String
-  completionDate  DateTime?
-  certificateUrl  String?
-  employeeId      String
-  employee        Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  createdAt       DateTime @default(now())
+  id             String    @id @default(uuid())
+  name           String
+  institution    String
+  completionDate DateTime?
+  certificateUrl String?
+  employeeId     String
+  employee       Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
 }
 
 model WorkLocation {
-  id          String   @id @default(cuid())
-  name        String   @unique // Ex: Usina Paisa, RH, CIEE
-  category    String?  // RURAL, URBANA, ADMINISTRATIVA (only for root areas)
-  
-  // Hierarchy
-  parentId    String?
-  parent      WorkLocation?  @relation("WorkLocationHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
-  children    WorkLocation[] @relation("WorkLocationHierarchy")
-
-  employees   Employee[]
-  createdAt   DateTime @default(now())
+  id        String         @id @default(uuid())
+  name      String         @unique
+  category  String?
+  parentId  String?
+  parent    WorkLocation?  @relation("WorkLocationHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children  WorkLocation[] @relation("WorkLocationHierarchy")
+  employees Employee[]
+  createdAt DateTime       @default(now())
 }
 
 model Sector {
-  id              String   @id @default(cuid())
-  name            String   @unique
-  employees       Employee[]
-  createdAt       DateTime @default(now())
+  id        String     @id @default(uuid())
+  name      String     @unique
+  employees Employee[]
+  createdAt DateTime   @default(now())
 }
 
 model ChatRoom {
-  id              String   @id @default(cuid())
-  name            String?
-  messages        Message[]
-  isActive        Boolean  @default(true)
+  id       String    @id @default(uuid())
+  name     String?
+  messages Message[]
+  isActive Boolean   @default(true)
 }
 
 model Message {
-  id              String   @id @default(cuid())
-  content         String
-  senderId        String
-  sender          User     @relation(fields: [senderId], references: [id])
-  roomId          String
-  room            ChatRoom @relation(fields: [roomId], references: [id])
-  createdAt       DateTime @default(now())
+  id        String   @id @default(uuid())
+  content   String
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id])
+  roomId    String
+  room      ChatRoom @relation(fields: [roomId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Job {
-  id              String   @id @default(cuid())
-  title           String
-  area            String   // Operacional, Administrativo, Tecnologia, Engenharia
-  location        String
-  type            String   // CLT, Presencial, Híbrido, PJ
-  description     String
-  requirements    String?
-  benefits        String?
-  status          String   @default("PUBLICO") // PUBLICO, RASCUNHO, ENCERRADA
-  applications    Application[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id           String        @id @default(uuid())
+  title        String
+  area         String
+  location     String
+  type         String
+  description  String
+  requirements String?
+  benefits     String?
+  status       String        @default("PUBLICO")
+  applications Application[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model Application {
-  id              String   @id @default(cuid())
-  name            String
-  age             Int
-  cpf             String
-  education       String
-  maritalStatus   String
-  email           String
-  phone           String
-  address         String
-  photoUrl        String?
-  resumeUrl       String?
-  motivation      String?
-  jobId           String?
-  job             Job?     @relation(fields: [jobId], references: [id])
-  createdAt       DateTime @default(now())
+  id            String   @id @default(uuid())
+  name          String
+  age           Int
+  cpf           String
+  education     String
+  maritalStatus String
+  email         String
+  phone         String
+  address       String
+  photoUrl      String?
+  resumeUrl     String?
+  motivation    String?
+  jobId         String?
+  job           Job?     @relation(fields: [jobId], references: [id])
+  createdAt     DateTime @default(now())
 }
 
 model Setting {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   key       String   @unique
   value     String
   updatedAt DateTime @updatedAt
 }
 
 model Project {
-  id          String   @id @default(cuid())
-  title       String
-  location    String
-  date        String
-  description String
-  images      String   // JSON stringified array of image URLs
-  
-  // New dynamic fields for the report page
+  id                String   @id @default(uuid())
+  title             String
+  location          String
+  date              String
+  description       String
+  images            String
   status            String?  @default("Concluído")
   category          String?  @default("Social")
   responsible       String?  @default("RH Paisa")
   impactTitle       String?  @default("Impacto Gerado")
   impactDescription String?  @default("")
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model News {
-  id              String   @id @default(cuid())
+  id              String   @id @default(uuid())
   title           String
   slug            String?  @unique
   excerpt         String?
   content         String
-  image           String?  // Main image
-  videoUrl        String?  // Embed URL or internal path
-  gallery         String?  // JSON stringified array of images
+  image           String?
+  videoUrl        String?
+  gallery         String?
   category        String?  @default("Geral")
-  tags            String?  // Comma-separated tags
-  status          String   @default("PUBLICO") // PUBLICO, RASCUNHO
+  tags            String?
+  status          String   @default("PUBLICO")
   authorName      String?  @default("Comunicação Paisa")
   authorAvatar    String?
   metaTitle       String?
@@ -196,47 +192,97 @@ model News {
 }
 
 model LeaveType {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   name      String   @unique
   leaves    Leave[]
   createdAt DateTime @default(now())
 }
 
 model Leave {
-  id              String    @id @default(cuid())
-  employeeId      String
-  employee        Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  leaveTypeId     String
-  leaveType       LeaveType @relation(fields: [leaveTypeId], references: [id])
-  startDate       DateTime
-  expectedReturn  DateTime?
-  actualReturn    DateTime?
-  status          String    @default("ATIVO") // ATIVO, CONCLUIDO, CANCELADO
-  documentUrl     String?
-  observation     String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id             String    @id @default(uuid())
+  employeeId     String
+  employee       Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  leaveTypeId    String
+  leaveType      LeaveType @relation(fields: [leaveTypeId], references: [id])
+  startDate      DateTime
+  expectedReturn DateTime?
+  actualReturn   DateTime?
+  status         String    @default("ATIVO") // ATIVO, CONCLUIDO, CANCELADO
+  documentUrl    String?
+  observation    String?
+  cid            String?
+  doctorName     String?
+  doctorCrm      String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([employeeId])
+  @@index([status])
+  @@index([startDate])
 }
 
 model Consultation {
-  id              String   @id @default(cuid())
-  employeeName    String
-  employeeRegistration String? // Matrícula
-  employeeRole    String?
-  type            String   // INDIVIDUAL, GRUPO, URGENCIA
-  category        String   // PSICOLOGIA, RH
-  status          String   @default("AGENDADO") // AGENDADO, REALIZADO, CANCELADO, PENDENTE
-  date            DateTime
-  observation     String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                   String   @id @default(uuid())
+  employeeName         String
+  employeeRegistration String?
+  employeeRole         String?
+  type                 String
+  category             String
+  status               String   @default("AGENDADO") // AGENDADO, REALIZADO, CANCELADO, PENDENTE
+  date                 DateTime
+  observation          String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@index([date])
+  @@index([status])
+  @@index([employeeRegistration])
 }
 
 model ChatMessage {
-  id        String   @id @default(cuid())
-  content   String
-  senderId  String
+  id         String   @id @default(uuid())
+  content    String
+  senderId   String
   senderName String
-  channel   String   // PSICOLOGIA_SECRETARIA or RH_SECRETARIA
-  createdAt DateTime @default(now())
+  channel    String
+  createdAt  DateTime @default(now())
+}
+
+model PatientProfile {
+  id                      String    @id @default(uuid())
+  employeeId              String    @unique
+  employee                Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  
+  // Histórico de Saúde
+  preExistingConditions   String?   
+  allergies               String?   
+  medications             String?   
+  
+  // Baseline Psicológico
+  mentalHealthHistory     Boolean   @default(false)
+  initialObservations     String?   
+  bfpTestStatus           String?   @default("NÃO REALIZADO")
+  paloTestStatus          String?   @default("NÃO REALIZADO")
+  stressScaleStatus       String?   @default("NÃO REALIZADO")
+  
+  // Contexto Ocupacional
+  expectedStressLevel     Int?      @default(1)
+  psychologicalRequirements String? 
+  
+  status                  String    @default("AWAITING") // AWAITING, REGULAR, FOLLOW_UP
+  
+  evolutions              PatientEvolution[]
+  
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+}
+
+model PatientEvolution {
+  id               String         @id @default(uuid())
+  patientProfileId String
+  patientProfile   PatientProfile @relation(fields: [patientProfileId], references: [id], onDelete: Cascade)
+  content          String
+  authorId         String
+  authorName       String
+  createdAt        DateTime       @default(now())
 }

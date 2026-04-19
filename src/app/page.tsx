@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Leaf, Factory, History, Award, ArrowRight, Users } from 'lucide-react';
 
 export default function HomePage() {
@@ -24,13 +25,19 @@ export default function HomePage() {
             Unimos a tradição da terra à inovação tecnológica para liderar a produção sustentável no campo, gerando valor que brota da raiz.
           </p>
           <div className="flex flex-wrap gap-4">
-            <button className="tonal-shift text-white px-8 py-4 font-headline font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-all flex items-center gap-2">
+            <Link 
+              href="/vagas"
+              className="tonal-shift text-white px-8 py-4 font-headline font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-all flex items-center gap-2"
+            >
               Conhecer Produção
               <span className="material-symbols-outlined">agriculture</span>
-            </button>
-            <button className="glass-card text-white border border-white/20 px-8 py-4 font-headline font-bold uppercase tracking-widest text-sm hover:bg-white/10 transition-all">
+            </Link>
+            <Link 
+              href="/sobre"
+              className="glass-card text-white border border-white/20 px-8 py-4 font-headline font-bold uppercase tracking-widest text-sm hover:bg-white/10 transition-all"
+            >
               Nossa Origem
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -68,11 +75,11 @@ export default function HomePage() {
               <p className="font-headline text-on-surface-variant uppercase tracking-widest text-sm">Empregos Diretos Gerados</p>
             </div>
           </div>
-          <div className="md:col-span-6 lg:col-span-4 bg-surface-container-low p-10 flex flex-col justify-between min-h-[280px]">
-            <span className="material-symbols-outlined text-4xl text-primary mb-8">bolt</span>
+          <div className="md:col-span-6 lg:col-span-4 bg-surface-container-low p-10 flex flex-col justify-between min-h-[280px] border border-outline/10 hover:border-primary/20 transition-all group">
+            <span className="material-symbols-outlined text-4xl text-primary mb-8 group-hover:scale-110 transition-transform">bolt</span>
             <div>
               <h3 className="font-headline text-5xl font-bold text-primary mb-2">380 GWh</h3>
-              <p className="font-headline text-on-surface-variant uppercase tracking-widest text-sm">Energia Limpa Exportada</p>
+              <p className="font-headline text-primary/60 uppercase tracking-widest text-xs font-bold">Energia Limpa Produzida/Ano</p>
             </div>
           </div>
           <div className="md:col-span-12 lg:col-span-8 relative overflow-hidden bg-surface-container-low min-h-[280px] group">
@@ -163,9 +170,12 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-12 flex flex-col justify-end">
               <h4 className="font-headline text-4xl font-bold text-white mb-2 italic">Açúcar VHP</h4>
               <p className="text-white/70 max-w-md mb-6">Exportamos Açúcar VHP e Branco com padrões internacionais de pureza para as maiores indústrias globais.</p>
-              <div className="text-emerald-500 font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform cursor-pointer">
+              <Link 
+                href="/vagas"
+                className="text-emerald-500 font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform cursor-pointer"
+              >
                 SAIBA MAIS <ArrowRight size={18} />
-              </div>
+              </Link>
             </div>
           </div>
           <div className="md:col-span-4 flex flex-col gap-8">

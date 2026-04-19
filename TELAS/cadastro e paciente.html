@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cadastro de Funcionário - MindPulse Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e1e3e2",
+                        "surface-container": "#eceeed",
+                        "on-background": "#191c1c",
+                        "tertiary-fixed-dim": "#b2d414",
+                        "surface-dim": "#d8dada",
+                        "secondary-container": "#92f7c3",
+                        "surface-container-highest": "#e1e3e2",
+                        "primary-fixed-dim": "#abcfbb",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#002113",
+                        "on-secondary-container": "#00734d",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#3e4c00",
+                        "surface-container-low": "#f2f4f3",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#171e00",
+                        "tertiary": "#121700",
+                        "primary-fixed": "#c7ebd7",
+                        "inverse-surface": "#2e3131",
+                        "outline": "#727974",
+                        "surface-container-high": "#e6e9e8",
+                        "outline-variant": "#c1c8c2",
+                        "secondary-fixed": "#92f7c3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#414844",
+                        "secondary": "#006c48",
+                        "tertiary-container": "#242d00",
+                        "on-tertiary-container": "#819b00",
+                        "inverse-primary": "#abcfbb",
+                        "surface-tint": "#456555",
+                        "surface": "#f8faf9",
+                        "surface-bright": "#f8faf9",
+                        "on-primary-fixed": "#002115",
+                        "on-primary-container": "#769886",
+                        "secondary-fixed-dim": "#75daa8",
+                        "on-secondary-fixed-variant": "#005235",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eff1f0",
+                        "on-primary-fixed-variant": "#2d4d3f",
+                        "on-error": "#ffffff",
+                        "on-surface": "#191c1c",
+                        "tertiary-fixed": "#cdf139",
+                        "background": "#f8faf9",
+                        "primary": "#00190f",
+                        "primary-container": "#0e2f22",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(225, 227, 226, 0.6);
+            backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-background min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#0E2F22] shadow-2xl shadow-[#191C1C]/10 flex flex-col p-4 z-50 font-['Manrope'] font-medium">
+<div class="mb-8 flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-sm bg-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="psychology">psychology</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-[#F8FAF9] leading-none">Industrial Organicism</h2>
+<p class="text-[10px] text-primary-fixed-dim uppercase tracking-widest mt-1">Admin Console</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#ABCFBB] hover:text-white hover:bg-[#006C48]/50 transition-all duration-200 rounded-sm group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#ABCFBB] hover:text-white hover:bg-[#006C48]/50 transition-all duration-200 rounded-sm group" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Employee Directory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#ABCFBB] hover:text-white hover:bg-[#006C48]/50 transition-all duration-200 rounded-sm group" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span>Psychological Profiles</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#006C48] text-white rounded-sm mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+<span>Registration</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#ABCFBB] hover:text-white hover:bg-[#006C48]/50 transition-all duration-200 rounded-sm group" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-white/10 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#ABCFBB] hover:text-white hover:bg-[#006C48]/50 transition-all duration-200 rounded-sm" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#ABCFBB] hover:text-white hover:bg-[#006C48]/50 transition-all duration-200 rounded-sm" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="pl-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-40 flex justify-between items-center px-8 h-16 w-full bg-[#F8FAF9] border-b border-[#C1C8C2]/20 shadow-sm font-['Space_Grotesk'] tracking-tight">
+<div class="flex items-center gap-8">
+<h1 class="text-xl font-bold text-[#0E2F22]">MindPulse Admin</h1>
+<div class="hidden md:flex items-center gap-6 text-sm">
+<a class="text-[#006C48] font-bold border-b-2 border-[#006C48] pb-1" href="#">Registry</a>
+<a class="text-[#414844] hover:bg-[#0E2F22]/5 px-2 py-1 transition-colors" href="#">Assessments</a>
+<a class="text-[#414844] hover:bg-[#0E2F22]/5 px-2 py-1 transition-colors" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#414844] hover:bg-[#0E2F22]/5 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-[#414844] hover:bg-[#0E2F22]/5 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+<div class="text-right">
+<p class="text-xs font-bold text-primary">Admin User</p>
+<p class="text-[10px] text-on-surface-variant">System Manager</p>
+</div>
+<img alt="Administrator profile" class="w-8 h-8 rounded-full object-cover grayscale" data-alt="professional portrait of a confident male executive in a modern office environment with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAtP34hbNoALwykg0YiynS2drOXzo1mOhG9p8hdOVO9MewG5ow1gCyCC3SGkhM3nQVwzHzrNCEn342pFBa6uyvm7W6nArPbq-IDZyzZK5Eeeq9kJi0OnFwUWcmfS67V0Bo14wos-mFlO6uriBTIa8GE3aBfrshJ2rlPkBUh7GJpVljxIhISrxyqgS3BepcfVDz4yACUWvLy_8uO0IzigKrR2no8-Cf1h-l-uh9E9YouBh8G0S08SvgxTDPNNjBLBfCrUpmQTRYSNXv"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-10 space-y-12 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-outline-variant/10 pb-8">
+<div class="space-y-2">
+<span class="text-xs font-bold tracking-[0.2em] text-secondary uppercase">Módulo de Cadastro</span>
+<h2 class="text-5xl font-headline font-bold text-primary tracking-tighter">Cadastro de Funcionário</h2>
+<p class="text-on-surface-variant max-w-md font-body">Gestão Psicológica e Monitoramento de Bem-estar Industrial.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-3 border border-outline-variant text-primary font-bold text-sm rounded-lg hover:bg-surface-container transition-colors">
+                        Cancelar
+                    </button>
+<button class="px-8 py-3 bg-primary-container text-on-primary font-bold text-sm rounded-lg shadow-lg hover:bg-secondary transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="save">save</span>
+                        Salvar Registro
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Section 1: Personal Info -->
+<section class="md:col-span-8 space-y-6">
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-secondary" data-icon="badge">badge</span>
+<h3 class="text-xl font-headline font-bold text-primary">Informações Pessoais</h3>
+</div>
+<div class="flex flex-col md:flex-row gap-8">
+<div class="flex-shrink-0 group">
+<div class="relative w-40 h-48 bg-surface-container rounded-lg overflow-hidden border-2 border-dashed border-outline-variant flex flex-col items-center justify-center cursor-pointer hover:border-secondary transition-colors">
+<span class="material-symbols-outlined text-4xl text-outline-variant group-hover:text-secondary transition-colors" data-icon="add_a_photo">add_a_photo</span>
+<span class="text-[10px] mt-2 font-bold text-on-surface-variant group-hover:text-secondary">UPLOAD FOTO</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2 text-center">Formatos: JPG, PNG (Max 5MB)</p>
+</div>
+<div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+<div class="col-span-2 md:col-span-1">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Matrícula</label>
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-2 px-0 text-primary font-medium" placeholder="Ex: 002145" type="text"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Nome Completo</label>
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-2 px-0 text-primary font-medium" placeholder="Ex: João Silva Oliveira" type="text"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">CPF</label>
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-secondary focus:ring-0 focus:border-secondary transition-all py-2 px-0 text-primary font-bold" placeholder="000.000.000-00" type="text"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">RG</label>
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-2 px-0 text-primary font-medium" placeholder="00.000.000-0" type="text"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Data de Nascimento</label>
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-2 px-0 text-primary font-medium" type="date"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Cargo / Role</label>
+<select class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-2 px-0 text-primary font-medium">
+<option>Operador de Máquina</option>
+<option>Supervisor de Campo</option>
+<option>Técnico em Segurança</option>
+<option>Analista Administrativo</option>
+</select>
+</div>
+<div class="col-span-2">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Unidade</label>
+<select class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-2 px-0 text-primary font-medium">
+<option>Unidade Industrial I</option>
+<option>Pólo Agrícola Central</option>
+<option>Logística &amp; Transbordo</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Health History -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-secondary" data-icon="medical_services">medical_services</span>
+<h3 class="text-xl font-headline font-bold text-primary">Histórico de Saúde</h3>
+</div>
+<div class="grid grid-cols-1 gap-8">
+<div>
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-2">Doenças Pré-existentes</label>
+<textarea class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-3 px-4 text-primary font-medium text-sm rounded-t-md" placeholder="Liste diagnósticos crônicos ou condições prévias..." rows="2"></textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-2">Alergias</label>
+<textarea class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-3 px-4 text-primary font-medium text-sm rounded-t-md" placeholder="Medicamentosas, alimentares ou tópicas..." rows="2"></textarea>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-2">Medicamentos em Uso</label>
+<textarea class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-3 px-4 text-primary font-medium text-sm rounded-t-md" placeholder="Nome, dosagem e frequência..." rows="2"></textarea>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: Psychological Baseline -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-secondary" data-icon="clinical_notes">clinical_notes</span>
+<h3 class="text-xl font-headline font-bold text-primary">Baseline Psicológico</h3>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-4 p-4 rounded-lg bg-surface-container-low border-l-4 border-tertiary-fixed-dim">
+<input class="mt-1 rounded-sm text-secondary focus:ring-secondary border-outline" type="checkbox"/>
+<div>
+<p class="font-bold text-primary text-sm">Histórico Prévio de Saúde Mental</p>
+<p class="text-xs text-on-surface-variant mt-1">Marque se o funcionário relatou tratamentos anteriores, diagnósticos ou uso de medicação controlada.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-2">Observações Comportamentais Iniciais</label>
+<textarea class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant focus:ring-0 focus:border-secondary transition-all py-3 px-4 text-primary font-medium text-sm rounded-t-md" placeholder="Descreva postura, dicção, nível de engajamento e sinais não-verbais observados na entrevista..." rows="3"></textarea>
+</div>
+<div class="col-span-2">
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-2">Histórico de Testes Psicométricos</label>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-surface p-3 rounded border border-outline-variant/20 flex flex-col gap-1">
+<span class="text-[9px] font-bold text-on-surface-variant">BFP (PERSONALIDADE)</span>
+<div class="flex justify-between items-center">
+<span class="text-xs font-headline font-bold text-primary">NÃO REALIZADO</span>
+<span class="material-symbols-outlined text-sm text-outline" data-icon="pending">pending</span>
+</div>
+</div>
+<div class="bg-surface p-3 rounded border border-outline-variant/20 flex flex-col gap-1">
+<span class="text-[9px] font-bold text-on-surface-variant">PALOGRÁFICO</span>
+<div class="flex justify-between items-center">
+<span class="text-xs font-headline font-bold text-primary">AGENDADO</span>
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="event">event</span>
+</div>
+</div>
+<div class="bg-surface p-3 rounded border border-outline-variant/20 flex flex-col gap-1">
+<span class="text-[9px] font-bold text-on-surface-variant">ESCALA DE STRESS</span>
+<div class="flex justify-between items-center">
+<span class="text-xs font-headline font-bold text-primary">REALIZADO</span>
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Sections: Occupational Context & Status -->
+<aside class="md:col-span-4 space-y-8">
+<!-- Section 4: Occupational Context -->
+<div class="bg-primary-container p-8 rounded-xl text-on-primary shadow-xl">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="factory">factory</span>
+<h3 class="text-xl font-headline font-bold">Contexto Ocupacional</h3>
+</div>
+<div class="space-y-8">
+<div>
+<label class="block text-[10px] font-bold text-primary-fixed-dim uppercase tracking-widest mb-4">Nível de Stress Esperado</label>
+<div class="flex items-center justify-between gap-2 px-1">
+<div class="h-1.5 flex-1 bg-secondary rounded-full"></div>
+<div class="h-1.5 flex-1 bg-secondary rounded-full"></div>
+<div class="h-1.5 flex-1 bg-white/20 rounded-full"></div>
+<div class="h-1.5 flex-1 bg-white/20 rounded-full"></div>
+<div class="h-1.5 flex-1 bg-white/20 rounded-full"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] font-bold text-primary-fixed-dim">
+<span>CONTROLADO</span>
+<span>CRÍTICO</span>
+</div>
+</div>
+<div class="space-y-4">
+<label class="block text-[10px] font-bold text-primary-fixed-dim uppercase tracking-widest">Requisitos Psicológicos</label>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold border border-white/20">Foco Prolongado</span>
+<span class="px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold border border-white/20">Trabalho em Altura</span>
+<span class="px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold border border-white/20">Resiliência</span>
+<span class="px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold border border-white/20">Gestão de Risco</span>
+</div>
+</div>
+<div class="pt-4 border-t border-white/10">
+<p class="text-xs italic text-primary-fixed-dim">"A posição de Operador de Máquina exige alta vigilância e controle inibitório para prevenir acidentes operacionais."</p>
+</div>
+</div>
+</div>
+<!-- Section 5: Status & Actions -->
+<div class="bg-surface-container-highest p-8 rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="monitoring">monitoring</span>
+<h3 class="text-xl font-headline font-bold text-primary">Status &amp; Ações</h3>
+</div>
+<div class="space-y-3">
+<label class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant/10 cursor-pointer group hover:bg-white transition-colors">
+<input checked="" class="text-secondary focus:ring-secondary border-outline" name="status" type="radio"/>
+<div class="flex-1">
+<p class="font-bold text-primary text-sm">Awaiting Assessment</p>
+<p class="text-[10px] text-on-surface-variant">Cadastro inicial, aguardando psicóloga.</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="hourglass_empty">hourglass_empty</span>
+</label>
+<label class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant/10 cursor-pointer group hover:bg-white transition-colors opacity-50">
+<input class="text-secondary focus:ring-secondary border-outline" name="status" type="radio"/>
+<div class="flex-1">
+<p class="font-bold text-primary text-sm">Regular</p>
+<p class="text-[10px] text-on-surface-variant">Sem contra-indicações identificadas.</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="task_alt">task_alt</span>
+</label>
+<label class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant/10 cursor-pointer group hover:bg-white transition-colors opacity-50">
+<input class="text-secondary focus:ring-secondary border-outline" name="status" type="radio"/>
+<div class="flex-1">
+<p class="font-bold text-primary text-sm">Follow-up needed</p>
+<p class="text-[10px] text-on-surface-variant">Sinais de alerta identificados.</p>
+</div>
+<span class="material-symbols-outlined text-error" data-icon="error_outline">error_outline</span>
+</label>
+</div>
+<div class="mt-8">
+<button class="w-full py-4 rounded bg-surface-container border border-outline-variant text-[10px] font-black uppercase tracking-widest text-primary hover:bg-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="history">history</span>
+                                Ver Histórico Completo
+                            </button>
+</div>
+</div>
+</aside>
+</div>
+<!-- Decorative Graphic Section -->
+<div class="relative h-64 w-full rounded-2xl overflow-hidden bg-primary-container">
+<div class="absolute inset-0 opacity-40 mix-blend-overlay">
+<img alt="Abstract sugarcane texture" class="w-full h-full object-cover" data-alt="macro close-up of vibrant green sugarcane leaves with detailed vein patterns and natural morning dew drops" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4UgXlCHpxiuM9yEXVmBEKqWCu5nAu0-EkxYGtx0C2DZEn6pr968DZGw4FZ77scqp6OK4ZvwyGHUlyoty-VCO4YeEx_IpaAE9x-7HCWTXvsGo0OanRu6mJSoF2kuYs1bJEKEyNklSy1eW6MUzqlwr76yVRYBVjohbxun876NVwUt53N7uBnmsP7T-JUhPI_fCQgMuaH4wySrshuaU84_I_EX4jP356cIgMqfBzWOgf9VqdvTcNwA_XdYUOV-byQwCl2RTEuLkbZKwu"/>
+</div>
+<div class="relative h-full flex flex-col justify-center px-12 z-10">
+<h4 class="text-primary-fixed font-headline text-3xl font-bold max-w-lg leading-tight">Humanizing industrial precision through emotional intelligence.</h4>
+<p class="text-primary-fixed-dim mt-4 max-w-sm text-sm">Nosso compromisso é garantir que cada engrenagem humana do ecossistema MindPulse esteja em sua melhor forma mental e operacional.</p>
+</div>
+<div class="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-secondary/40 to-transparent"></div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="p-10 text-center border-t border-outline-variant/10">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">© 2024 Industrial Organicism - Precision Ecosystem v4.2</p>
+</footer>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-secondary text-on-secondary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform active:scale-95 group">
+<span class="material-symbols-outlined text-3xl" data-icon="psychiatry" style="font-variation-settings: 'FILL' 1;">psychiatry</span>
+</button>
+</body></html>

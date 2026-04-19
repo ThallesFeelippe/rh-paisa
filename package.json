@@ -7,14 +7,12 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push",
-    "prisma:seed": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts",
-    "prisma:push": "prisma db push",
-    "prisma:seed:old": "npx ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" prisma/seed.ts"
+    "postinstall": "prisma generate",
+    "db:deploy": "prisma migrate deploy && prisma db seed",
+    "db:reset": "prisma migrate reset --force"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts"
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "5.12.1",

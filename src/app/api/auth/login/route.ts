@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     console.log(`Tentativa de login para: ${normalizedIdentifier}`);
 
     // Find the user by username
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { username: normalizedIdentifier }
     });
 
