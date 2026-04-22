@@ -3,51 +3,59 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-// Nota: SQLite não suporta Enums nativos. Usaremos Strings.
+// Enums nativos para MySQL (Segurança e Performance)
+enum Role {
+  ADMIN
+  SECRETARIA
+  PSICOLOGA
+  GESTOR_RH
+}
 
 model User {
   id           String    @id @default(uuid())
-  username     String    @unique
-  role         String    @default("SECRETARIA") // ADMIN, SECRETARIA, PSICOLOGA, GESTOR_RH
-  password     String
-  name         String
-  avatarUrl    String?
+  username     String    @unique @db.VarChar(50)
+  role         Role      @default(SECRETARIA)
+  password     String    @db.VarChar(255)
+  name         String    @db.VarChar(100)
+  avatarUrl    String?   @db.VarChar(255)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   messagesSent Message[]
+  auditLogs    AuditLog[]
 }
 
 model Employee {
   id                    String             @id @default(uuid())
-  name                  String
-  registrationNumber    String?            @unique
-  cpf                   String             @unique
-  rg                    String?
+  name                  String             @db.VarChar(255)
+  registrationNumber    String?            @unique @db.VarChar(50)
+  cpf                   String             @unique @db.VarChar(14)
+  rg                    String?            @db.VarChar(20)
   birthDate             DateTime?
   sectorId              String?
   sector                Sector?            @relation(fields: [sectorId], references: [id])
-  position              String
-  salary                Decimal?
+  position              String             @db.VarChar(100)
+  salary                Decimal?           @db.Decimal(10, 2)
   startDate             DateTime
   isApprentice          Boolean            @default(false)
   contractEnd           DateTime?
-  educationLevel        String?
-  educationDetail       String?
-  careerPlan            String?
-  observationApprentice String?
-  grades                String?
-  description           String?
+  educationLevel        String?            @db.VarChar(100)
+  educationDetail       String?            @db.VarChar(255)
+  careerPlan            String?            @db.Text
+  observationApprentice String?            @db.Text
+  grades                String?            @db.VarChar(255)
+  description           String?            @db.Text
   workLocationId        String?
   workLocation          WorkLocation?      @relation(fields: [workLocationId], references: [id])
-  photoUrl              String?
+  photoUrl              String?            @db.VarChar(255)
   documents             EmployeeDocument[]
   courses               Course[]
   leaves                Leave[]
   patientProfile        PatientProfile?
+  psychologicalInterviews PsychologicalInterview[]
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
   deletedAt             DateTime?
@@ -61,8 +69,8 @@ model Employee {
 
 model EmployeeDocument {
   id         String   @id @default(uuid())
-  name       String
-  url        String
+  name       String   @db.VarChar(255)
+  url        String   @db.VarChar(255)
   employeeId String
   employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
@@ -70,10 +78,10 @@ model EmployeeDocument {
 
 model Course {
   id             String    @id @default(uuid())
-  name           String
-  institution    String
+  name           String    @db.VarChar(255)
+  institution    String    @db.VarChar(255)
   completionDate DateTime?
-  certificateUrl String?
+  certificateUrl String?   @db.VarChar(255)
   employeeId     String
   employee       Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
@@ -81,8 +89,8 @@ model Course {
 
 model WorkLocation {
   id        String         @id @default(uuid())
-  name      String         @unique
-  category  String?
+  name      String         @unique @db.VarChar(100)
+  category  String?        @db.VarChar(50)
   parentId  String?
   parent    WorkLocation?  @relation("WorkLocationHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
   children  WorkLocation[] @relation("WorkLocationHierarchy")
@@ -92,21 +100,21 @@ model WorkLocation {
 
 model Sector {
   id        String     @id @default(uuid())
-  name      String     @unique
+  name      String     @unique @db.VarChar(100)
   employees Employee[]
   createdAt DateTime   @default(now())
 }
 
 model ChatRoom {
   id       String    @id @default(uuid())
-  name     String?
+  name     String?   @db.VarChar(100)
   messages Message[]
   isActive Boolean   @default(true)
 }
 
 model Message {
   id        String   @id @default(uuid())
-  content   String
+  content   String   @db.Text
   senderId  String
   sender    User     @relation(fields: [senderId], references: [id])
   roomId    String
@@ -116,14 +124,14 @@ model Message {
 
 model Job {
   id           String        @id @default(uuid())
-  title        String
-  area         String
-  location     String
-  type         String
-  description  String
-  requirements String?
-  benefits     String?
-  status       String        @default("PUBLICO")
+  title        String        @db.VarChar(255)
+  area         String        @db.VarChar(100)
+  location     String        @db.VarChar(100)
+  type         String        @db.VarChar(50)
+  description  String        @db.Text
+  requirements String?       @db.Text
+  benefits     String?       @db.Text
+  status       String        @default("PUBLICO") @db.VarChar(20)
   applications Application[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -131,17 +139,17 @@ model Job {
 
 model Application {
   id            String   @id @default(uuid())
-  name          String
+  name          String   @db.VarChar(255)
   age           Int
-  cpf           String
-  education     String
-  maritalStatus String
-  email         String
-  phone         String
-  address       String
-  photoUrl      String?
-  resumeUrl     String?
-  motivation    String?
+  cpf           String   @db.VarChar(14)
+  education     String   @db.VarChar(100)
+  maritalStatus String   @db.VarChar(50)
+  email         String   @db.VarChar(150)
+  phone         String   @db.VarChar(20)
+  address       String   @db.Text
+  photoUrl      String?  @db.VarChar(255)
+  resumeUrl     String?  @db.VarChar(255)
+  motivation    String?  @db.Text
   jobId         String?
   job           Job?     @relation(fields: [jobId], references: [id])
   createdAt     DateTime @default(now())
@@ -149,43 +157,43 @@ model Application {
 
 model Setting {
   id        String   @id @default(uuid())
-  key       String   @unique
-  value     String
+  key       String   @unique @db.VarChar(100)
+  value     String   @db.Text
   updatedAt DateTime @updatedAt
 }
 
 model Project {
   id                String   @id @default(uuid())
-  title             String
-  location          String
-  date              String
-  description       String
-  images            String
-  status            String?  @default("Concluído")
-  category          String?  @default("Social")
-  responsible       String?  @default("RH Paisa")
-  impactTitle       String?  @default("Impacto Gerado")
-  impactDescription String?  @default("")
+  title             String   @db.VarChar(255)
+  location          String   @db.VarChar(255)
+  date              String   @db.VarChar(50)
+  description       String   @db.Text
+  images            String   @db.Text // JSON string or comma separated
+  status            String?  @default("Concluído") @db.VarChar(50)
+  category          String?  @default("Social") @db.VarChar(50)
+  responsible       String?  @default("RH Paisa") @db.VarChar(100)
+  impactTitle       String?  @default("Impacto Gerado") @db.VarChar(255)
+  impactDescription String?  @db.Text
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
 
 model News {
   id              String   @id @default(uuid())
-  title           String
-  slug            String?  @unique
-  excerpt         String?
-  content         String
-  image           String?
-  videoUrl        String?
-  gallery         String?
-  category        String?  @default("Geral")
-  tags            String?
-  status          String   @default("PUBLICO")
-  authorName      String?  @default("Comunicação Paisa")
-  authorAvatar    String?
-  metaTitle       String?
-  metaDescription String?
+  title           String   @db.VarChar(255)
+  slug            String?  @unique @db.VarChar(255)
+  excerpt         String?  @db.Text
+  content         String   @db.LongText
+  image           String?  @db.VarChar(255)
+  videoUrl        String?  @db.VarChar(255)
+  gallery         String?  @db.Text
+  category        String?  @default("Geral") @db.VarChar(50)
+  tags            String?  @db.VarChar(255)
+  status          String   @default("PUBLICO") @db.VarChar(20)
+  authorName      String?  @default("Comunicação Paisa") @db.VarChar(100)
+  authorAvatar    String?  @db.VarChar(255)
+  metaTitle       String?  @db.VarChar(255)
+  metaDescription String?  @db.Text
   publishedAt     DateTime @default(now())
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -193,7 +201,7 @@ model News {
 
 model LeaveType {
   id        String   @id @default(uuid())
-  name      String   @unique
+  name      String   @unique @db.VarChar(100)
   leaves    Leave[]
   createdAt DateTime @default(now())
 }
@@ -207,12 +215,12 @@ model Leave {
   startDate      DateTime
   expectedReturn DateTime?
   actualReturn   DateTime?
-  status         String    @default("ATIVO") // ATIVO, CONCLUIDO, CANCELADO
-  documentUrl    String?
-  observation    String?
-  cid            String?
-  doctorName     String?
-  doctorCrm      String?
+  status         String    @default("ATIVO") @db.VarChar(20)
+  documentUrl    String?   @db.VarChar(255)
+  observation    String?   @db.Text
+  cid            String?   @db.VarChar(10)
+  doctorName     String?   @db.VarChar(100)
+  doctorCrm      String?   @db.VarChar(20)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
@@ -223,16 +231,16 @@ model Leave {
 
 model Consultation {
   id                   String   @id @default(uuid())
-  employeeName         String
-  employeeRegistration String?
-  employeeRole         String?
-  type                 String
-  category             String
-  status               String   @default("AGENDADO") // AGENDADO, REALIZADO, CANCELADO, PENDENTE
+  employeeName         String   @db.VarChar(255)
+  employeeRegistration String?  @db.VarChar(50)
+  employeeRole         String?  @db.VarChar(100)
+  type                 String   @db.VarChar(50)
+  category             String   @db.VarChar(50)
+  status               String   @default("AGENDADO") @db.VarChar(20)
   date                 DateTime
-  observation          String?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
+  observation          String?  @db.Text
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 
   @@index([date])
   @@index([status])
@@ -241,10 +249,10 @@ model Consultation {
 
 model ChatMessage {
   id         String   @id @default(uuid())
-  content    String
-  senderId   String
-  senderName String
-  channel    String
+  content    String   @db.Text
+  senderId   String   @db.VarChar(50)
+  senderName String   @db.VarChar(100)
+  channel    String   @db.VarChar(50)
   createdAt  DateTime @default(now())
 }
 
@@ -254,22 +262,22 @@ model PatientProfile {
   employee                Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   
   // Histórico de Saúde
-  preExistingConditions   String?   
-  allergies               String?   
-  medications             String?   
+  preExistingConditions   String?   @db.Text
+  allergies               String?   @db.VarChar(255)
+  medications             String?   @db.Text
   
   // Baseline Psicológico
   mentalHealthHistory     Boolean   @default(false)
-  initialObservations     String?   
-  bfpTestStatus           String?   @default("NÃO REALIZADO")
-  paloTestStatus          String?   @default("NÃO REALIZADO")
-  stressScaleStatus       String?   @default("NÃO REALIZADO")
+  initialObservations     String?   @db.Text
+  bfpTestStatus           String?   @default("NÃO REALIZADO") @db.VarChar(50)
+  paloTestStatus          String?   @default("NÃO REALIZADO") @db.VarChar(50)
+  stressScaleStatus       String?   @default("NÃO REALIZADO") @db.VarChar(50)
   
   // Contexto Ocupacional
   expectedStressLevel     Int?      @default(1)
-  psychologicalRequirements String? 
+  psychologicalRequirements String? @db.Text
   
-  status                  String    @default("AWAITING") // AWAITING, REGULAR, FOLLOW_UP
+  status                  String    @default("AWAITING") @db.VarChar(20)
   
   evolutions              PatientEvolution[]
   
@@ -281,8 +289,40 @@ model PatientEvolution {
   id               String         @id @default(uuid())
   patientProfileId String
   patientProfile   PatientProfile @relation(fields: [patientProfileId], references: [id], onDelete: Cascade)
-  content          String
+  content          String         @db.Text
   authorId         String
-  authorName       String
+  authorName       String         @db.VarChar(100)
   createdAt        DateTime       @default(now())
+}
+
+// Auditoria de Acessos (Para dados sensíveis)
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String   @db.VarChar(255) // EX: "VIEW_SALARY", "EDIT_EVOLUTION"
+  targetId  String?  @db.VarChar(100)
+  details   String?  @db.Text
+  ipAddress String?  @db.VarChar(45)
+  createdAt DateTime @default(now())
+}
+
+model PsychologicalInterview {
+  id           String    @id @default(uuid())
+  employeeName String    @db.VarChar(255)
+  employeeId   String?
+  employee     Employee? @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  type         String    @db.VarChar(50) // EX: "ATIVO", "INATIVO", "CONTRATO"
+  category     String    @db.VarChar(50) // EX: "ADMISSÃO", "ACOMPANHAMENTO", "DESLIGAMENTO"
+  date         DateTime  @default(now())
+  content      String    @db.Text
+  conclusion   String?   @db.Text
+  status       String    @default("ABERTO") @db.VarChar(20) // ABERTO, FINALIZADO
+  authorId     String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([employeeId])
+  @@index([type])
+  @@index([date])
 }

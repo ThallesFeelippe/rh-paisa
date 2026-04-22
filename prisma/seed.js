@@ -9,14 +9,14 @@ async function main() {
   // 1. Admin fixo
   const adminPassword = await bcrypt.hash('Paisa@2026!', 10);
   const admin = await prisma.user.upsert({
-    where: { username: 'admin' },
+    where: { username: 'admin_paisa' },
     update: { 
       password: adminPassword,
       role: 'ADMIN',
       name: 'Administrador RH'
     },
     create: {
-      username: 'admin',
+      username: 'admin_paisa',
       password: adminPassword,
       name: 'Administrador RH',
       role: 'ADMIN'
@@ -61,7 +61,7 @@ async function main() {
   console.log('✅ Tipos de afastamento configurados');
 
   console.log('🚀 Seed finalizado com sucesso!');
-  console.log('Acesso: admin | Senha: Paisa@2026!');
+  console.log('Acesso: admin_paisa | Senha: Paisa@2026!');
 }
 
 main()

@@ -4,26 +4,27 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { 
-  LayoutDashboard, 
-  Briefcase, 
-  FileText,
-  Newspaper, 
-  Leaf, 
-  Users, 
-  Settings, 
-  LogOut, 
-  Search, 
-  Bell, 
-  LayoutGrid,
-  Menu,
-  X,
-  GalleryVertical,
-  User as UserIcon,
-  ChevronDown,
-  ChevronUp,
-  GraduationCap,
-  MapPin,
-  MessageCircle,
+  LayoutDashboard as LayoutDashboardIcon, 
+  Briefcase as BriefcaseIcon, 
+  FileText as FileTextIcon,
+  Newspaper as NewspaperIcon, 
+  Leaf as LeafIcon, 
+  Users as UsersIcon, 
+  Settings as SettingsIcon, 
+  LogOut as LogOutIcon, 
+  Search as SearchIcon, 
+  Bell as BellIcon, 
+  LayoutGrid as LayoutGridIcon,
+  Menu as MenuIcon,
+  X as XIcon,
+  GalleryVertical as GalleryVerticalIcon,
+  User as UserCompIcon,
+  ChevronDown as ChevronDownIcon,
+  ChevronUp as ChevronUpIcon,
+  GraduationCap as GraduationCapIcon,
+  MapPin as MapPinIcon,
+  MessageCircle as MessageCircleIcon,
+  ClipboardList as ClipboardListIcon,
 } from 'lucide-react';
 import { getCurrentUser } from './perfil/actions';
 import AccessDenied from '@/components/dashboard/AccessDenied';
@@ -34,287 +35,348 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const router = useRouter();
-  
-  const currentFullHref = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
-  
+  const searchParams = useSearchParams();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
-  const [openMenus, setOpenMenus] = useState<string[]>([]);
-
-  useEffect(() => {
-    async function loadUser() {
-      const data = await getCurrentUser();
-      if (data) setUser(data);
-    }
-    loadUser();
-  }, [pathname]);
-
-  const toggleMenu = (name: string) => {
-    setOpenMenus(prev => 
-      prev.includes(name) ? prev.filter(m => m !== name) : [...prev, name]
-    );
-  };
+  const [isLoading, setIsLoading] = useState(true);
 
   const navItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard', roles: ['ADMIN', 'GESTOR_RH', 'PSICOLOGA', 'SECRETARIA'] },
-    { name: 'Usuários', icon: Users, href: '/dashboard/users', roles: ['ADMIN'] },
-    { name: 'Vagas', icon: Briefcase, href: '/dashboard/vagas', roles: ['ADMIN', 'GESTOR_RH'] },
-    { name: 'Candidatos', icon: FileText, href: '/dashboard/candidatos', roles: ['ADMIN', 'GESTOR_RH'] },
+    { name: 'Dashboard', icon: LayoutDashboardIcon, href: '/dashboard' },
+    { name: 'Usuários', icon: UsersIcon, href: '/dashboard/users', roles: ['ADMIN'] },
+    { name: 'Vagas', icon: BriefcaseIcon, href: '/dashboard/vagas', roles: ['ADMIN', 'GESTOR_RH'] },
+    { name: 'Candidatos', icon: FileTextIcon, href: '/dashboard/candidatos', roles: ['ADMIN', 'GESTOR_RH', 'PSICOLOGA'] },
     { 
       name: 'RH', 
-      icon: UserIcon, 
-      href: '/dashboard/rh',
+      icon: BriefcaseIcon, 
+      href: '/dashboard/rh/funcionarios',
       isExpandable: true,
-      roles: ['ADMIN', 'GESTOR_RH', 'PSICOLOGA'],
+      roles: ['ADMIN', 'GESTOR_RH'],
       subItems: [
-        { name: 'Jovem Aprendiz', icon: GraduationCap, href: '/dashboard/rh/aprendizes' },
-        { name: 'Funcionários', icon: Users, href: '/dashboard/rh/funcionarios' },
-        { name: 'Unidades', icon: MapPin, href: '/dashboard/rh/unidades' },
-        { name: 'Gestão Afastados', icon: FileText, href: '/dashboard/rh/afastados' },
-        { name: 'Atendimentos', icon: Users, href: '/dashboard/atendimentos?origin=RH' },
-        { name: 'Chat Secretaria', icon: MessageCircle, href: '/dashboard/comunicacao?channel=RH_SECRETARIA&origin=RH' },
+        { name: 'Funcionários', icon: UsersIcon, href: '/dashboard/rh/funcionarios' },
+        { name: 'Jovem Aprendiz', icon: GraduationCapIcon, href: '/dashboard/rh/aprendizes' },
+        { name: 'Afastados', icon: LeafIcon, href: '/dashboard/rh/afastados' },
+        { name: 'Fila Atendimento', icon: UsersIcon, href: '/dashboard/atendimentos?origin=RH' },
+        { name: 'Chat Secretaria', icon: MessageCircleIcon, href: '/dashboard/comunicacao?channel=RH_SECRETARIA&origin=RH' },
       ]
     },
     { 
       name: 'Secretaria', 
-      icon: LayoutGrid, 
-      href: '/dashboard/atendimentos',
+      icon: GraduationCapIcon, 
+      href: '/dashboard/atendimentos?origin=SECRETARIA',
       isExpandable: true,
       roles: ['ADMIN', 'SECRETARIA'],
       subItems: [
-        { name: 'Fila Atendimento', icon: Users, href: '/dashboard/atendimentos?origin=SECRETARIA' },
-        { name: 'Chat Psicologia', icon: MessageCircle, href: '/dashboard/comunicacao?channel=PSICOLOGIA_SECRETARIA&origin=SECRETARIA_PSI' },
-        { name: 'Chat RH', icon: MessageCircle, href: '/dashboard/comunicacao?channel=RH_SECRETARIA&origin=SECRETARIA_RH' },
+        { name: 'Fila Atendimento', icon: UsersIcon, href: '/dashboard/atendimentos?origin=SECRETARIA' },
+        { name: 'Chat Psicologia', icon: MessageCircleIcon, href: '/dashboard/comunicacao?channel=PSICOLOGIA_SECRETARIA&origin=SECRETARIA' },
+        { name: 'Chat RH', icon: MessageCircleIcon, href: '/dashboard/comunicacao?channel=RH_SECRETARIA&origin=SECRETARIA' },
       ]
     },
     { 
       name: 'Psicologia', 
-      icon: Users, 
+      icon: UsersIcon, 
       href: '/dashboard/psicologia/pacientes',
       isExpandable: true,
       roles: ['ADMIN', 'PSICOLOGA'],
       subItems: [
-        { name: 'Gestão de Pacientes', icon: Users, href: '/dashboard/psicologia/pacientes' },
-        { name: 'Funcionários (RH)', icon: Users, href: '/dashboard/rh/funcionarios' },
-        { name: 'Fila Atendimento', icon: Users, href: '/dashboard/atendimentos?origin=PSICOLOGIA' },
-        { name: 'Chat Secretaria', icon: MessageCircle, href: '/dashboard/comunicacao?channel=PSICOLOGIA_SECRETARIA&origin=PSICOLOGIA' },
+        { name: 'Gestão de Pacientes', icon: UsersIcon, href: '/dashboard/psicologia/pacientes' },
+        { name: 'Entrevistas', icon: ClipboardListIcon, href: '/dashboard/psicologia/entrevistas' },
+        { name: 'Funcionários (RH)', icon: UsersIcon, href: '/dashboard/psicologia/funcionarios' },
+        { name: 'Fila Atendimento', icon: UsersIcon, href: '/dashboard/atendimentos?origin=PSICOLOGIA' },
+        { name: 'Chat Secretaria', icon: MessageCircleIcon, href: '/dashboard/comunicacao?channel=PSICOLOGIA_SECRETARIA&origin=PSICOLOGIA' },
       ]
     },
-    { name: 'Projetos Sociais', icon: GalleryVertical, href: '/dashboard/projetos', roles: ['ADMIN', 'GESTOR_RH'] },
-    { name: 'Notícias', icon: Newspaper, href: '/dashboard/noticias', roles: ['ADMIN', 'GESTOR_RH'] },
+    { name: 'Projetos Sociais', icon: GalleryVerticalIcon, href: '/dashboard/projetos', roles: ['ADMIN', 'GESTOR_RH'] },
+    { name: 'Notícias', icon: NewspaperIcon, href: '/dashboard/noticias', roles: ['ADMIN', 'GESTOR_RH'] },
   ];
 
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const data = await getCurrentUser();
+        if (!data) {
+          router.push('/login');
+          return;
+        }
+        setUser(data);
+      } catch (error) {
+        console.error('Error loading user:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadUser();
+  }, [router]);
+
+  // Auto-expand menu based on current path (Accordion style)
+  useEffect(() => {
+    const activeMenu = navItems.find(item => 
+      item.isExpandable && item.subItems?.some(sub => pathname === sub.href)
+    );
+    if (activeMenu && expandedMenu !== activeMenu.name) {
+      setExpandedMenu(activeMenu.name);
+    }
+  }, [pathname]);
+
   const filteredNavItems = navItems.filter(item => 
-    !user || item.roles.includes(user.role)
+    !item.roles || (user && item.roles.includes(user.role))
   );
 
-  useEffect(() => {
-    // Auto-open logic for the sidebar
-    // We find the BEST match for the current route
-    let activeMenuName = "";
-
-    // 1. Check for exact sub-item match (highest priority)
-    for (const item of navItems) {
-      if (item.subItems?.some(sub => currentFullHref === sub.href)) {
-        activeMenuName = item.name;
-        break;
-      }
-    }
-
-    // 2. If no exact sub-item match, check for path prefix
-    if (!activeMenuName) {
-      const sortedItems = [...navItems]
-        .filter(item => item.isExpandable && item.href !== '/dashboard' && pathname.startsWith(item.href))
-        .sort((a, b) => b.href.length - a.href.length);
-      
-      if (sortedItems.length > 0) {
-        activeMenuName = sortedItems[0].name;
-      }
-    }
-
-    // Auto-open the active menu if not already open
-    if (activeMenuName && !openMenus.includes(activeMenuName)) {
-      setOpenMenus(prev => [...prev, activeMenuName]);
-    }
-  }, [currentFullHref, pathname]);
-
-  const handleLogout = async () => {
-    document.cookie = "paisa_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.replace('/login');
+  const toggleMenu = (name: string) => {
+    setExpandedMenu(prev => prev === name ? null : name);
   };
 
+  const handleLogout = () => {
+    document.cookie = "paisa_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.push('/login');
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Iniciando Ecossistema...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-[#f8faf9] flex">
+    <div className="min-h-screen bg-slate-50 flex font-sans text-slate-900 overflow-hidden">
       {/* Sidebar */}
       <aside 
-        className={`fixed inset-y-0 left-0 bg-[#0E2F22] shadow-2xl transition-all duration-300 z-50 flex flex-col ${
-          isSidebarOpen ? 'w-64' : 'w-20'
-        }`}
+        className={`bg-emerald-950 text-white transition-all duration-500 ease-in-out flex flex-col z-50 shadow-2xl relative
+          ${isSidebarOpen ? 'w-80' : 'w-24'}`}
       >
-        <div className={`p-6 mb-10 flex items-center ${isSidebarOpen ? 'justify-between' : 'justify-center'}`}>
-          {isSidebarOpen && (
-            <div>
-              <h1 className="text-xl font-bold tracking-tighter text-white font-headline uppercase leading-none">USINA PAISA</h1>
-              <p className="text-[#ABCFBB]/60 text-[10px] tracking-widest font-headline uppercase mt-1">Precision Ecosystem</p>
+        {/* Sidebar Header */}
+        <div className="p-8 flex items-center justify-between mb-4">
+          {isSidebarOpen ? (
+            <div className="animate-fade-in">
+              <h1 className="text-xl font-black tracking-tighter leading-none italic font-headline uppercase">
+                Usina Paisa
+              </h1>
+              <p className="text-[9px] font-bold text-emerald-500 tracking-[0.3em] uppercase mt-1">
+                Precision Ecosystem
+              </p>
+            </div>
+          ) : (
+            <div className="w-full flex justify-center">
+              <div className="w-10 h-10 bg-emerald-800 rounded-2xl flex items-center justify-center font-black italic text-xl">P</div>
             </div>
           )}
+          
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="text-[#ABCFBB] hover:text-white transition-colors"
+            className="p-2 hover:bg-emerald-800 rounded-xl transition-colors text-emerald-400"
           >
-            {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            {isSidebarOpen ? <XIcon size={20} /> : <MenuIcon size={20} />}
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
+        {/* Navigation */}
+        <nav className="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar">
           {filteredNavItems.map((item) => {
-            const isActive = (item.href === '/dashboard' ? pathname === '/dashboard' : currentFullHref.startsWith(item.href)) || 
-                            (item.subItems?.some(sub => currentFullHref === sub.href));
-            
-            if (item.isExpandable) {
-              const isOpen = openMenus.includes(item.name);
-              return (
-                <div key={item.name} className="flex flex-col">
-                  <button
-                    onClick={() => toggleMenu(item.name)}
-                    className={`flex items-center px-6 py-3 transition-all duration-300 group w-full text-left ${
-                      isActive 
-                        ? 'text-white bg-[#006C48] rounded-r-full font-bold' 
-                        : 'text-[#ABCFBB]/70 hover:text-white hover:bg-[#006C48]/50'
-                    }`}
-                  >
-                    <item.icon className={`${isSidebarOpen ? 'mr-3' : 'mx-auto'} w-5 h-5 ${isActive ? 'text-white' : 'text-[#ABCFBB]/40'}`} />
-                    {isSidebarOpen && (
-                      <div className="flex-1 flex items-center justify-between">
-                        <span className="font-headline text-sm tracking-tight">{item.name}</span>
-                        {isOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                      </div>
-                    )}
-                  </button>
-                  
-                  {isOpen && isSidebarOpen && (
-                    <div className="ml-8 mt-1 space-y-1 border-l-2 border-[#cdf139]/30 pl-2">
-                      {item.subItems?.map((sub) => {
-                        const isSubActive = currentFullHref === sub.href;
-                        return (
-                          <Link
-                            key={sub.name}
-                            href={sub.href}
-                            className={`flex items-center px-4 py-2 text-[10px] transition-all duration-300 rounded-lg uppercase font-bold tracking-wider ${
-                              isSubActive 
-                                ? 'text-white bg-[#006C48]/40 shadow-sm' 
-                                : 'text-[#ABCFBB]/50 hover:text-white hover:bg-white/5'
-                            }`}
-                          >
-                            <sub.icon size={12} className={`mr-3 ${isSubActive ? 'opacity-100 text-[#cdf139]' : 'opacity-40'}`} />
-                            <span className="font-headline tracking-tight">{sub.name}</span>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            }
+            const isActive = item.href === '/dashboard' 
+              ? pathname === '/dashboard' 
+              : pathname.startsWith(item.href);
+            const isExpanded = expandedMenu === item.name;
 
             return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex items-center px-6 py-3 transition-all duration-300 group ${
-                  currentFullHref === item.href 
-                    ? 'text-white bg-[#006C48] rounded-r-full font-bold shadow-lg shadow-[#006C48]/20' 
-                    : 'text-[#ABCFBB]/70 hover:text-white hover:bg-[#006C48]/50'
-                }`}
-              >
-                <item.icon className={`${isSidebarOpen ? 'mr-3' : 'mx-auto'} w-5 h-5 ${currentFullHref === item.href ? 'text-white' : 'text-[#ABCFBB]/40'}`} />
-                {isSidebarOpen && <span className="font-headline text-sm tracking-tight">{item.name}</span>}
-              </Link>
+              <div key={item.name} className="space-y-1">
+                {item.isExpandable ? (
+                  <>
+                    <button
+                      onClick={() => toggleMenu(item.name)}
+                      className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all group
+                        ${isExpanded ? 'bg-emerald-900/50 text-white' : 'text-emerald-100/50 hover:bg-emerald-900/30 hover:text-white'}`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <item.icon size={20} className={isExpanded ? 'text-emerald-400' : 'text-emerald-100/30 group-hover:text-emerald-400 transition-colors'} />
+                        {isSidebarOpen && <span className="animate-fade-in">{item.name}</span>}
+                      </div>
+                      {isSidebarOpen && (
+                        isExpanded ? <ChevronUpIcon size={14} className="text-emerald-400" /> : <ChevronDownIcon size={14} />
+                      )}
+                    </button>
+                    
+                    {isExpanded && isSidebarOpen && (
+                      <div className="ml-8 pr-2 space-y-1 animate-slide-down">
+                        {item.subItems?.map((sub) => (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
+                              pathname === sub.href
+                                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'
+                                : 'text-slate-400 hover:bg-slate-50/5 hover:text-white'
+                            }`}
+                          >
+                            <sub.icon size={16} />
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-4 px-5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all group
+                      ${isActive 
+                        ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-600/20 scale-105' 
+                        : 'text-emerald-100/50 hover:bg-emerald-900/30 hover:text-white'}`}
+                  >
+                    <item.icon size={20} className={isActive ? 'text-white' : 'text-emerald-100/30 group-hover:text-emerald-400 transition-colors'} />
+                    {isSidebarOpen && <span className="animate-fade-in">{item.name}</span>}
+                  </Link>
+                )}
+              </div>
             );
           })}
         </nav>
 
-        <div className="p-6 border-t border-white/5 space-y-4">
-          <Link 
-            href="/dashboard/perfil"
-            className={`flex items-center p-3 rounded-2xl transition-all duration-300 hover:bg-white/5 ${!isSidebarOpen && 'justify-center border-none'}`}
-          >
-            <div className="w-12 h-12 rounded-xl bg-[#006C48] flex items-center justify-center text-white font-bold overflow-hidden border border-white/10 shrink-0">
-              {user?.avatarUrl ? (
-                <img 
-                  src={user.avatarUrl} 
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <UserIcon size={24} className="opacity-50" />
-              )}
-            </div>
-            {isSidebarOpen && (
-              <div className="ml-4 truncate">
-                <p className="text-white text-xs font-black uppercase tracking-tight truncate">{user?.name || 'Carregando...'}</p>
-                <p className="text-[#ABCFBB]/50 text-[9px] font-bold uppercase tracking-widest">{user?.role || 'Acesso Restrito'}</p>
+        {/* User Profile */}
+        {user && (
+          <div className={`p-6 mt-auto border-t border-emerald-900/50 transition-all duration-300 ${isSidebarOpen ? 'bg-emerald-950' : 'bg-emerald-950'}`}>
+            <Link 
+              href="/dashboard/perfil"
+              className={`flex items-center gap-4 group cursor-pointer ${!isSidebarOpen && 'justify-center'}`}
+            >
+              <div className="relative">
+                <div className="w-12 h-12 bg-emerald-800 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-emerald-700 group-hover:border-emerald-400 transition-all shadow-lg">
+                  {user.avatarUrl ? (
+                    <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <UserCompIcon size={24} className="opacity-50" />
+                  )}
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-emerald-950 rounded-full"></div>
               </div>
+              {isSidebarOpen && (
+                <div className="flex-1 min-w-0 animate-fade-in">
+                  <p className="text-[11px] font-black uppercase italic tracking-tighter truncate leading-none text-white">
+                    {user.name}
+                  </p>
+                  <p className="text-[9px] font-bold text-emerald-500 uppercase tracking-widest mt-1">
+                    {user.role}
+                  </p>
+                </div>
+              )}
+            </Link>
+            
+            {isSidebarOpen && (
+              <button 
+                onClick={handleLogout}
+                className="w-full mt-6 flex items-center justify-center gap-3 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest text-emerald-400/50 hover:text-red-400 hover:bg-red-400/10 transition-all border border-transparent hover:border-red-400/20"
+              >
+                <LogOutIcon size={14} /> Encerrar Sessão
+              </button>
             )}
-          </Link>
-          
-          <button 
-            onClick={handleLogout}
-            className={`w-full flex items-center px-4 py-2 text-[#ABCFBB]/70 hover:text-white hover:bg-error/20 rounded-lg transition-all duration-300 group ${!isSidebarOpen && 'justify-center'}`}
-          >
-            <LogOut className={`${isSidebarOpen ? 'mr-3' : ''} w-5 h-5 group-hover:text-error transition-colors`} />
-            {isSidebarOpen && <span className="font-headline text-sm tracking-tight group-hover:text-error">Sair do Sistema</span>}
-          </button>
-        </div>
+          </div>
+        )}
       </aside>
 
       {/* Main Content */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        <header className="h-16 sticky top-0 bg-[#f8faf9]/80 backdrop-blur-xl border-b border-[#C1C8C2]/20 flex items-center justify-between px-8 z-40">
-          <div className="flex items-center flex-1">
-            <div className="relative w-96 max-w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#414844] w-4 h-4" />
-              <input 
-                type="text" 
-                placeholder="Pesquisar métricas ou ativos..." 
-                className="w-full pl-10 pr-4 py-2 bg-[#eceeed] border-none focus:ring-1 focus:ring-[#006C48] rounded-lg text-sm transition-all duration-300 font-body outline-none"
-              />
+      <main className="flex-1 flex flex-col min-w-0 relative h-screen">
+        {/* Header Bar */}
+        <header className="h-24 bg-white border-b border-slate-100 flex items-center justify-between px-10 shrink-0 z-40">
+          <div className="flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-4 text-slate-400">
+              <MapPinIcon size={16} className="text-emerald-600" />
+              <span className="text-[10px] font-black uppercase tracking-widest italic">Unidade Matriz - Paisa Industrial</span>
             </div>
           </div>
 
-          <div className="flex items-center space-x-6">
-            <button className="text-[#414844] hover:text-[#006C48] transition-colors relative">
-              <Bell size={20} />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#ba1a1a] rounded-full border-2 border-white"></span>
-            </button>
-            <button className="text-[#414844] hover:text-[#006C48] transition-colors">
-              <LayoutGrid size={20} />
-            </button>
-            <div className="h-8 w-[1px] bg-[#c1c8c2]/30 mx-2"></div>
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-headline font-bold text-[#0E2F22] hidden sm:inline">SISTEMA ATIVO</span>
-              <div className="w-2 h-2 bg-[#006C48] rounded-full animate-pulse"></div>
+          <div className="flex items-center gap-6">
+            <div className="hidden sm:flex relative group">
+              <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 w-4 h-4" />
+              <input 
+                type="text" 
+                placeholder="PROCURAR NO SISTEMA..." 
+                className="pl-12 pr-6 py-3 bg-slate-50 border border-slate-100 rounded-xl text-[10px] font-bold tracking-widest focus:ring-4 focus:ring-emerald-500/5 transition-all outline-none w-64"
+              />
             </div>
+            
+            <button className="relative p-3 text-slate-400 hover:bg-slate-50 rounded-xl transition-all group">
+              <BellIcon size={20} className="group-hover:rotate-12 transition-transform" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+            
+            <Link href="/dashboard/perfil" className="p-3 text-slate-400 hover:bg-slate-50 rounded-xl transition-all">
+              <SettingsIcon size={20} />
+            </Link>
           </div>
         </header>
 
-        <main className="p-8 lg:p-10">
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto p-10 custom-scrollbar bg-slate-50/30">
           {(() => {
             const currentItem = navItems.find(item => 
               (item.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(item.href)) ||
               (item.subItems?.some(sub => pathname === sub.href))
             );
             
-            if (currentItem && user && !currentItem.roles.includes(user.role)) {
+            if (currentItem && user && currentItem.roles && !currentItem.roles.includes(user.role)) {
               return <AccessDenied />;
             }
             
             return children;
           })()}
-        </main>
-      </div>
+        </div>
+
+        {/* Page Footer */}
+        <footer className="h-12 bg-white border-t border-slate-100 flex items-center justify-between px-10 shrink-0">
+          <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest">
+            © 2024 USINA PAISA - SISTEMA DE GESTÃO INTEGRADA
+          </p>
+          <div className="flex items-center gap-4">
+            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+            <p className="text-[9px] font-black text-emerald-950 uppercase tracking-widest italic">Conectado ao Servidor Central</p>
+          </div>
+        </footer>
+      </main>
+
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        
+        .font-headline {
+          font-family: 'Inter', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(15, 23, 42, 0.05);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(15, 23, 42, 0.1);
+        }
+
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(-5px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slide-down {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.3s ease-out forwards;
+        }
+
+        .animate-slide-down {
+          animation: slide-down 0.3s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 }

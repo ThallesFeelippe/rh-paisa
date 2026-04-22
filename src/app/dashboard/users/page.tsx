@@ -2,18 +2,19 @@
 
 import React, { useState, useEffect } from 'react';
 import { 
-  Users, 
-  UserPlus, 
-  Shield, 
-  Trash2, 
-  UserCircle2, 
-  CheckCircle,
-  AlertCircle,
-  Loader2,
-  XCircle,
-  Check
+  Users as UsersIcon, 
+  UserPlus as UserPlusIcon, 
+  Shield as ShieldIcon, 
+  Trash2 as Trash2Icon, 
+  UserCircle2 as UserCircle2Icon, 
+  CheckCircle as CheckCircleIcon,
+  AlertCircle as AlertCircleIcon,
+  Loader2 as Loader2Icon,
+  XCircle as XCircleIcon,
+  Check as CheckIcon,
+  Lock as LockIcon
 } from 'lucide-react';
-import { createUser, deleteUser, getUsers } from './actions';
+import { createUser, deleteUser, getUsers, resetPassword } from './actions';
 
 export default function UserManagementPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -25,6 +26,11 @@ export default function UserManagementPage() {
   // State for inline logical confirmation
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  
+  // State for password reset
+  const [resetingId, setResetingId] = useState<string | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [isReseting, setIsReseting] = useState(false);
   
   const [formData, setFormData] = useState({
     username: '',
@@ -77,6 +83,29 @@ export default function UserManagementPage() {
     }
   };
 
+  const handleResetPassword = async (id: string) => {
+    if (!newPassword || newPassword.length < 6) {
+      alert('A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+
+    setIsReseting(true);
+    try {
+      const res = await resetPassword(id, newPassword);
+      if (res.success) {
+        alert('Senha alterada com sucesso!');
+        setResetingId(null);
+        setNewPassword('');
+      } else {
+        alert('Erro ao alterar senha: ' + res.message);
+      }
+    } catch (err) {
+      alert('Erro de conexão.');
+    } finally {
+      setIsReseting(false);
+    }
+  };
+
   const executeDelete = async (id: string, username: string) => {
     setIsDeleting(true);
     try {
@@ -97,7 +126,7 @@ export default function UserManagementPage() {
   // Prevent hydration mismatch
   if (!mounted) return (
     <div className="flex items-center justify-center p-20">
-      <Loader2 className="animate-spin text-emerald-600" size={32} />
+      <Loader2Icon className="animate-spin text-emerald-600" size={32} />
     </div>
   );
 
@@ -120,7 +149,7 @@ export default function UserManagementPage() {
             
             <div className="flex items-center gap-3 mb-8 relative z-10">
               <div className="p-3 bg-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-600/20">
-                <UserPlus size={20} />
+                <UserPlusIcon size={20} />
               </div>
               <h3 className="text-xl font-bold font-headline text-[#00190f] uppercase tracking-tight">Novo Acesso</h3>
             </div>
@@ -181,7 +210,7 @@ export default function UserManagementPage() {
                 <div className={`p-4 rounded-xl text-xs font-bold font-headline flex items-center gap-2 animate-in fade-in zoom-in-95 duration-300 ${
                   message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100'
                 }`}>
-                  {message.type === 'success' ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
+                  {message.type === 'success' ? <CheckCircleIcon size={16} /> : <AlertCircleIcon size={16} />}
                   {message.text}
                 </div>
               )}
@@ -191,7 +220,7 @@ export default function UserManagementPage() {
                 type="submit"
                 className="w-full bg-[#0e2f22] text-white py-5 rounded-xl font-bold font-headline text-xs uppercase tracking-widest hover:bg-emerald-600 hover:shadow-xl hover:shadow-emerald-600/20 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {isSubmitting ? <Loader2 className="animate-spin" size={16} /> : 'CADASTRAR ACESSO'}
+                {isSubmitting ? <Loader2Icon className="animate-spin" size={16} /> : 'CADASTRAR ACESSO'}
               </button>
             </form>
           </div>
@@ -202,7 +231,7 @@ export default function UserManagementPage() {
           <div className="bg-white rounded-2xl border border-[#c1c8c2]/30 shadow-xl shadow-emerald-900/5 overflow-hidden flex flex-col h-full">
             <div className="p-8 border-b border-slate-50 bg-slate-50/30 flex items-center justify-between">
               <h3 className="text-xl font-bold font-headline text-[#00190f] uppercase tracking-tight flex items-center gap-3">
-                <Shield className="text-emerald-600" size={20} />
+                <ShieldIcon className="text-emerald-600" size={20} />
                 Contas Ativas
               </h3>
               <div className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-bold uppercase tracking-wider">
@@ -213,7 +242,7 @@ export default function UserManagementPage() {
             <div className="flex-1">
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-32">
-                  <Loader2 className="animate-spin text-emerald-600 mb-4" size={40} />
+                  <Loader2Icon className="animate-spin text-emerald-600 mb-4" size={40} />
                   <p className="text-xs font-headline uppercase font-bold tracking-widest text-[#414844]/40">Sincronizando banco de dados...</p>
                 </div>
               ) : (
@@ -232,7 +261,7 @@ export default function UserManagementPage() {
                           <td className="px-8 py-6">
                             <div className="flex items-center gap-4">
                               <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500">
-                                <UserCircle2 size={24} />
+                                <UserCircle2Icon size={24} />
                               </div>
                               <div>
                                 <p className="font-bold text-[#00190f] text-sm uppercase tracking-tight">{user.username}</p>
@@ -242,7 +271,7 @@ export default function UserManagementPage() {
                           </td>
                           <td className="px-8 py-6">
                             <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase border tracking-widest transition-all duration-300 ${
-                              user.role === 'ADMIN' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-sm shadow-emerald-600/5' : 
+                              user.role === 'ADMIN' ? 'bg-emerald-50 text-emerald-700 border-emerald-100 shadow-sm shadow-emerald-600/5' : 
                               user.role === 'GESTOR_RH' ? 'bg-[#0E2F22] text-white border-[#0E2F22]' :
                               user.role === 'APRENDIZ' ? 'bg-amber-50 text-amber-600 border-amber-100' :
                               'bg-slate-50 text-slate-500 border-slate-100'
@@ -251,38 +280,76 @@ export default function UserManagementPage() {
                             </span>
                           </td>
                           <td className="px-8 py-6 text-right">
-                            {user.username === 'admin_paisa' ? (
-                              <div className="flex items-center justify-end gap-2 text-emerald-600/40 font-bold text-[9px] uppercase tracking-tighter italic scale-95 opacity-60">
-                                <Shield size={12} />
-                                Master Admin
-                              </div>
-                            ) : deletingId === user.id ? (
-                              <div className="flex items-center justify-end gap-2 animate-in fade-in slide-in-from-right-2 duration-300">
-                                <button 
-                                  disabled={isDeleting}
-                                  onClick={() => executeDelete(user.id, user.username)}
-                                  className="px-4 py-2 bg-red-600 text-white rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-red-700 transition-all flex items-center gap-2 shadow-lg shadow-red-600/20"
-                                >
-                                  {isDeleting ? <Loader2 className="animate-spin" size={12} /> : <Check size={12} />}
-                                  Confirmar
-                                </button>
-                                <button 
-                                  disabled={isDeleting}
-                                  onClick={() => setDeletingId(null)}
-                                  className="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-all"
-                                >
-                                  <XCircle size={14} />
-                                </button>
-                              </div>
-                            ) : (
-                              <button 
-                                onClick={() => setDeletingId(user.id)}
-                                className="inline-flex items-center gap-2 px-4 py-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all font-bold text-[10px] uppercase tracking-wider group-hover:border-red-100"
-                              >
-                                <Trash2 size={16} />
-                                <span className="opacity-0 group-hover:opacity-100 transition-opacity">Excluir</span>
-                              </button>
-                            )}
+                            <div className="flex items-center justify-end gap-2">
+                              {resetingId === user.id ? (
+                                <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2 duration-300">
+                                  <input 
+                                    type="password"
+                                    placeholder="Nova senha"
+                                    className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none focus:border-emerald-600 transition-all w-32"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                  />
+                                  <button 
+                                    disabled={isReseting}
+                                    onClick={() => handleResetPassword(user.id)}
+                                    className="p-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20"
+                                    title="Salvar nova senha"
+                                  >
+                                    {isReseting ? <Loader2Icon className="animate-spin" size={14} /> : <CheckIcon size={14} />}
+                                  </button>
+                                  <button 
+                                    disabled={isReseting}
+                                    onClick={() => { setResetingId(null); setNewPassword(''); }}
+                                    className="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-all"
+                                  >
+                                    <XCircleIcon size={14} />
+                                  </button>
+                                </div>
+                              ) : (
+                                <>
+                                  <button 
+                                    onClick={() => setResetingId(user.id)}
+                                    className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"
+                                    title="Resetar Senha"
+                                  >
+                                    <LockIcon size={16} />
+                                  </button>
+                                  {user.username === 'admin_paisa' ? (
+                                    <div className="flex items-center justify-end gap-2 text-emerald-600/40 font-bold text-[9px] uppercase tracking-tighter italic scale-95 opacity-60 px-2">
+                                      <ShieldIcon size={12} />
+                                      Master
+                                    </div>
+                                  ) : deletingId === user.id ? (
+                                    <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2 duration-300">
+                                      <button 
+                                        disabled={isDeleting}
+                                        onClick={() => executeDelete(user.id, user.username)}
+                                        className="px-4 py-2 bg-red-600 text-white rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-red-700 transition-all flex items-center gap-2 shadow-lg shadow-red-600/20"
+                                      >
+                                        {isDeleting ? <Loader2Icon className="animate-spin" size={12} /> : <CheckIcon size={12} />}
+                                        Confirmar
+                                      </button>
+                                      <button 
+                                        disabled={isDeleting}
+                                        onClick={() => setDeletingId(null)}
+                                        className="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-all"
+                                      >
+                                        <XCircleIcon size={14} />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <button 
+                                      onClick={() => setDeletingId(user.id)}
+                                      className="inline-flex items-center gap-2 px-4 py-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all font-bold text-[10px] uppercase tracking-wider group-hover:border-red-100"
+                                    >
+                                      <Trash2Icon size={16} />
+                                      <span className="opacity-0 group-hover:opacity-100 transition-opacity">Excluir</span>
+                                    </button>
+                                  )}
+                                </>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       ))}

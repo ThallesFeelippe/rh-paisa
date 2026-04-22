@@ -28,7 +28,7 @@ export default function AcoesSociaisPage() {
           <img
             className="w-full h-full object-cover scale-105"
             alt="Comunidade interagindo em ambiente sustentável"
-            src="./img/fazenda.png" />
+            src="./img/açoessociais1.png" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0e2f22]/80 via-[#0e2f22]/40 to-transparent"></div>
           <div className="absolute inset-0 bg-black/10"></div>
         </div>
@@ -224,22 +224,22 @@ export default function AcoesSociaisPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                name: 'Maria Silva',
+                name: 'Carlos Alberto',
                 role: 'Penedo, AL',
                 text: '"Graças ao Centro Técnico da Paisa, hoje tenho uma profissão e consigo sustentar minha família com dignidade. Foi a oportunidade que mudou minha vida."',
-                img: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=200&h=200'
+                img: './img/persona1.png'
               },
               {
                 name: 'José Santos',
                 role: 'Pai de Aluno',
                 text: '"O projeto de esporte trouxe alegria e disciplina para as nossas crianças. É emocionante ver meu filho evoluindo no futebol e na escola ao mesmo tempo."',
-                img: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&q=80&w=200&h=200'
+                img: './img/persona2.png'
               },
               {
                 name: 'Ana Oliveira',
                 role: 'Comunidade Rural',
                 text: '"As clínicas móveis são essenciais para nós que moramos mais longe. O atendimento é humanizado e faz toda a diferença na saúde da nossa comunidade."',
-                img: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=200&h=200'
+                img: './img/personam1.png'
               }
             ].map((test, idx) => (
               <div key={idx} className="bg-white p-10 rounded-3xl border border-[#c1c8c2]/30 flex flex-col shadow-sm hover:shadow-xl transition-all duration-500 group">

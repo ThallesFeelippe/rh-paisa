@@ -3,19 +3,25 @@
 import prisma from '@/lib/db';
 import { hashPassword, ensureAuth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
-
-
+import { Role } from '@prisma/client';
 
 export async function createUser(formData: FormData) {
-  ensureAuth();
+  // Apenas ADMIN pode criar novos usuários
+  ensureAuth(['ADMIN']);
+  
   const username = formData.get('username') as string;
-
   const name = formData.get('name') as string;
   const password = formData.get('password') as string;
-  const role = formData.get('role') as string;
+  const roleInput = formData.get('role') as string;
 
-  if (!username || !name || !password || !role) {
+  if (!username || !name || !password || !roleInput) {
     throw new Error('Preencha todos os campos.');
+  }
+
+  // Validar se a Role é válida
+  const role = roleInput.toUpperCase() as Role;
+  if (!Object.values(Role).includes(role)) {
+    throw new Error('Role inválida.');
   }
 
   const hashedPassword = await hashPassword(password);
@@ -26,7 +32,7 @@ export async function createUser(formData: FormData) {
         username,
         name,
         password: hashedPassword,
-        role: role.toUpperCase(),
+        role: role,
       },
     });
 
@@ -40,14 +46,15 @@ export async function createUser(formData: FormData) {
 
 export async function deleteUser(id: string) {
   try {
-    ensureAuth();
+    // Apenas ADMIN pode excluir usuários
+    ensureAuth(['ADMIN']);
+    
     await prisma.$transaction([
-
-      // Delete user messages first to avoid constraint errors
+      // Deletar mensagens primeiro para evitar erros de restrição
       prisma.message.deleteMany({
         where: { senderId: id }
       }),
-      // Then delete the user
+      // Depois deletar o usuário
       prisma.user.delete({
         where: { id },
       })
@@ -62,9 +69,8 @@ export async function deleteUser(id: string) {
 }
 
 export async function getUsers() {
-  ensureAuth();
+  ensureAuth(['ADMIN', 'GESTOR_RH']); // Apenas RH e Admin vêem lista de usuários
   return await prisma.user.findMany({
-
     orderBy: { createdAt: 'desc' },
     select: {
       id: true,
@@ -75,3 +81,25 @@ export async function getUsers() {
     }
   });
 }
+
+export async function resetPassword(userId: string, newPassword: string) {
+  ensureAuth(['ADMIN']);
+  
+  if (!newPassword || newPassword.length < 6) {
+    throw new Error('A senha deve ter pelo menos 6 caracteres.');
+  }
+
+  const hashedPassword = await hashPassword(newPassword);
+  
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Reset password error:', error);
+    return { success: false, message: 'Erro ao resetar senha do usuário.' };
+  }
+}
+

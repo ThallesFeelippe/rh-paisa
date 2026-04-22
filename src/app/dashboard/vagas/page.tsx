@@ -214,6 +214,16 @@ export default function VagasPage() {
             </div>
             
             <form onSubmit={handleSubmit} className="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
+              {/* Mensagem de Erro interna ao Modal */}
+              {message.text && (
+                <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 animate-shake border-2 ${
+                  message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'
+                }`}>
+                  {message.type === 'success' ? <CheckCircle className="shrink-0" size={20} /> : <AlertCircle className="shrink-0" size={20} />}
+                  <p className="font-bold text-[10px] uppercase tracking-widest">{message.text}</p>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase tracking-widest text-[#414844]">Título do Cargo</label>

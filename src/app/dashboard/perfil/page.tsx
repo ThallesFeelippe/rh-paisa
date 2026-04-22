@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Camera, User, BadgeCheck, Save, Loader2, Image as ImageIcon, Shield } from 'lucide-react';
+import { Camera, User, BadgeCheck, Save, Loader2, Image as ImageIcon, Shield, Lock } from 'lucide-react';
 import { getCurrentUser, updateProfile } from './actions';
 
 export default function ProfilePage() {
@@ -14,7 +14,10 @@ export default function ProfilePage() {
   
   const [formData, setFormData] = useState({
     name: '',
-    avatarUrl: ''
+    avatarUrl: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,7 +33,10 @@ export default function ProfilePage() {
       setUser(data);
       setFormData({
         name: data.name || '',
-        avatarUrl: data.avatarUrl || ''
+        avatarUrl: data.avatarUrl || '',
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
       });
     }
     setIsLoading(false);
@@ -73,11 +79,20 @@ export default function ProfilePage() {
     const submitData = new FormData();
     submitData.append('name', formData.name);
     submitData.append('avatarUrl', formData.avatarUrl);
+    submitData.append('currentPassword', formData.currentPassword);
+    submitData.append('newPassword', formData.newPassword);
+    submitData.append('confirmPassword', formData.confirmPassword);
 
     try {
       const result = await updateProfile(submitData);
       if (result.success) {
         setSuccess(true);
+        setFormData(prev => ({
+          ...prev,
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        }));
         setTimeout(() => setSuccess(false), 3000);
       } else {
         setError(result.error || 'Erro ao atualizar perfil');
@@ -202,8 +217,61 @@ export default function ProfilePage() {
                     </div>
                 </div>
 
+                {/* Password Section */}
+                <div className="pt-6 border-t border-slate-100 space-y-8">
+                    <div className="flex items-center gap-3 ml-2">
+                        <Lock size={14} className="text-emerald-600" />
+                        <h4 className="text-[10px] font-black text-emerald-950 uppercase tracking-widest">Alterar Senha</h4>
+                    </div>
+
+                    <div className="space-y-6">
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-2">SENHA ATUAL</label>
+                            <div className="relative group">
+                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-600 w-5 h-5 transition-colors" />
+                                <input 
+                                    type="password"
+                                    value={formData.currentPassword}
+                                    onChange={e => setFormData({ ...formData, currentPassword: e.target.value })}
+                                    className="w-full pl-16 pr-6 py-6 bg-slate-50 border border-slate-100 rounded-[28px] text-sm font-black text-emerald-950 placeholder:text-slate-300 outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all"
+                                    placeholder="••••••••"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-4">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-2">NOVA SENHA</label>
+                                <div className="relative group">
+                                    <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-600 w-5 h-5 transition-colors" />
+                                    <input 
+                                        type="password"
+                                        value={formData.newPassword}
+                                        onChange={e => setFormData({ ...formData, newPassword: e.target.value })}
+                                        className="w-full pl-16 pr-6 py-6 bg-slate-50 border border-slate-100 rounded-[28px] text-sm font-black text-emerald-950 placeholder:text-slate-300 outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all"
+                                        placeholder="••••••••"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-4">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-2">CONFIRMAR NOVA SENHA</label>
+                                <div className="relative group">
+                                    <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-600 w-5 h-5 transition-colors" />
+                                    <input 
+                                        type="password"
+                                        value={formData.confirmPassword}
+                                        onChange={e => setFormData({ ...formData, confirmPassword: e.target.value })}
+                                        className="w-full pl-16 pr-6 py-6 bg-slate-50 border border-slate-100 rounded-[28px] text-sm font-black text-emerald-950 placeholder:text-slate-300 outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all"
+                                        placeholder="••••••••"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Read-only Data */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-slate-100">
                     <div className="space-y-4">
                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-2">USUÁRIO (LOGIN)</label>
                         <div className="px-8 py-6 bg-slate-100/50 border border-slate-100 rounded-[28px] text-sm font-medium text-slate-500 italic">
